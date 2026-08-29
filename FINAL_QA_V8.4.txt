@@ -1,0 +1,34 @@
+RJ PROPERTIES V8.4 — LAUNCH QA
+
+BASELINE
+- V8.4 FINAL COMPLETE package preserved; V8.4 is the launch-ready QA/correction build.
+
+PUBLIC WEBSITE
+- Home, Properties, Property Details, Sell Your Property, Buyer Enquiry, Site Visit, WhatsApp and Call actions.
+- Property taxonomy: Villa, Independent House, Flat / Apartment, Penthouse, Plot, Open Plot.
+- Rich property details and filters including BHK, budget and location.
+
+PRIVATE CRM
+- Supabase Auth protected CRM.
+- Dashboard, Buyers, Owners, Properties, Call Logs, Enquiries, Follow-ups, Site Visits.
+- Quick Call Capture for Buyer/Owner/Consultant/Other.
+- Browser speech-to-text where supported.
+- Lead temperature, follow-up, outcome, source and language.
+- Buyer/property matching.
+
+BACKEND
+- Supabase CRM API and RPC integration retained.
+- Public enquiry and seller intake RPCs retained.
+- No service-role key exposed in browser files.
+
+V8.4 CORRECTION
+- Removed duplicate Owner notes object key so source listing ID/URL and owner notes are stored consistently.
+- Updated CRM/version labels to V8.4.
+
+VALIDATION
+- app.js passes Node syntax check.
+- All expected launch HTML files and assets are present.
+- Supabase backend tables/functions verified during final QA.
+
+DEPLOYMENT
+- Use one production upload. Do not repeatedly deploy incremental copies.

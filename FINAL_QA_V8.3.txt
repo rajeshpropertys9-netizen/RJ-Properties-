@@ -1,0 +1,17 @@
+RJ PROPERTIES V8.4 — ONE-UPLOAD FINAL QA
+
+Scope completed in package:
+- Public Home / Properties / Property Details / Sell Your Property
+- Property types: Villa, Independent House, Flat, Penthouse, Plot, Open Plot
+- BHK filters: 1, 2, 3, 3.5, 4, 5+
+- Property detail fields: area, built-up, carpet, plot/land, UDS, facing, bedrooms, bathrooms, kitchen, balconies, floor/levels, construction age, parking, furnishing, community, block/number, permissions, OC, maintenance, lift/generator, corner, community total land, payment mode, other charges, amenities, map/video and availability
+- Additional rooms/features: pooja, servant/maid, store, utility, study, family lounge, media room, powder room, terrace, living, dining, dressing, guest bedroom, private garden, basement
+- WhatsApp, Call and Site Visit actions
+- Private owner/buyer intake and CRM fields
+- Quick Call Capture + browser voice-to-text + buyer/property matching SQL included
+- Existing Supabase integration retained
+
+Deployment rule:
+Upload this ZIP once after Netlify production credits are available. Do not do incremental uploads.
+
+Final correction pass: property detail spec cards now render every standard field consistently (including Area, Kitchen, Balconies, Built-up, Carpet, Plot/Land, UDS, etc.); empty/— values display as Not specified instead of disappearing. Advanced room/feature fields remain visible.
