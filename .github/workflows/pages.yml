@@ -72,7 +72,7 @@ jobs:
           const admin = await get('admin.html');
           must(admin.body.includes('id="propertyAdminForm"') && admin.body.includes('uploadPropertyPhotos'), 'Secure property manager with add/edit and photo upload is deployed');
           must(admin.body.includes('Make main') && admin.body.includes('Remove'), 'Property manager supports choosing the main photo and removing photos from a listing');
-          const inlineScripts = [...admin.body.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]).filter(x => x.trim());
+          const inlineScripts = [...admin.body.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m => m[1]).filter(x => x.trim());
           for (const script of inlineScripts) new Function(script);
           must(inlineScripts.length > 0, 'Property manager inline JavaScript passes syntax validation');
           const app = await get('app.js');
