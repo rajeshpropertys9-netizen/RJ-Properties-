@@ -40,3 +40,53 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Smoke test deployed website, catalog and property photo
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          SUPABASE_URL: https://bgmlgmdhypmfabyluqvv.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_oy6A_pRkScEU94X33EzJFA_es-_b1Dg
+        run: |
+          node <<'NODE'
+          const base = process.env.PAGE_URL;
+          const must = (ok, message) => { if (!ok) throw new Error(message); console.log('PASS:', message); };
+          async function get(path) {
+            const url = new URL(path, base).toString();
+            let response;
+            for (let attempt = 0; attempt < 8; attempt++) {
+              try {
+                response = await fetch(url, { redirect: 'follow' });
+                if (response.ok) return { response, body: await response.text(), url };
+              } catch (_) {}
+              await new Promise(resolve => setTimeout(resolve, 4000));
+            }
+            throw new Error('Live URL not reachable: ' + url + ' status=' + (response?.status ?? 'network error'));
+          }
+          const home = await get('');
+          must(home.body.includes('id="buyerForm"') && home.body.includes('id="sellerForm"') && home.body.includes('id="propertySearch"'), 'Homepage and buyer/seller/search forms are deployed');
+          const listing = await get('properties.html');
+          must(listing.body.includes('app.js'), 'Properties page is deployed');
+          const sell = await get('sell.html');
+          must(sell.body.includes('id="propertyForm"') && sell.body.includes('app.js'), 'Full seller intake form is deployed');
+          const detail = await get('property.html');
+          must(detail.body.includes('renderPropertyDetail') && detail.body.includes('app.js'), 'Property detail and site-visit handler are deployed');
+          const app = await get('app.js');
+          must(app.body.includes('create_public_enquiry') && app.body.includes('create_seller_intake') && app.body.includes('create_site_visit_request'), 'Frontend RPC wiring is present');
+          const catalogResponse = await fetch(process.env.SUPABASE_URL + '/rest/v1/rpc/get_published_properties', {
+            method: 'POST',
+            headers: { apikey: process.env.SUPABASE_PUBLISHABLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+            body: '{}'
+          });
+          must(catalogResponse.ok, 'Public Supabase property catalog responds HTTP ' + catalogResponse.status);
+          const catalog = await catalogResponse.json();
+          must(Array.isArray(catalog), 'Public property catalog returns an array');
+          const avni = catalog.find(p => String(p.title || '').toLowerCase().includes('avni lake view villas'));
+          must(!!avni, 'Avni Lake View Villas appears in the published catalog');
+          const photoUrl = avni.primary_media_url || avni.media?.[0]?.url;
+          must(typeof photoUrl === 'string' && photoUrl.startsWith('https://raw.githubusercontent.com/'), 'Published Avni listing has a hosted photo URL');
+          const photo = await fetch(photoUrl);
+          const photoType = (photo.headers.get('content-type') || '').toLowerCase();
+          const photoBytes = await photo.arrayBuffer();
+          must(photo.ok && (photoType.includes('image/webp') || photoType.includes('image/')), 'Hosted Avni photo returns an image response (' + photo.status + ', ' + photoType + ')');
+          must(photoBytes.byteLength > 5000, 'Hosted Avni photo payload is non-empty (' + photoBytes.byteLength + ' bytes)');
+          console.log('LIVE_SMOKE_TEST_OK', JSON.stringify({ page: base, publishedProperties: catalog.length, avniPhotoBytes: photoBytes.byteLength }));
+          NODE
