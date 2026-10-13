@@ -92,6 +92,7 @@ jobs:
           NODE
       - name: Install browser for real form submissions
         run: |
+          npm init -y
           npm install --no-save playwright
           npx playwright install --with-deps chromium
       - name: E2E test buyer, seller and site-visit submissions
@@ -99,6 +100,7 @@ jobs:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           node <<'NODE'
+          (async () => {
           const { chromium } = require('playwright');
           const base = process.env.PAGE_URL;
           const must = (ok, message) => { if (!ok) throw new Error(message); console.log('PASS:', message); };
@@ -160,4 +162,5 @@ jobs:
           } finally {
             await browser.close();
           }
+          })().catch(error => { console.error(error); process.exitCode = 1; });
           NODE
