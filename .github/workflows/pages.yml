@@ -96,77 +96,37 @@ jobs:
           must(photoBytes.byteLength > 5000, 'Hosted Avni photo payload is non-empty (' + photoBytes.byteLength + ' bytes)');
           console.log('LIVE_SMOKE_TEST_OK', JSON.stringify({ page: base, publishedProperties: catalog.length, avniPhotoBytes: photoBytes.byteLength }));
           NODE
-      - name: Install browser for real form submissions
+      - name: Install browser for non-mutating UI checks
         run: |
           npm init -y
           npm install --no-save playwright
           npx playwright install --with-deps chromium
-      - name: E2E test buyer, seller and site-visit submissions
+      - name: Verify buyer and seller forms without creating production records
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           node <<'NODE'
           (async () => {
-          const { chromium } = require('playwright');
-          const base = process.env.PAGE_URL;
-          const must = (ok, message) => { if (!ok) throw new Error(message); console.log('PASS:', message); };
-          const browser = await chromium.launch({ headless: true });
-          const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-          const submitAndCheckDialog = async (formSelector, expectedText) => {
-            const dialogPromise = page.waitForEvent('dialog', { timeout: 30000 });
-            await page.locator(formSelector + ' button[type="submit"]').click();
-            const dialog = await dialogPromise;
-            const message = dialog.message();
-            await dialog.accept();
-            must(message.toLowerCase().includes(expectedText.toLowerCase()), formSelector + ' accepted by backend: ' + message);
-          };
-          try {
-            await page.goto(base, { waitUntil: 'networkidle', timeout: 60000 });
-            await page.locator('#buyerForm').waitFor();
-            await page.locator('#buyerForm [name="name"]').fill('RJ QA E2E BUYER 20261013');
-            await page.locator('#buyerForm [name="phone"]').fill('0000000001');
-            await page.locator('#buyerForm [name="email"]').fill('qa-buyer@example.invalid');
-            await page.locator('#buyerForm [name="budget"]').fill('3-4 Cr');
-            await page.locator('#buyerForm [name="location"]').fill('Ibrahim Bagh');
-            await page.locator('#buyerForm [name="propertyType"]').selectOption({ label: 'Villa' });
-            await page.locator('#buyerForm [name="bhk"]').selectOption({ label: '4 BHK' });
-            await page.locator('#buyerForm [name="purpose"]').selectOption({ label: 'Self-use' });
-            await page.locator('#buyerForm [name="requirements"]').fill('Automated E2E test only; remove after verification');
-            await submitAndCheckDialog('#buyerForm', 'received');
-            await page.locator('#sellerForm [name="name"]').fill('RJ QA E2E HOME SELLER 20261013');
-            await page.locator('#sellerForm [name="phone"]').fill('0000000002');
-            await page.locator('#sellerForm [name="community"]').fill('QA Only');
-            await page.locator('#sellerForm [name="location"]').fill('Ibrahim Bagh');
-            await page.locator('#sellerForm [name="propertyType"]').selectOption({ label: 'Villa' });
-            await page.locator('#sellerForm [name="bhk"]').fill('4 BHK');
-            await page.locator('#sellerForm [name="area"]').fill('200 Sq.Yds');
-            await submitAndCheckDialog('#sellerForm', 'received');
-            await page.goto(new URL('sell.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
-            await page.locator('#propertyForm [name="propertyType"]').selectOption({ label: 'Villa' });
-            await page.locator('#propertyForm [name="ownerName"]').fill('RJ QA E2E FULL SELLER 20261013');
-            await page.locator('#propertyForm [name="ownerContact"]').fill('0000000004');
-            await page.locator('#propertyForm [name="locality"]').fill('Ibrahim Bagh');
-            await page.locator('#propertyForm [name="area"]').fill('200 Sq.Yds');
-            await page.locator('#propertyForm [name="availability"]').fill('QA_TEST');
-            await page.locator('#propertyForm [name="propertyNotes"]').fill('Automated E2E test only; remove after verification');
-            await page.locator('#propertyForm button[type="submit"]').click();
-            await page.waitForFunction(() => (document.querySelector('#propertyMsg')?.textContent || '').includes('received successfully'), null, { timeout: 30000 });
-            must(true, 'Full property owner intake accepted by backend');
-            const visitUrl = new URL('property.html?id=avni-lake-view-villas-g-2-villa-0f5b1e2a', base).toString();
-            await page.goto(visitUrl, { waitUntil: 'networkidle', timeout: 60000 });
-            await page.locator('.site-visit-open').waitFor({ timeout: 30000 });
-            await page.locator('.site-visit-open').click();
-            await page.locator('#siteVisitForm [name="name"]').fill('RJ QA E2E SITE VISIT 20261013');
-            await page.locator('#siteVisitForm [name="phone"]').fill('0000000003');
-            await page.locator('#siteVisitForm [name="visitDate"]').fill('2026-10-20');
-            await page.locator('#siteVisitForm [name="visitTime"]').fill('11:30');
-            await page.locator('#siteVisitForm [name="notes"]').fill('Automated E2E test only; remove after verification');
-            await page.locator('#siteVisitForm button[type="submit"]').click();
-            await page.waitForFunction(() => (document.querySelector('#siteVisitMsg')?.textContent || '').includes('request received'), null, { timeout: 30000 });
-            must(true, 'Site-visit request accepted by backend');
-            console.log('LIVE_FORM_E2E_OK', JSON.stringify({ buyer: true, shortSeller: true, fullSeller: true, siteVisit: true }));
-          } finally {
-            await browser.close();
-          }
+            const { chromium } = require('playwright');
+            const base = process.env.PAGE_URL;
+            const must = (ok, message) => { if (!ok) throw new Error(message); console.log('PASS:', message); };
+            const browser = await chromium.launch({ headless: true });
+            const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+            try {
+              await page.goto(base, { waitUntil: 'networkidle', timeout: 60000 });
+              await page.locator('#buyerForm').waitFor();
+              await page.locator('#sellerForm').waitFor();
+              await page.locator('#propertySearch').waitFor();
+              must(await page.locator('#buyerForm button[type="submit"]').count() === 1, 'Buyer enquiry form renders');
+              must(await page.locator('#sellerForm button[type="submit"]').count() === 1, 'Seller enquiry form renders');
+              await page.goto(new URL('sell.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
+              await page.locator('#propertyForm').waitFor();
+              must(await page.locator('#propertyForm button[type="submit"]').count() === 1, 'Full property intake form renders');
+              await page.goto(new URL('properties.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
+              must(await page.locator('body').innerText().then(t => t.length > 0), 'Properties page renders');
+              console.log('LIVE_UI_SMOKE_OK');
+            } finally {
+              await browser.close();
+            }
           })().catch(error => { console.error(error); process.exitCode = 1; });
           NODE
