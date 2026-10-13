@@ -69,6 +69,12 @@ jobs:
           must(sell.body.includes('id="propertyForm"') && sell.body.includes('app.js'), 'Full seller intake form is deployed');
           const detail = await get('property.html');
           must(detail.body.includes('renderPropertyDetail') && detail.body.includes('app.js'), 'Property detail and site-visit handler are deployed');
+          const admin = await get('admin.html');
+          must(admin.body.includes('id="propertyAdminForm"') && admin.body.includes('uploadPropertyPhotos'), 'Secure property manager with add/edit and photo upload is deployed');
+          must(admin.body.includes('Make main') && admin.body.includes('Remove'), 'Property manager supports choosing the main photo and removing photos from a listing');
+          const inlineScripts = [...admin.body.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]).filter(x => x.trim());
+          for (const script of inlineScripts) new Function(script);
+          must(inlineScripts.length > 0, 'Property manager inline JavaScript passes syntax validation');
           const app = await get('app.js');
           must(app.body.includes('create_public_enquiry') && app.body.includes('create_seller_intake') && app.body.includes('create_site_visit_request'), 'Frontend RPC wiring is present');
           const catalogResponse = await fetch(process.env.SUPABASE_URL + '/rest/v1/rpc/get_published_properties', {
