@@ -89,7 +89,7 @@ jobs:
           must(Array.isArray(catalog), 'Public property catalog returns an array');
           // Read-only anonymous checks: private CRM tables must not disclose rows to a public visitor.
           for (const table of ['buyers', 'owners', 'property_owner_private', 'call_logs', 'followups', 'site_visits', 'enquiries']) {
-            const response = await fetch(process.env.SUPABASE_URL + '/rest/v1/' + table + '?select=id&limit=1', {
+            const response = await fetch(process.env.SUPABASE_URL + '/rest/v1/' + table + '?select=*&limit=1', {
               headers: { apikey: process.env.SUPABASE_PUBLISHABLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_PUBLISHABLE_KEY }
             });
             if (response.status === 401 || response.status === 403) {
