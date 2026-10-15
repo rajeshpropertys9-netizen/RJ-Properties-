@@ -124,6 +124,17 @@ jobs:
               must(await page.locator('#propertyForm button[type="submit"]').count() === 1, 'Full property intake form renders');
               await page.goto(new URL('properties.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               must(await page.locator('body').innerText().then(t => t.length > 0), 'Properties page renders');
+              await page.locator('#allGrid .property-card').first().waitFor({ timeout: 20000 });
+              const titles = await page.locator('#allGrid .property-card h3').allTextContents();
+              const normalizedTitles = titles.map(t => t.trim().toLowerCase());
+              must(new Set(normalizedTitles).size === normalizedTitles.length, 'Published property cards do not repeat identical titles');
+              const avniCard = page.locator('#allGrid .property-card').filter({ hasText: 'Avni Lake View Villas' });
+              must(await avniCard.count() === 1, 'Avni Lake View Villas appears exactly once in the public catalog');
+              must((await avniCard.innerText()).includes('₹ 5.40 Cr'), 'Avni listing price is formatted as ₹ 5.40 Cr');
+              await page.goto(new URL('property.html?id=avni-lake-view-villas-g-2-villa-0f5b1e2a', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
+              await page.locator('.detail-card').waitFor({ timeout: 20000 });
+              const galleryUrls = await page.locator('.media-strip img').evaluateAll(imgs => imgs.map(img => img.getAttribute('src')).filter(Boolean));
+              must(new Set(galleryUrls).size === galleryUrls.length, 'Property detail gallery does not repeat the same photo URL');
               console.log('LIVE_UI_SMOKE_OK');
             } finally {
               await browser.close();
