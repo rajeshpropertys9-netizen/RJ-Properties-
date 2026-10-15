@@ -71,6 +71,8 @@ jobs:
           must(detail.body.includes('renderPropertyDetail') && detail.body.includes('app.js'), 'Property detail and site-visit handler are deployed');
           const admin = await get('admin.html');
           must(admin.body.includes('id="propertyAdminForm"') && admin.body.includes('uploadPropertyPhotos'), 'Secure property manager with add/edit and photo upload is deployed');
+          must(admin.body.includes('id="headerEditProperties"') && admin.body.includes("openTab('properties')"), 'Direct Edit Properties navigation is deployed');
+          must(admin.body.includes('function editProperty(id)') && admin.body.includes('loadPropertiesAdmin'), 'Property list and edit handler are deployed');
           must(admin.body.includes('Make main') && admin.body.includes('Remove'), 'Property manager supports choosing the main photo and removing photos from a listing');
           const inlineScripts = [...admin.body.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m => m[1]).filter(x => x.trim());
           for (const script of inlineScripts) new Function(script);
