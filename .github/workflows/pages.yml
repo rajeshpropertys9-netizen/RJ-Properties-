@@ -74,6 +74,8 @@ jobs:
           must(admin.body.includes('id="headerEditProperties"') && admin.body.includes("openTab('properties')"), 'Direct Edit Properties navigation is deployed');
           must(admin.body.includes('function editProperty(id)') && admin.body.includes('loadPropertiesAdmin'), 'Property list and edit handler are deployed');
           must(admin.body.includes("field==='p-price'&&Number(value)>1000)value=Number(value)/10000000"), 'CRM editor converts rupee-denominated legacy prices into crore units before editing');
+          must(admin.body.includes('function formatPropertyPrice(value)') && admin.body.includes("esc(formatPropertyPrice(r.price))"), 'CRM property cards display prices in crore units instead of raw rupees');
+          must(admin.body.includes("Math.round(Number($('p-price').value)*10000000)"), 'CRM saves crore-entered prices back to rupee-denominated database values');
           must(admin.body.includes('Make main') && admin.body.includes('Remove'), 'Property manager supports choosing the main photo and removing photos from a listing');
           const inlineScripts = [...admin.body.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m => m[1]).filter(x => x.trim());
           for (const script of inlineScripts) new Function(script);
