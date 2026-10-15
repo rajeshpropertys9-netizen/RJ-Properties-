@@ -136,6 +136,20 @@ jobs:
               await page.locator('.detail-card').waitFor({ timeout: 20000 });
               const galleryUrls = await page.locator('.media-strip img').evaluateAll(imgs => imgs.map(img => img.getAttribute('src')).filter(Boolean));
               must(new Set(galleryUrls).size === galleryUrls.length, 'Property detail gallery does not repeat the same photo URL');
+              await page.locator('.site-visit-open').click();
+              await page.locator('#siteVisitForm').waitFor();
+              must(await page.locator('#siteVisitForm input[name="name"]').count() === 1 && await page.locator('#siteVisitForm input[name="phone"]').count() === 1 && await page.locator('#siteVisitForm input[name="visitDate"]').count() === 1, 'Site-visit request form renders required contact and date fields');
+              must(await page.locator('#siteVisitForm button[type="submit"]').count() === 1, 'Site-visit request submit button renders without creating a production lead');
+              const desktop = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+              try {
+                await desktop.goto(base, { waitUntil: 'networkidle', timeout: 60000 });
+                await desktop.locator('#buyerForm').waitFor();
+                await desktop.locator('#sellerForm').waitFor();
+                const layout = await desktop.evaluate(() => ({ viewport: document.documentElement.clientWidth, page: document.documentElement.scrollWidth }));
+                must(layout.page <= layout.viewport + 2, 'Desktop homepage has no horizontal overflow (' + JSON.stringify(layout) + ')');
+              } finally {
+                await desktop.close();
+              }
               console.log('LIVE_UI_SMOKE_OK');
             } finally {
               await browser.close();
