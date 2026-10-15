@@ -125,8 +125,8 @@ jobs:
               await page.goto(new URL('properties.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               must(await page.locator('body').innerText().then(t => t.length > 0), 'Properties page renders');
               await page.locator('#allGrid .property-card').first().waitFor({ timeout: 20000 });
-              const cardLinks = await page.locator('#allGrid .property-card a').evaluateAll(links => links.map(a => a.getAttribute('href')).filter(Boolean));
-              must(new Set(cardLinks).size === cardLinks.length, 'Published property cards do not link to duplicate listing IDs');
+              const listingKeys = await page.locator('#allGrid .property-card').evaluateAll(cards => cards.map(card => ['.badge','.price','.meta','.card-mini'].map(sel => card.querySelector(sel)?.textContent?.trim().toLowerCase().replace(/\\s+/g,' ') || '').join('|')));
+              must(new Set(listingKeys).size === listingKeys.length, 'Public catalog does not show the same property twice under different titles');
               const avniCard = page.locator('#allGrid .property-card').filter({ hasText: 'Avni Lake View Villas' });
               must(await avniCard.count() === 1, 'Avni Lake View Villas appears exactly once in the public catalog');
               must((await avniCard.innerText()).includes('₹ 5.40 Cr'), 'Avni listing price is formatted as ₹ 5.40 Cr');
