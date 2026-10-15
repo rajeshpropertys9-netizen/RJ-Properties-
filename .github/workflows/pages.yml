@@ -90,6 +90,10 @@ jobs:
           must(catalogResponse.ok, 'Public Supabase property catalog responds HTTP ' + catalogResponse.status);
           const catalog = await catalogResponse.json();
           must(Array.isArray(catalog), 'Public property catalog returns an array');
+          must(catalog.length >= 4, 'Public catalog returns all four currently published property listings (found ' + catalog.length + ')');
+          for (const title of ['Avni Lake View Villas', 'Iris by Sriven', '4 BHK Duplex House', '4 BHK Triplex House']) {
+            must(catalog.some(p => String(p.title || '').includes(title)), 'Published catalog includes ' + title);
+          }
           // Read-only anonymous checks: private CRM tables must not disclose rows to a public visitor.
           for (const table of ['buyers', 'owners', 'property_owner_private', 'call_logs', 'followups', 'site_visits', 'enquiries']) {
             const response = await fetch(process.env.SUPABASE_URL + '/rest/v1/' + table + '?select=*&limit=1', {
@@ -137,12 +141,17 @@ jobs:
               await page.locator('#propertySearch').waitFor();
               must(await page.locator('#buyerForm button[type="submit"]').count() === 1, 'Buyer enquiry form renders');
               must(await page.locator('#sellerForm button[type="submit"]').count() === 1, 'Seller enquiry form renders');
+              must(await page.locator('#propertyGrid .property-card').count() >= 4, 'Homepage featured properties shows all four published listings');
               await page.goto(new URL('sell.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               await page.locator('#propertyForm').waitFor();
               must(await page.locator('#propertyForm button[type="submit"]').count() === 1, 'Full property intake form renders');
               await page.goto(new URL('properties.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               must(await page.locator('body').innerText().then(t => t.length > 0), 'Properties page renders');
               await page.locator('#allGrid .property-card').first().waitFor({ timeout: 20000 });
+              must(await page.locator('#allGrid .property-card').count() >= 4, 'Explore Properties displays all four published listings');
+              for (const title of ['Avni Lake View Villas', 'Iris by Sriven', '4 BHK Duplex House', '4 BHK Triplex House']) {
+                must(await page.locator('#allGrid .property-card').filter({ hasText: title }).count() === 1, 'Explore Properties shows ' + title + ' exactly once');
+              }
               const listingKeys = await page.locator('#allGrid .property-card').evaluateAll(cards => cards.map(card => ['.badge','.price','.meta','.card-mini'].map(sel => card.querySelector(sel)?.textContent?.trim().toLowerCase().replace(/\\s+/g,' ') || '').join('|')));
               must(new Set(listingKeys).size === listingKeys.length, 'Public catalog does not show the same property twice under different titles');
               const avniCard = page.locator('#allGrid .property-card').filter({ hasText: 'Avni Lake View Villas' });
