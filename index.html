@@ -1,7 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RJ Properties | Hyderabad West</title><meta name="description" content="RJ Properties — Luxury Villas, Independent Houses and Premium Flats in Hyderabad West."><link rel="icon" href="rj-logo.png"><link rel="stylesheet" href="styles.css?v=whatsapp-single-7"><style id="rj-single-whatsapp-fix">
 /* Keep the labelled hero WhatsApp card; suppress legacy floating widgets */
 .floating-wa,.whatsapp-float,.whatsapp-button,#whatsapp-float,#whatsapp-widget,
-[id*="whatsapp-float"],[class*="whatsapp-float"],[id*="whatsapp-widget"],[class*="whatsapp-widget"]{display:none!important;visibility:hidden!important;pointer-events:none!important}
+[id*="whatsapp"]:not(.wa-card):not(.btn),[class*="whatsapp"]:not(.wa-card):not(.btn),
+[id*="whats-app"]:not(.wa-card):not(.btn),[class*="whats-app"]:not(.wa-card):not(.btn){display:none!important;visibility:hidden!important;pointer-events:none!important}
 </style></head><body>
 <header class="header"><div class="container nav"><a class="brand" href="index.html"><img src="rj-logo.png" alt="RJ Properties"></a><nav><a class="active" href="index.html">HOME</a><a href="#properties">PROPERTIES</a><a href="#communities">COMMUNITIES</a><a href="#sell">SELL YOUR PROPERTY</a><a href="#about">ABOUT US</a><a href="#contact">CONTACT US</a></nav><div class="contact-mini"><a class="phone" href="tel:+918332847728">☎ +91 83328 47728</a><span><b>Billa Rajesh</b><small>Property Advisor</small></span></div><button class="menu" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button></div></header><div class="mobile-nav" id="mobileNav" aria-hidden="true"><div class="mobile-nav-inner"><button class="mobile-close" id="mobileClose" aria-label="Close navigation">×</button><a href="index.html">HOME</a><a href="properties.html">PROPERTIES</a><a href="#communities">COMMUNITIES</a><a href="sell.html">SELL YOUR PROPERTY</a><a href="#about">ABOUT US</a><a href="#contact">CONTACT US</a><a class="mobile-call" href="tel:+918332847728">☎ +91 83328 47728</a></div></div>
 <main>
@@ -18,7 +19,7 @@
 /* Remove only the duplicate floating WhatsApp launcher, not labelled CTA links */
 (function(){
  function removeDuplicateWhatsApp(){
-  document.querySelectorAll('a[href*="wa.me"],a[href*="whatsapp"],button,[role="button"],iframe').forEach(function(el){
+  document.querySelectorAll('[id*="whatsapp"],[class*="whatsapp"],[id*="whats-app"],[class*="whats-app"],a[href*="wa.me"],a[href*="whatsapp"],button,[role="button"],iframe').forEach(function(el){
    if(el.closest('.wa-card')||el.classList.contains('btn')) return;
    var cls=String(el.className&&el.className.baseVal||el.className||'');
    var id=String(el.id||'');
