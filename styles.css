@@ -252,3 +252,36 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .property-body{padding:7px}
   .property-body h3{font-size:11px}
 }
+
+
+/* Final mobile cleanup: one WhatsApp entry point and compact featured heading */
+@media(max-width:650px){
+  a.floating-wa, .floating-wa, body .floating-wa{
+    display:none!important;
+    visibility:hidden!important;
+    pointer-events:none!important;
+  }
+  #properties .section-head{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+  #properties .section-head h2{
+    max-width:100%;
+    width:100%;
+    font-size:25px;
+    line-height:1.1;
+    margin:0;
+  }
+  #properties .section-head>a{
+    display:inline-flex;
+    margin:0 0 8px;
+    font-size:11px;
+  }
+  #propertyGrid>p{
+    font-size:15px;
+    line-height:1.45;
+    margin:12px 0;
+  }
+}
