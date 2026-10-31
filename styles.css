@@ -171,3 +171,84 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   html{scroll-behavior:auto}
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 }
+
+
+/* Mobile compact premium layout — follows the desktop brand composition */
+@media(max-width:650px){
+  .header{position:sticky;top:0}
+  .nav{height:64px;min-height:64px;width:calc(100% - 20px);gap:6px}
+  .brand img{width:clamp(112px,34vw,142px);max-height:54px;object-fit:contain}
+  .phone{font-size:10px;padding:8px 9px;border-radius:18px}
+  .menu{width:34px;min-width:34px;flex-basis:34px;font-size:25px}
+
+  .hero{min-height:470px}
+  .hero-content{min-height:470px;padding-top:34px;padding-bottom:92px;align-items:flex-start}
+  .hero-media{background-position:58% center}
+  .hero-fade{background:linear-gradient(90deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.91) 48%,rgba(255,255,255,.35) 100%)}
+  .hero-copy{width:100%;max-width:100%;padding:0}
+  .hero-copy h1{font-size:clamp(36px,10vw,44px);line-height:.98;max-width:340px;margin:0 0 12px;letter-spacing:-.8px}
+  .hero-sub{font-size:clamp(13px,3.8vw,15px);line-height:1.35;max-width:330px}
+  .trust{max-width:360px;margin:17px 0 16px}
+  .trust div{padding:0 5px;gap:3px}
+  .trust strong{font-size:22px}
+  .trust b{font-size:11px}
+  .trust small{font-size:9px}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:380px}
+  .actions .btn{width:100%;min-height:44px;padding:10px 7px;font-size:10px;line-height:1.2;text-align:center}
+  .wa-card{left:auto;right:12px;bottom:12px;width:auto;max-width:190px;padding:9px 12px;gap:8px;border-radius:12px}
+  .wa-card span{font-size:25px}
+  .wa-card b{font-size:11px}
+  .wa-card small{font-size:10px}
+  .floating-wa{display:none!important}
+
+  .locations{padding:10px 0 7px}
+  .locations .container{width:100%;padding:0 12px}
+  .location-row{display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:2px 0 7px}
+  .location-row::-webkit-scrollbar{display:none}
+  .location-row a{flex:0 0 auto;white-space:nowrap;font-size:11px;padding:8px 10px;line-height:1.2}
+  .location-row .west{margin-left:auto;grid-column:auto}
+
+  .search-wrap{padding:3px 0 10px}
+  .searchbar{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px}
+  .searchbar select,.searchbar input{min-width:0;width:100%;min-height:42px;padding:9px;font-size:13px}
+  .search-btn{grid-column:1/-1;min-height:44px;padding:10px;font-size:12px}
+
+  .support{padding:0 0 8px}
+  .support-box{padding:10px 12px}
+  .support-head{gap:8px;align-items:center}
+  .support-icon{font-size:25px}
+  .support-head .section-label{font-size:11px}
+  .support-head small{font-size:10px}
+  .steps{display:flex;gap:13px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;margin-top:9px;padding-bottom:3px}
+  .steps::-webkit-scrollbar{display:none}
+  .steps span{flex:0 0 auto;max-width:115px;font-size:10px;line-height:1.2}
+  .steps span b{font-size:10px}
+
+  .section{padding:22px 0}
+  .section .section-label{font-size:12px}
+  .section h1,.section h2{font-size:clamp(25px,7vw,30px);line-height:1.08}
+  .section-head{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:8px}
+  .section-head h2{font-size:21px;line-height:1.12;max-width:65%}
+  .section-head>a{font-size:10px;padding:9px 10px;white-space:nowrap;margin:0}
+  .property-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .property-card{border-radius:10px}
+  .property-img{height:clamp(88px,25vw,125px)}
+  .property-body{padding:9px}
+  .property-body h3{font-size:12px;line-height:1.2;margin:7px 0 5px}
+  .property-body .price{float:none;display:block;font-size:11px;margin-top:5px}
+  .property-body .badge{font-size:8px;padding:4px 6px}
+  .property-body .meta,.property-body .card-mini{font-size:9px;line-height:1.25}
+  .community-grid{grid-template-columns:1fr;gap:9px}
+  .community-grid article{padding:14px;font-size:13px}
+}
+@media(max-width:380px){
+  .hero{min-height:455px}
+  .hero-content{min-height:455px}
+  .hero-copy h1{font-size:36px}
+  .trust b{font-size:10px}
+  .trust small{font-size:8px}
+  .actions .btn{font-size:9px}
+  .property-grid{gap:7px}
+  .property-body{padding:7px}
+  .property-body h3{font-size:11px}
+}
