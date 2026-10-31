@@ -285,3 +285,52 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     margin:12px 0;
   }
 }
+
+
+/* Final screenshot-driven mobile corrections */
+.floating-wa{display:none!important}
+@media(max-width:650px){
+  /* Keep one clear WhatsApp action: the labelled hero card */
+  .hero .wa-card{display:flex;right:12px;left:auto;bottom:12px;max-width:190px}
+  .support-box{padding:10px 12px}
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px 12px;
+    overflow:visible;
+    margin-top:10px;
+    padding:0;
+  }
+  .steps span{
+    display:flex;
+    align-items:flex-start;
+    gap:7px;
+    min-width:0;
+    max-width:none;
+    width:100%;
+    flex:initial;
+    white-space:normal;
+    font-size:11px;
+    line-height:1.25;
+  }
+  .steps span b{font-size:11px;line-height:1.25}
+  .steps i{display:none}
+  .section{padding:20px 0}
+  .section .lead{font-size:15px;line-height:1.5}
+  #communities .community-grid article{padding:12px 14px;gap:5px}
+  #communities .community-grid article strong{font-size:14px}
+  #communities .community-grid article span{font-size:13px;line-height:1.35}
+  #sell .split{gap:16px}
+  #sell .form-card,#buyerForm{padding:14px;gap:9px}
+  #sell .form-card input,#sell .form-card select,
+  #buyerForm input,#buyerForm select,#buyerForm textarea{
+    min-height:44px;
+    padding:10px 12px;
+    font-size:15px;
+  }
+  #sell .btn,#buyerForm .btn{min-height:46px;font-size:13px}
+  #about .lead{font-size:15px;line-height:1.5}
+  footer{padding:26px 0 14px}
+  footer .footer-grid{gap:16px}
+  footer p{font-size:13px;line-height:1.45}
+}
