@@ -21,3 +21,153 @@
   .detail-card .detail-image{display:block}
   .detail-card .media-strip img{display:block}
 }
+
+
+/* RJ Properties responsive polish — desktop, iPhone Safari and Android Chrome */
+html{scroll-padding-top:92px}
+body{max-width:100%;overflow-x:hidden}
+img,video,iframe{max-width:100%}
+button,a,input,select,textarea{-webkit-tap-highlight-color:transparent}
+button,.btn,select{touch-action:manipulation}
+.searchbar>*{min-width:0}
+.form-card>* ,.form-grid>* ,.formgrid>*{min-width:0}
+input,select,textarea{max-width:100%}
+.property-card,.panel,.form-card,.support-box{min-width:0}
+.property-img{background-position:center;background-size:cover}
+.nav nav a{transition:color .18s ease,border-color .18s ease}
+.btn,.phone,.location-row a,.section-head>a{transition:transform .18s ease,background-color .18s ease,border-color .18s ease}
+.btn:active,.phone:active,.location-row a:active{transform:scale(.98)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.floating-wa{bottom:max(22px,env(safe-area-inset-bottom))}
+@media(min-width:1051px){
+  .nav{gap:clamp(14px,2vw,30px)}
+  .brand{flex:0 0 auto}
+  .brand img{width:clamp(220px,22vw,300px)}
+  .nav nav{gap:clamp(12px,1.6vw,28px)}
+  .nav nav a{font-size:clamp(11px,.95vw,14px)}
+  .contact-mini{flex:0 0 auto}
+  .phone{padding:12px clamp(12px,1.5vw,22px)}
+}
+@media(max-width:1050px){
+  .nav{gap:12px}
+  .contact-mini{margin-left:auto}
+  .hero-copy{max-width:680px}
+  .support-box{padding:14px 16px}
+  .steps{scrollbar-width:thin}
+  .steps span{flex:0 0 auto}
+  .property-grid{gap:16px}
+}
+@media(max-width:650px){
+  html{scroll-padding-top:76px}
+  .container{width:calc(100% - 32px)}
+  .nav{height:72px;min-height:72px;width:calc(100% - 24px);gap:7px}
+  .brand{flex:1 1 auto;min-width:0;overflow:hidden}
+  .brand img{display:block;width:clamp(108px,35vw,148px);max-width:100%;max-height:62px}
+  .contact-mini{flex:0 0 auto;margin-left:0}
+  .phone{display:inline-flex;align-items:center;justify-content:center;padding:9px 10px;font-size:clamp(10px,2.8vw,12px);letter-spacing:-.2px;white-space:nowrap}
+  .menu{flex:0 0 36px;width:36px;min-width:36px;font-size:26px}
+  .hero{min-height:650px}
+  .hero-content{min-height:650px;align-items:flex-start;padding-top:34px;padding-bottom:118px}
+  .hero-copy{width:100%;padding:0}
+  .hero-copy h1{font-size:clamp(40px,11vw,48px);line-height:.98;letter-spacing:-1.2px;margin-bottom:16px}
+  .hero-sub{font-size:clamp(14px,4vw,17px);line-height:1.45;margin:0}
+  .trust{gap:0;margin:22px 0 20px}
+  .trust div{padding:0 5px;min-width:0;gap:5px}
+  .trust strong{font-size:25px;line-height:1.1}
+  .trust b{font-size:clamp(11px,3.2vw,13px)}
+  .trust small{font-size:10px;line-height:1.3}
+  .actions{display:grid;grid-template-columns:1fr;gap:10px}
+  .actions .btn{width:100%;min-height:50px;padding:13px 14px;font-size:14px}
+  .wa-card{left:16px;right:16px;bottom:14px;width:auto;max-width:none;justify-content:center;padding:11px 14px;border-radius:14px}
+  .wa-card span{font-size:30px}
+  .wa-card b{font-size:14px}
+  .wa-card small{font-size:12px}
+  body:has(.hero .wa-card) .floating-wa{display:none}
+  .locations{padding:14px 0 10px}
+  .location-row{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .location-row a{min-width:0;padding:10px 9px;font-size:12px;line-height:1.25;text-align:center;overflow-wrap:anywhere}
+  .location-row .west{grid-column:1/-1}
+  .search-wrap{padding:8px 0 16px}
+  .searchbar{grid-template-columns:1fr;gap:9px;padding:10px;border-radius:10px}
+  .searchbar select,.searchbar input,.search-btn{width:100%;min-height:48px;font-size:16px}
+  .support{padding-bottom:8px}
+  .support-box{padding:14px;border-radius:10px}
+  .support-head{align-items:flex-start}
+  .support-head .section-label{font-size:12px;line-height:1.4}
+  .support-head small{font-size:12px}
+  .steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px;overflow:visible}
+  .steps span{min-width:0;align-items:center;font-size:12px;line-height:1.25}
+  .steps span b{font-size:11px}
+  .steps i{display:none}
+  .section{padding:28px 0}
+  .section h1,.section h2{font-size:clamp(27px,7vw,32px);line-height:1.12}
+  .section-head{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+  .section-head h2{font-size:26px}
+  .section-head>a{display:inline-flex;margin:0 0 12px;padding:11px 13px;font-size:12px}
+  .property-grid{grid-template-columns:minmax(0,1fr);gap:14px}
+  .property-img{height:clamp(170px,55vw,230px)}
+  .property-body{padding:13px}
+  .property-body h3{font-size:17px}
+  .community-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+  .split{grid-template-columns:minmax(0,1fr);gap:24px}
+  .form-card{grid-template-columns:minmax(0,1fr);padding:16px;gap:10px}
+  .form-card textarea,.form-card .btn,.form-note{grid-column:1}
+  .form-card input,.form-card select,.form-card textarea,
+  .long-form input,.long-form select,.long-form textarea,
+  .form-grid input,.form-grid select,.form-grid textarea,
+  .formgrid input,.formgrid select,.formgrid textarea{width:100%;min-height:46px;font-size:16px}
+  .form-card textarea,.long-form textarea,.form-grid textarea,.formgrid textarea{min-height:100px}
+  .footer-grid{grid-template-columns:minmax(0,1fr);gap:22px}
+  .footer-logo{width:min(220px,75vw)}
+  .copyright{line-height:1.6;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  .detail-card{min-width:0}
+  .detail-card .detail-info h1{font-size:28px;overflow-wrap:anywhere}
+  .specs{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .specs div{min-width:0;overflow-wrap:anywhere;padding:10px;font-size:13px}
+  .detail-info .actions{display:grid;grid-template-columns:1fr}
+  .detail-info>.btn{width:100%;margin-top:8px}
+  .filter-panel{display:grid;grid-template-columns:minmax(0,1fr)}
+  .filter-panel select{width:100%;min-height:46px;font-size:16px}
+  .stats,.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .panel{padding:14px}
+  .login{padding:16px}
+  .login .panel{width:100%;max-width:460px;padding:clamp(20px,6vw,28px)}
+  .login .panel h2{font-size:clamp(24px,7vw,30px);line-height:1.15}
+  .login .panel form label{display:block;margin:12px 0;font-size:16px}
+  .login .panel form input{display:block;width:100%;min-height:48px;margin-top:6px;padding:12px;border:1px solid #ddd;border-radius:9px;font-size:16px}
+  .login .panel form br{display:none}
+  .login .panel form button{min-height:50px}
+  .admin .header .nav{width:calc(100% - 28px);gap:8px}
+  .admin .header .nav #headerEditProperties{flex:1 1 140px;min-width:0;padding:11px 10px;font-size:13px}
+  .admin .header .nav #logout{padding:11px 12px}
+  .admin .crm-top{gap:8px}
+  .admin .crm-top h1{font-size:clamp(28px,8vw,36px)}
+  .admin .crm-top .muted{font-size:14px;line-height:1.5}
+  .admin .quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
+  .admin .quick-actions .btn{min-width:0;width:100%;padding:12px 8px;font-size:13px;white-space:normal}
+  .admin .tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .admin .tabs .btn{min-width:0;min-height:44px;padding:10px 6px;font-size:13px;white-space:normal}
+  .admin .crmgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .admin .crmcard{min-width:0;padding:12px}
+  .admin .crmcard b{font-size:23px}
+  .admin .property-admin-grid,.admin .formgrid{grid-template-columns:minmax(0,1fr)}
+  .admin .formgrid .full{grid-column:1}
+  .admin .photo-preview{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .admin .tablewrap{max-width:100%;width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+  .admin .tablewrap table{min-width:760px}
+}
+@media(max-width:360px){
+  .container{width:calc(100% - 24px)}
+  .nav{width:calc(100% - 18px);gap:5px}
+  .brand img{width:clamp(98px,32vw,116px)}
+  .phone{padding:8px 7px;font-size:10px}
+  .menu{width:32px;min-width:32px;flex-basis:32px}
+  .hero-copy h1{font-size:39px}
+  .trust b{font-size:10px}
+  .trust small{font-size:9px}
+  .specs{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
