@@ -50,3 +50,29 @@ The Meta App ID and Facebook Login for Business Configuration ID have now been c
 - Coexistence eligibility is decided by Meta and may require a supported onboarding setup, current WhatsApp Business App version, and active account usage.
 - Do not claim message history/contact sync, inbound CRM lead creation, or outbound messaging is live until a real, consented end-to-end test proves it.
 - Never log access tokens, OTPs, full phone numbers, or message bodies unnecessarily.
+
+
+## Implementation checkpoint — 1 November 2026
+
+### Confirmed current backend behavior
+- The deployed `whatsapp-cloud-webhook` function is version 1 with JWT verification disabled (required for Meta callbacks). It checks the GET challenge against `META_WHATSAPP_VERIFY_TOKEN`, validates POST requests with `X-Hub-Signature-256` using `META_APP_SECRET`, and writes each received change into `integration_events`.
+- The webhook currently records raw change values as event payloads. It does **not** yet normalize inbound messages, import history/contacts, create CRM leads, or send replies. Do not describe those features as active.
+- The two webhook secrets are not confirmed as configured. Until they are securely set, webhook verification and signed event processing cannot be considered operational.
+- The existing `whatsapp-send` Edge Function is separate and must not be treated as proof that the real RJ Properties number is connected.
+
+### Embedded Signup version caution
+- The configuration was created from Meta's “WhatsApp Embedded Signup Configuration With 60 Expiration Token” template. Creation success alone does not prove the Coexistence flow is enabled.
+- Meta's Embedded Signup v2/v3 deprecation date was 15 October 2026. Treat a newly created configuration as a v4 configuration unless Meta's current dashboard explicitly indicates otherwise; do not ship legacy v2/v3 launch parameters by assumption.
+- Before enabling any customer-facing Connect button, verify in Meta's current Embedded Signup configuration/builder that the WhatsApp Business App onboarding / Coexistence experience is actually available for this app. If the flow only presents standard WABA/phone registration, stop; never proceed with the existing app number.
+- Coexistence documentation requires the webhook topics `history`, `smb_app_state_sync`, and `smb_message_echoes` in addition to normal message/status topics. History synchronization must be completed within 24 hours of successful onboarding. Keep the WhatsApp Business App active during synchronization.
+
+### Remaining blockers — no production activation yet
+1. Securely set `META_APP_SECRET` and a newly generated `META_WHATSAPP_VERIFY_TOKEN` in Supabase Edge Function secrets. Do not put either value in GitHub, frontend JavaScript, or chat.
+2. Verify the webhook callback in Meta and subscribe the required WABA fields.
+3. Confirm the Meta app's Tech Provider / Solution Partner eligibility, App Review, and Advanced Access requirements for the intended onboarding flow.
+4. Implement and test the current supported Embedded Signup version and secure server-side code exchange. Do not store temporary or long-lived access tokens in logs or event payloads.
+5. Add idempotent processing for inbound messages, history sync, contact sync, and app message echoes only after inspecting the exact CRM schema and agreeing on consent/privacy handling.
+6. Run a real end-to-end Coexistence test with the owner, verifying that the existing WhatsApp Business App still works and that old chats/customers remain available. Do not merge to production before this test.
+
+### Current safety gate
+The existing RJ Properties number must remain connected to the WhatsApp Business App. Do not use the standard “Add phone number” / API-only migration flow. Do not expose a live signup button until all blockers above are cleared.
