@@ -32,8 +32,18 @@ Also keep any existing account update / message status subscriptions enabled as 
 5. Subscribe the app to the WhatsApp Business Account webhook fields listed above.
 6. Complete the Embedded Signup as the Business Portfolio admin. Do not share OTPs or access tokens in chat.
 
+## Meta app identifiers captured
+- Meta App ID: `1084120231126076`
+- Facebook Login for Business Configuration ID: `897611586679448`
+- Configuration template: WhatsApp Embedded Signup Configuration With 60 Expiration Token
+- Login variation: WhatsApp Embedded Signup
+- Token type: System-user access token; template states 60-day expiration
+- Configuration created successfully in Meta for Developers (user screenshot confirmation).
+
+These identifiers are configuration metadata, not credentials. The App Secret and any access token must remain in secure secrets storage and must never be committed to GitHub or browser code.
+
 ## Values needed before enabling the signup button
-The app's Meta **App ID** and Facebook Login for Business **Configuration ID** are not stored in the public website. Add them only to a controlled server/configuration environment; never put App Secret or access tokens in browser code. The user-facing Embedded Signup button must remain disabled until the App ID and Configuration ID are supplied and the Meta configuration is confirmed.
+The Meta App ID and Facebook Login for Business Configuration ID have now been captured above. They can be used as public Embedded Signup configuration identifiers in the frontend integration. Never put the App Secret or access tokens in browser code. The user-facing signup flow must remain disabled until the Meta Coexistence onboarding path and app prerequisites are confirmed.
 
 ## Important limitations
 - A webhook endpoint being deployed does not mean Meta is connected or sending events yet.
