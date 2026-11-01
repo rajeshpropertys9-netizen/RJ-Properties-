@@ -26,6 +26,28 @@ function lastFour(value: unknown): string | null {
   return digits.length >= 4 ? digits.slice(-4) : null;
 }
 
+function normalizePhone(value: unknown): string | null {
+  const digits = String(value ?? "").replace(/\D/g, "");
+  return digits.length >= 8 && digits.length <= 15 ? "+" + digits : null;
+}
+
+function contactName(contacts: any[], waId: string | null, fallback: string): string {
+  const match = contacts.find((contact) => normalizePhone(contact?.wa_id) === normalizePhone(waId));
+  const name = String(match?.profile?.name ?? "").trim();
+  return name ? name.slice(0, 120) : fallback;
+}
+
+function extractMessageText(message: any, type: string): string {
+  if (type === "text") return String(message?.text?.body ?? "");
+  if (type === "image") return String(message?.image?.caption ?? "[WhatsApp image]");
+  if (type === "video") return String(message?.video?.caption ?? "[WhatsApp video]");
+  if (type === "document") return String(message?.document?.filename ?? "[WhatsApp document]");
+  if (type === "button") return String(message?.button?.text ?? "[WhatsApp button]");
+  if (type === "interactive") return String(message?.interactive?.button_reply?.title ??
+    message?.interactive?.list_reply?.title ?? "[WhatsApp interaction]");
+  return "[WhatsApp " + type + " message]";
+}
+
 Deno.serve(async (req: Request) => {
   const url = new URL(req.url);
   if (req.method === "GET") {
@@ -69,17 +91,11 @@ Deno.serve(async (req: Request) => {
         for (const message of messages) {
           received++;
           const messageId = typeof message?.id === "string" ? message.id : null;
-          const senderDigits = String(message?.from ?? "").replace(/\D/g, "");
-          const senderPhone = senderDigits ? "+" + senderDigits : null;
+          const senderPhone = normalizePhone(message?.from);
           const messageType = typeof message?.type === "string" ? message.type : "unknown";
-          const messageText = messageType === "text" ? String(message?.text?.body ?? "")
-            : messageType === "image" ? String(message?.image?.caption ?? "[WhatsApp image]")
-            : messageType === "video" ? String(message?.video?.caption ?? "[WhatsApp video]")
-            : messageType === "document" ? String(message?.document?.filename ?? "[WhatsApp document]")
-            : messageType === "button" ? String(message?.button?.text ?? "[WhatsApp button]")
-            : messageType === "interactive" ? String(message?.interactive?.button_reply?.title ??
-              message?.interactive?.list_reply?.title ?? "[WhatsApp interaction]")
-            : "[WhatsApp " + messageType + " message]";
+          const messageText = extractMessageText(message, messageType);
+          const senderName = contactName(Array.isArray(value.contacts) ? value.contacts : [],
+            senderPhone, "WhatsApp lead");
 
           const { data: eventRow, error: eventError } = await db.from("integration_events").insert({
             provider: "whatsapp",
@@ -118,7 +134,7 @@ Deno.serve(async (req: Request) => {
           if (existingBuyer?.id) buyerId = existingBuyer.id;
           else {
             const { data: newBuyer, error: buyerInsertError } = await db.from("buyers").insert({
-              name: "WhatsApp lead",
+              name: senderName,
               phone: senderPhone,
               source: "whatsapp",
               lead_source: "whatsapp",
