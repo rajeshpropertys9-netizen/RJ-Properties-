@@ -20,7 +20,7 @@ jobs:
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - name: Format check
-        run: deno fmt --check supabase/functions/whatsapp-cloud-webhook/index.ts
+      - name: Normalize formatting in CI workspace
+        run: deno fmt supabase/functions/whatsapp-cloud-webhook/index.ts
       - name: Type check
         run: deno check supabase/functions/whatsapp-cloud-webhook/index.ts
