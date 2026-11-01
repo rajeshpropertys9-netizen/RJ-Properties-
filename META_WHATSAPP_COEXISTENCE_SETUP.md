@@ -89,3 +89,14 @@ The existing RJ Properties number must remain connected to the WhatsApp Business
 - Added GitHub Actions workflow at `.github/workflows/whatsapp-webhook-checks.yml`.
 - On matching branch pushes and pull requests it installs Deno and runs `deno fmt --check` plus `deno check` against the webhook entrypoint.
 - A workflow result has not yet been observed; do not treat the code as passing until GitHub Actions reports success.
+
+
+### Embedded Signup implementation added to the feature branch
+- Admin-only page: `whatsapp-connect.html`. It signs in through the existing Supabase Auth project, then launches Meta Embedded Signup with configuration ID `897611586679448` and the Coexistence selector `whatsapp_business_app_onboarding`.
+- The page listens for Meta's `WA_EMBEDDED_SIGNUP` completion event and pairs the one-time authorization code with the WABA ID.
+- Server endpoint: `supabase/functions/whatsapp-embedded-signup/index.ts`. It verifies the logged-in Supabase user is in `admin_users`, exchanges the code server-side using `META_APP_SECRET`, discovers the phone-number asset, and stores the token in a server-only table. The token is never returned to the browser.
+- Migration: `supabase/migrations/202611010001_whatsapp_connections.sql`. It creates a private table with RLS enabled and no anon/authenticated grants.
+- Required secrets for the new endpoint: `META_APP_SECRET`, plus the Supabase-provided `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`. The App ID is configured in the function as the known public app ID; Graph version defaults to `v26.0`.
+- The migration and endpoint must be deployed/applied only after review. No migration or deployment has been run on the live Supabase project.
+- Admin page URL after feature branch deployment: `/whatsapp-connect.html`. It is not linked from the public website or the existing CRM navigation.
+- The page's Meta popup is the only place where the owner should enter any verification code. Never send OTPs in ChatGPT.
