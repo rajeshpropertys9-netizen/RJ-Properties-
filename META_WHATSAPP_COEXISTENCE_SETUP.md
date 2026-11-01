@@ -83,3 +83,9 @@ The existing RJ Properties number must remain connected to the WhatsApp Business
 - The handler extracts text/captions (or a safe media placeholder), looks up an exact matching buyer phone, creates a buyer only when no exact match exists, then creates a linked enquiry with source `whatsapp`.
 - The event stores only minimal sender metadata; the message content and full sender phone are placed in the CRM enquiry/buyer records because they are needed for lead follow-up.
 - This code is committed only to `integration/whatsapp-coexistence` and is not deployed. Automated tests and a real Meta Coexistence event are still required before production use.
+
+
+### Automated checks
+- Added GitHub Actions workflow at `.github/workflows/whatsapp-webhook-checks.yml`.
+- On matching branch pushes and pull requests it installs Deno and runs `deno fmt --check` plus `deno check` against the webhook entrypoint.
+- A workflow result has not yet been observed; do not treat the code as passing until GitHub Actions reports success.
