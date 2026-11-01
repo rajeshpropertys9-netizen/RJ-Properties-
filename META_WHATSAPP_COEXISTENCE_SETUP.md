@@ -100,3 +100,29 @@ The existing RJ Properties number must remain connected to the WhatsApp Business
 - The migration and endpoint must be deployed/applied only after review. No migration or deployment has been run on the live Supabase project.
 - Admin page URL after feature branch deployment: `/whatsapp-connect.html`. It is not linked from the public website or the existing CRM navigation.
 - The page's Meta popup is the only place where the owner should enter any verification code. Never send OTPs in ChatGPT.
+
+
+## Live backend checkpoint — 1 November 2026 (verified)
+
+- Supabase migration `20261101113004_whatsapp_connections` was applied to project `bgmlgmdhypmfabyluqvv`; `public.whatsapp_connections` exists and RLS is enabled.
+- Supabase Edge Function `whatsapp-embedded-signup` is ACTIVE at version 2 with JWT verification enabled. It checks Supabase admin membership, exchanges the Meta one-time code server-side, discovers the WABA phone asset, stores the returned token server-side, and attempts `POST /{WABA_ID}/subscribed_apps`. A successful signup response reports `subscribed_pending_verification`; a failed subscription is returned as `pending_subscription` with a warning.
+- Supabase Edge Function `whatsapp-cloud-webhook` is ACTIVE at version 5 with JWT verification disabled for Meta callbacks. It verifies GET challenge requests against `META_WHATSAPP_VERIFY_TOKEN`, validates POST signatures using `META_APP_SECRET`, deduplicates inbound messages using WhatsApp message IDs, finds/creates a CRM buyer, and creates a CRM enquiry. It logs coexistence history/contact/app-echo event metadata only; it does not yet import history/contact records or reconcile app-sent echoes into CRM.
+- Supabase `whatsapp-send`, `external-lead-webhook`, and `crm-api-v2` were not redeployed as part of this checkpoint.
+- GitHub feature branch `integration/whatsapp-coexistence` remains separate from `main`; PR #3 remains unmerged. The public website was not changed.
+
+## Remaining Meta owner actions / acceptance tests
+
+1. In Meta for Developers → RJ Properties app → Webhooks, configure callback URL:
+   `https://bgmlgmdhypmfabyluqvv.supabase.co/functions/v1/whatsapp-cloud-webhook`
+2. Enter the exact `META_WHATSAPP_VERIFY_TOKEN` value saved in Supabase and verify the callback. Do not post the token in chat.
+3. Subscribe the app to the WhatsApp Business Account fields: `messages`, `history`, `smb_app_state_sync`, `smb_message_echoes`, and applicable status/account update fields. The signup backend now also calls WABA `subscribed_apps` after successful authorization.
+4. Open the admin-only setup page from the feature branch after it is safely previewed/deployed; sign in with an authorized CRM admin and complete the Meta Coexistence flow. Enter any OTP only in Meta's own popup.
+5. Confirm the connected number reports coexistence status (including `is_on_biz_app=true` where available), test a new inbound message, confirm one Buyer and one Enquiry are created, confirm duplicate webhook delivery does not create another enquiry, and verify the WhatsApp Business App still works with existing chats.
+6. Test outbound API messaging and 24-hour policy/template behavior separately. Do not claim history/contact sync or app echo mirroring is complete until those processors are implemented and tested.
+
+## Security and release notes
+
+- The connection table has RLS enabled and no anon/authenticated grants; access is intended only through server-side service-role functions. The access token is stored in the server-only database table; it is not returned to the browser or written to GitHub. It is not application-layer encrypted in this implementation, so restrict service-role access and consider adding envelope encryption before broad multi-tenant use.
+- The verification token was initially entered in the chat-guided setup; for stronger hygiene, rotate it to a fresh random value in Supabase and update the Meta webhook configuration together before production rollout.
+- Do not use standard Add Phone Number / migration. Do not disconnect the existing WhatsApp Business App number.
+- PR #3 is not merged. Do not deploy the admin page to the production website or expose its connect button until Meta eligibility, callback verification, and end-to-end tests pass.
