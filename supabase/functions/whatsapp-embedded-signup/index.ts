@@ -2,7 +2,8 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const VERSION = Deno.env.get("META_GRAPH_API_VERSION") || "v26.0";
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };\nconst reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };
+const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
   status, headers: { ...cors, "content-type": "application/json", "cache-control": "no-store" },
 });
 
