@@ -56,18 +56,34 @@ Deno.serve(async (req) => {
     const match = phoneData.data.find((p: any) => String(p.id) === phoneId);
     if (match) { displayPhone = match.display_phone_number ?? null; verifiedName = match.verified_name ?? null; }
   }
+  // Subscribe this Meta app to the authorized WABA so configured webhook fields can be delivered.
+  const subscribeResponse = await fetch(
+    "https://graph.facebook.com/" + VERSION + "/" + wabaId + "/subscribed_apps",
+    { method: "POST", headers: { Authorization: "Bearer " + tokenData.access_token } },
+  );
+  const subscribeData: any = await subscribeResponse.json().catch(() => ({}));
+  const subscribed = subscribeResponse.ok && subscribeData.success === true;
+
   const seconds = Number(tokenData.expires_in);
   const expiry = Number.isFinite(seconds) && seconds > 0 ? new Date(Date.now() + seconds * 1000).toISOString() : null;
+  const connectionStatus = subscribed ? "subscribed_pending_verification" : "pending_subscription";
   const { error } = await db.from("whatsapp_connections").upsert({
     waba_id: wabaId, phone_number_id: phoneId || null, display_phone_number: displayPhone,
     verified_name: verifiedName, access_token: tokenData.access_token, token_expires_at: expiry,
-    connection_mode: "coexistence", status: "pending_webhook", updated_at: new Date().toISOString(),
+    connection_mode: "coexistence", status: connectionStatus, updated_at: new Date().toISOString(),
   }, { onConflict: "waba_id" });
   if (error) {
     console.error("WhatsApp credential storage failed", error.code);
-    return reply({ error: "Connection details could not be stored securely. Check database migration." }, 500);
+    return reply({ error: "Connection details could not be stored. Check database migration." }, 500);
+  }
+  if (!subscribed) {
+    console.error("WhatsApp WABA subscription failed", subscribeData.error?.code || subscribeResponse.status);
+    return reply({ ok: true, waba_id: wabaId, phone_number_id: phoneId || null,
+      display_phone_number: displayPhone, verified_name: verifiedName,
+      token_expires_at: expiry, status: connectionStatus,
+      warning: "Authorization saved. WABA webhook subscription did not complete; check Meta permissions and retry." }, 202);
   }
   return reply({ ok: true, waba_id: wabaId, phone_number_id: phoneId || null,
     display_phone_number: displayPhone, verified_name: verifiedName,
-    token_expires_at: expiry, status: "pending_webhook" });
+    token_expires_at: expiry, status: connectionStatus });
 });
