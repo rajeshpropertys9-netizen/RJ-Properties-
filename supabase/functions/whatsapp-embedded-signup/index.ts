@@ -2,12 +2,13 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const VERSION = Deno.env.get("META_GRAPH_API_VERSION") || "v26.0";
-const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
-  status, headers: { "content-type": "application/json", "cache-control": "no-store" },
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };\nconst reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
+  status, headers: { ...cors, "content-type": "application/json", "cache-control": "no-store" },
 });
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });\n  if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405);
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405);
   const auth = req.headers.get("Authorization") || "";
   if (!auth.startsWith("Bearer ")) return reply({ error: "Authentication required" }, 401);
   const url = Deno.env.get("SUPABASE_URL")!;
