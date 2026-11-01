@@ -69,7 +69,19 @@ Deno.serve(async (req: Request) => {
         for (const message of messages) {
           received++;
           const messageId = typeof message?.id === "string" ? message.id : null;
-          const { error } = await db.from("integration_events").insert({
+          const senderDigits = String(message?.from ?? "").replace(/\D/g, "");
+          const senderPhone = senderDigits ? "+" + senderDigits : null;
+          const messageType = typeof message?.type === "string" ? message.type : "unknown";
+          const messageText = messageType === "text" ? String(message?.text?.body ?? "")
+            : messageType === "image" ? String(message?.image?.caption ?? "[WhatsApp image]")
+            : messageType === "video" ? String(message?.video?.caption ?? "[WhatsApp video]")
+            : messageType === "document" ? String(message?.document?.filename ?? "[WhatsApp document]")
+            : messageType === "button" ? String(message?.button?.text ?? "[WhatsApp button]")
+            : messageType === "interactive" ? String(message?.interactive?.button_reply?.title ??
+              message?.interactive?.list_reply?.title ?? "[WhatsApp interaction]")
+            : "[WhatsApp " + messageType + " message]";
+
+          const { data: eventRow, error: eventError } = await db.from("integration_events").insert({
             provider: "whatsapp",
             event_type: "inbound_message",
             external_id: messageId,
@@ -77,14 +89,70 @@ Deno.serve(async (req: Request) => {
             payload: {
               waba_id: entry?.id ?? null,
               phone_number_id: value?.metadata?.phone_number_id ?? null,
-              message_type: typeof message?.type === "string" ? message.type : "unknown",
+              message_type: messageType,
               sender_last4: lastFour(message?.from),
               timestamp: typeof message?.timestamp === "string" ? message.timestamp : null,
             },
-          });
-          if (!error) saved++;
-          else if (error.code === "23505") duplicates++;
-          else { failed++; console.error("WhatsApp inbound event insert failed", error.code); }
+          }).select("id").single();
+
+          if (eventError?.code === "23505") { duplicates++; continue; }
+          if (eventError || !eventRow) {
+            failed++;
+            console.error("WhatsApp inbound event insert failed", eventError?.code ?? "no_event_row");
+            continue;
+          }
+          if (!senderPhone) {
+            await db.from("integration_events").update({ status: "needs_review" }).eq("id", eventRow.id);
+            saved++;
+            continue;
+          }
+
+          let buyerId: string | null = null;
+          const { data: existingBuyer, error: buyerLookupError } = await db
+            .from("buyers").select("id").eq("phone", senderPhone).limit(1).maybeSingle();
+          if (buyerLookupError) {
+            failed++;
+            await db.from("integration_events").update({ status: "crm_error", error_message: "Buyer lookup failed" }).eq("id", eventRow.id);
+            continue;
+          }
+          if (existingBuyer?.id) buyerId = existingBuyer.id;
+          else {
+            const { data: newBuyer, error: buyerInsertError } = await db.from("buyers").insert({
+              name: "WhatsApp lead",
+              phone: senderPhone,
+              source: "whatsapp",
+              lead_source: "whatsapp",
+              status: "new_lead",
+              lead_stage: "new",
+            }).select("id").single();
+            if (buyerInsertError || !newBuyer?.id) {
+              failed++;
+              await db.from("integration_events").update({ status: "crm_error", error_message: "Buyer creation failed" }).eq("id", eventRow.id);
+              continue;
+            }
+            buyerId = newBuyer.id;
+          }
+
+          const { data: enquiry, error: enquiryError } = await db.from("enquiries").insert({
+            buyer_id: buyerId,
+            name: "WhatsApp lead",
+            phone: senderPhone,
+            message: messageText.slice(0, 4000),
+            source: "whatsapp",
+            status: "new",
+            lead_stage: "new",
+            notes: messageId ? "WhatsApp message ID: " + messageId : "WhatsApp inbound message",
+          }).select("id").single();
+
+          if (enquiryError || !enquiry?.id) {
+            failed++;
+            await db.from("integration_events").update({ status: "crm_error", lead_id: buyerId, error_message: "Enquiry creation failed" }).eq("id", eventRow.id);
+            continue;
+          }
+          await db.from("integration_events").update({
+            status: "processed", lead_id: buyerId, enquiry_id: enquiry.id, processed_at: new Date().toISOString(),
+          }).eq("id", eventRow.id);
+          saved++;
         }
         continue;
       }
