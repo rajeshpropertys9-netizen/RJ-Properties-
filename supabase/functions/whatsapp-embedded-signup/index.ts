@@ -7,7 +7,7 @@ const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body)
 });
 
 Deno.serve(async (req) => {
-  if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405);
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });\n  if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405);
   const auth = req.headers.get("Authorization") || "";
   if (!auth.startsWith("Bearer ")) return reply({ error: "Authentication required" }, 401);
   const url = Deno.env.get("SUPABASE_URL")!;
