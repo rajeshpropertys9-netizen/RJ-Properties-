@@ -43,7 +43,7 @@ $("connectBtn").onclick=()=>{if(!session){status("connectStatus","Please sign in
 signupCode=null;signupData=null;processing=false;status("connectStatus","Opening Meta Coexistence signup. Choose the existing WhatsApp Business App onboarding path. Do not select migration.");
 FB.login(response=>{if(response?.authResponse?.code){signupCode=response.authResponse.code;status("connectStatus","Authorization code received. Waiting for Coexistence WABA details…");maybeExchange();}
 else status("connectStatus","Meta login did not return an authorization code. You can retry without changing your WhatsApp Business App.","error");},
-{config_id:CONFIG_ID,response_type:"code",override_default_response_type:true,extras:{setup:{},featureType:"whatsapp_business_app_onboarding",sessionInfoVersion:"3"}});
+{config_id:CONFIG_ID,response_type:"code",override_default_response_type:true,extras:{setup:{},featureType:"whatsapp_business_app_onboarding"}});
 };
 refresh();
 </script></body></html>
