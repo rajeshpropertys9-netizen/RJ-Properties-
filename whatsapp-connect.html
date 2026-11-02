@@ -65,16 +65,19 @@ if(!window.FB){status("connectStatus","Meta SDK is still loading. Wait a moment 
 signupCode=null;signupData=null;processing=false;signupStartedAt=Date.now();lastMetaEvent="No Meta session event received yet.";
 if(signupTimer)clearTimeout(signupTimer);
 status("connectStatus","Opening Meta Coexistence signup. Complete every Meta screen and press Finish if shown. Do not choose standard migration or disconnect.");
-signupTimer=setTimeout(()=>{
-  if(signupCode&&!signupData?.waba_id&&!processing){
-    status("connectStatus","DIAGNOSTIC: Meta returned an authorization code, but this page did not receive the Coexistence completion event within 25 seconds. Do not press Connect again yet.\n"+lastMetaEvent,"error");
-  }
-},25000);
 FB.login(response=>{
   if(response?.authResponse?.code){
     signupCode=response.authResponse.code;
     if(signupData?.waba_id){status("connectStatus","Meta completion details already received. Exchanging authorization securely…");maybeExchange();}
-    else status("connectStatus","Authorization code received. Waiting for Coexistence completion event.\n"+lastMetaEvent);
+    else {
+      status("connectStatus","Authorization code received. Waiting for Coexistence completion event.\n"+lastMetaEvent);
+      if(signupTimer)clearTimeout(signupTimer);
+      signupTimer=setTimeout(()=>{
+        if(signupCode&&!signupData?.waba_id&&!processing){
+          status("connectStatus","DIAGNOSTIC: Meta returned an authorization code, but this page did not receive the Coexistence completion event within 25 seconds. Do not press Connect again yet.\n"+lastMetaEvent,"error");
+        }
+      },25000);
+    }
   } else {
     if(signupTimer)clearTimeout(signupTimer);
     status("connectStatus","Meta did not return an authorization code.\n"+lastMetaEvent,"error");
