@@ -82,7 +82,7 @@ FB.login(response=>{
     if(signupTimer)clearTimeout(signupTimer);
     status("connectStatus","Meta did not return an authorization code.\n"+lastMetaEvent,"error");
   }
-},{config_id:CONFIG_ID,response_type:"code",override_default_response_type:true,extras:{setup:{},featureType:"whatsapp_business_app_onboarding",sessionInfoVersion:"3"}});
+},{config_id:CONFIG_ID,response_type:"code",override_default_response_type:true,extras:{setup:{},featureType:"whatsapp_business_app_onboarding"}});
 };
 refresh();
 </script></body></html>
