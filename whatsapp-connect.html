@@ -42,10 +42,12 @@ window.addEventListener("message",event=>{
   const d=payload.data&&typeof payload.data==="object"?payload.data:{};
   const eventName=String(payload.event||"");
   const msgType=String(payload.type||"");
-  lastMetaEvent="origin="+event.origin+"; type="+(msgType||"(none)")+"; event="+(eventName||"(none)")+"; version="+(payload.version??"(none)")+"; dataKeys="+Object.keys(d).join(",")+(d.current_step?"; current_step="+String(d.current_step):"")+(d.error_code?"; error_code="+String(d.error_code):"");
+  lastMetaEvent="origin="+event.origin+"; type="+(msgType||"(none)")+"; event="+(eventName||"(none)")+"; version="+(payload.version??"(none)")+"; dataKeys="+Object.keys(d).join(",")+(d.current_step?"; current_step="+String(d.current_step):"")+(d.error_code?"; error_code="+String(d.error_code):"")+(Array.isArray(d.messaging_account_ids)?"; messaging_account_ids_count="+d.messaging_account_ids.length:"");
   if(msgType!=="WA_EMBEDDED_SIGNUP"){status("connectStatus","Meta message received, but it was not a WhatsApp signup event.\n"+lastMetaEvent);return;}
   if(eventName==="FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING"||eventName==="FINISH"||eventName==="FINISH_ONLY_WABA"){
-    signupData={waba_id:d.waba_id||d.wabaId||(Array.isArray(d.waba_ids)?d.waba_ids[0]:null),phone_number_id:d.phone_number_id||d.phoneNumberId||null};
+    const messagingAccountIds=Array.isArray(d.messaging_account_ids)?d.messaging_account_ids:[];
+    const wabaIds=Array.isArray(d.waba_ids)?d.waba_ids:[];
+    signupData={waba_id:d.waba_id||d.wabaId||messagingAccountIds[0]||wabaIds[0]||null,phone_number_id:d.phone_number_id||d.phoneNumberId||null,business_id:d.business_id||null,is_on_biz_app:d.is_on_biz_app??null};
     if(!signupData.waba_id){status("connectStatus","Meta sent a completion event but no WABA ID was included.\n"+lastMetaEvent,"error");return;}
     status("connectStatus","Coexistence completion event received. Waiting for authorization code…");
     maybeExchange();
