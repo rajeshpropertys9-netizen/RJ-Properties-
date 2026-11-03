@@ -17,11 +17,13 @@ Production/main: unchanged by this ledger.
 - Supabase project: `bgmlgmdhypmfabyluqvv`.
 - Public schema has RLS enabled on all listed application tables, including buyers, owners, properties, enquiries, followups, site_visits, call_logs, and whatsapp_connections.
 - Core CRM tables and supporting tables exist: buyers, owners, properties, enquiries, followups, site_visits, call_logs, communities, property_media, property_owner_private, ai_property_matches, integration_events, lead_automation_events, and whatsapp_connections.
-- Supabase Edge Functions are ACTIVE: crm-api-v2 v16, external-lead-webhook v9, whatsapp-send v9, whatsapp-cloud-webhook v5, whatsapp-embedded-signup v2.
+- Supabase Edge Functions are ACTIVE: crm-api-v2 v16, external-lead-webhook v9, whatsapp-send v10, whatsapp-cloud-webhook v5, whatsapp-embedded-signup v2.
 - `whatsapp_connections` intentionally has RLS enabled with no client policies; table grants are limited to postgres and service_role (verified). Do not add client access policies for token storage.
 - Public RPCs flagged by Supabase security advisor are intentionally callable by anon for public enquiry, seller intake, site visit, and published-property catalogue flows. Review function bodies before changing grants.
 - GitHub Actions WhatsApp integration checks for commit `2c66649372f7f54854e3881339b8be815dca7a19` completed successfully; Deno formatting and type-check job passed.
-- The latest signup page launch code does NOT include legacy `sessionInfoVersion: "3"`; do not add it unless the current Meta configuration/docs explicitly require it.
+- The signup page launch code does NOT include legacy `sessionInfoVersion: "3"`; do not add it unless the current Meta configuration/docs explicitly require it.
+- `whatsapp-send` v10 is deployed and re-read from Supabase: it prefers a saved active Coexistence connection token and phone number ID, falls back to legacy secrets, and retains admin auth + explicit recipient consent checks.
+- Signup page commit `e0a2a1de1a05fe4ff6ae9a4c34566e8fef5c09f2` adds Embedded Signup v5 `messaging_account_ids` support when resolving the WABA ID; this is on the integration branch only and still needs CI + browser verification.
 
 ## Not yet end-to-end verified
 - Website forms submitting successfully from a real browser into Supabase.
