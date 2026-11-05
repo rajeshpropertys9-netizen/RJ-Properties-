@@ -50,3 +50,10 @@ A module becomes **LOCKED / VERIFIED** only after its code path, permissions, an
 - Only buyer name and valid mobile number remain required. Location, budget, property type, BHK, and enquiry notes are optional and can be added later.
 - Empty optional values are sent as null; existing Buyers → Match Properties workflow remains available once criteria are completed.
 - Static source checks passed for the required/optional fields and removal of the old validation. Browser/mobile end-to-end save test and production deployment are not yet performed.
+
+
+## Buyer capture follow-up fixes (2026-11-05)
+- Commit `8392d4186f6eadec3157b3d28b63012e852f6ff6` extends international country-code phone capture to Quick Call as well as Add Buyer, waits for the phone validation utilities before checking validity, and stores valid numbers in E.164 format.
+- Removed the duplicate `Plot` option from Quick Call and Add Property; `Open Plot` remains the single plot category. Add Buyer already uses `Open Plot` only.
+- Add Buyer location, budget, BHK, property type, and requirements remain optional; only name and a valid international phone number are required.
+- Static source verification confirms two country-code selectors, zero duplicate `Plot` options in the CRM forms, and optional buyer criteria. Browser/mobile submission tests and production deployment remain pending.
