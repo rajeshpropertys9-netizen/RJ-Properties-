@@ -43,3 +43,10 @@ Production/main: unchanged by this ledger.
 
 ## Completion policy
 A module becomes **LOCKED / VERIFIED** only after its code path, permissions, and a relevant test pass are recorded. Existing data is never modified as part of a test. Production remains untouched until explicit approval.
+
+
+## Buyer quick-capture improvement (2026-11-05)
+- Commit `dbf045bb934bd321fef8778e5139e0d11be87aea` updates the Add Buyer form on `integration/whatsapp-coexistence`.
+- Only buyer name and valid mobile number remain required. Location, budget, property type, BHK, and enquiry notes are optional and can be added later.
+- Empty optional values are sent as null; existing Buyers → Match Properties workflow remains available once criteria are completed.
+- Static source checks passed for the required/optional fields and removal of the old validation. Browser/mobile end-to-end save test and production deployment are not yet performed.
