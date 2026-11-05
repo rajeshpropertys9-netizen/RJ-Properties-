@@ -1,0 +1,30 @@
+name: WhatsApp integration checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/functions/whatsapp-*/**"
+      - ".github/workflows/whatsapp-webhook-checks.yml"
+  push:
+    branches: [integration/whatsapp-coexistence]
+    paths:
+      - "supabase/functions/whatsapp-*/**"
+      - ".github/workflows/whatsapp-webhook-checks.yml"
+
+jobs:
+  deno-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Normalize formatting in CI workspace
+        run: |
+          deno fmt supabase/functions/whatsapp-cloud-webhook/index.ts
+          deno fmt supabase/functions/whatsapp-embedded-signup/index.ts
+      - name: Type check
+        run: |
+          deno check supabase/functions/whatsapp-cloud-webhook/index.ts
+          deno check supabase/functions/whatsapp-embedded-signup/index.ts

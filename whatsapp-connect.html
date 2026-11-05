@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RJ Properties · WhatsApp Coexistence Setup</title><link rel="stylesheet" href="styles.css">
+<style>body{background:#f7f3ec}.wrap{max-width:760px;margin:40px auto;padding:20px}.panel{background:white;border:1px solid #e5ddd2;border-radius:18px;padding:24px;margin:16px 0}.muted{color:#667085}.status{padding:12px;border-radius:10px;background:#f4f4f4;white-space:pre-wrap;overflow-wrap:anywhere}.success{background:#e8f7ef;color:#08633c}.error{background:#fff0f0;color:#9b1c1c}.btn:disabled{opacity:.5;cursor:not-allowed}label{display:block;margin:12px 0}input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px}li{margin:8px 0}</style></head>
+<body><main class="wrap"><a href="admin.html">← Back to CRM</a><h1>WhatsApp Business App Coexistence</h1>
+<p class="muted">Connect the existing RJ Properties WhatsApp Business App number without using the standard migration flow.</p>
+<section id="loginPanel" class="panel"><h2>CRM Admin Login</h2><form id="loginForm"><label>Email<input id="email" type="email" autocomplete="username" required></label><label>Password<input id="password" type="password" autocomplete="current-password" required></label><button class="btn primary">Login</button></form><div id="loginStatus" class="status"></div></section>
+<section id="connectPanel" class="panel" hidden><h2>Before connecting</h2><ul><li>Use the same RJ Properties Business Portfolio and the existing WhatsApp Business App account.</li><li>Do not choose standard phone-number migration or disconnect the app.</li><li>Keep WhatsApp Business App installed and active.</li><li>Meta may ask you to verify the number in its own popup. Enter any OTP only inside Meta's popup, never in this page or chat.</li></ul>
+<p><b>Meta App ID:</b> 1084120231126076<br><b>Configuration ID:</b> 897611586679448<br><b>Mode:</b> WhatsApp Business App onboarding (Coexistence)</p>
+<button id="connectBtn" class="btn primary" type="button">Connect existing WhatsApp Business App</button>
+<button id="logoutBtn" class="btn outline" type="button">Logout</button>
+<div id="connectStatus" class="status" aria-live="polite">Waiting for admin sign-in.</div></section>
+<section id="resultPanel" class="panel" hidden><h2>Connection result</h2><div id="result" class="status"></div><p class="muted">A successful authorization is not the final live test. Webhook verification and a real inbound message must still be confirmed.</p></section>
+</main><div id="fb-root"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL="https://bgmlgmdhypmfabyluqvv.supabase.co";
+const SUPABASE_KEY="sb_publishable_oy6A_pRkScEU94X33EzJFA_es-_b1Dg";
+const META_APP_ID="1084120231126076";
+const CONFIG_ID="897611586679448";
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+let session=null, signupCode=null, signupData=null, processing=false, signupStartedAt=0, signupTimer=null, lastMetaEvent="No Meta session event received yet.";
+function status(id,message,kind=""){const el=$(id);el.className="status "+kind;el.textContent=message}
+async function refresh(){const s=await sb.auth.getSession();session=s.data.session;if(session){$("loginPanel").hidden=true;$("connectPanel").hidden=false;status("connectStatus","Signed in. Ready for Meta Embedded Signup.");}else{$("loginPanel").hidden=false;$("connectPanel").hidden=true;}}
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();status("loginStatus","Signing in…");const {data,error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){status("loginStatus",error.message,"error");return}session=data.session;await refresh()});
+$("logoutBtn").onclick=async()=>{await sb.auth.signOut();session=null;await refresh()};
+window.fbAsyncInit=function(){FB.init({appId:META_APP_ID,cookie:true,xfbml:false,version:"v26.0"});};
+(function(d,s,id){if(d.getElementById(id))return;const js=d.createElement(s);js.id=id;js.src="https://connect.facebook.net/en_US/sdk.js";d.getElementsByTagName("head")[0].appendChild(js)})(document,"script","facebook-jssdk");
+function maybeExchange(){if(processing||!signupCode||!signupData?.waba_id)return;processing=true;if(signupTimer)clearTimeout(signupTimer);status("connectStatus","Coexistence completion event and authorization code received. Exchanging the one-time code securely on the server…");exchange();}
+async function exchange(){try{const {data:{session:current}}=await sb.auth.getSession();if(!current)throw Error("CRM session expired. Sign in again.");
+const response=await fetch(SUPABASE_URL+"/functions/v1/whatsapp-embedded-signup",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+current.access_token},body:JSON.stringify({code:signupCode,waba_id:String(signupData.waba_id),phone_number_id:signupData.phone_number_id?String(signupData.phone_number_id):null})});
+const data=await response.json();if(!response.ok)throw Error(data.error||"Secure token exchange failed");
+$("resultPanel").hidden=false;status("result",JSON.stringify(data,null,2),"success");status("connectStatus","Meta authorization was exchanged and stored server-side. Next: verify webhook and test an inbound message.","success");
+}catch(e){status("connectStatus",e.message,"error");processing=false;}}
+window.addEventListener("message",event=>{
+  let payload=event.data;
+  try{if(typeof payload==="string")payload=JSON.parse(payload)}catch{return}
+  const isMetaOrigin=(()=>{try{const host=new URL(event.origin).hostname;return host==="facebook.com"||host.endsWith(".facebook.com")}catch{return false}})();
+  if(!isMetaOrigin)return;
+  if(!payload||typeof payload!=="object")return;
+  const d=payload.data&&typeof payload.data==="object"?payload.data:{};
+  const eventName=String(payload.event||"");
+  const msgType=String(payload.type||"");
+  lastMetaEvent="origin="+event.origin+"; type="+(msgType||"(none)")+"; event="+(eventName||"(none)")+"; version="+(payload.version??"(none)")+"; dataKeys="+Object.keys(d).join(",")+(d.current_step?"; current_step="+String(d.current_step):"")+(d.error_code?"; error_code="+String(d.error_code):"")+(Array.isArray(d.messaging_account_ids)?"; messaging_account_ids_count="+d.messaging_account_ids.length:"");
+  if(msgType!=="WA_EMBEDDED_SIGNUP"){status("connectStatus","Meta message received, but it was not a WhatsApp signup event.\n"+lastMetaEvent);return;}
+  if(eventName==="FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING"||eventName==="FINISH"||eventName==="FINISH_ONLY_WABA"){
+    const messagingAccountIds=Array.isArray(d.messaging_account_ids)?d.messaging_account_ids:[];
+    const wabaIds=Array.isArray(d.waba_ids)?d.waba_ids:[];
+    signupData={waba_id:d.waba_id||d.wabaId||messagingAccountIds[0]||wabaIds[0]||null,phone_number_id:d.phone_number_id||d.phoneNumberId||null,business_id:d.business_id||null,is_on_biz_app:d.is_on_biz_app??null};
+    if(!signupData.waba_id){status("connectStatus","Meta sent a completion event but no WABA ID was included.\n"+lastMetaEvent,"error");return;}
+    status("connectStatus","Coexistence completion event received. Waiting for authorization code…");
+    maybeExchange();
+  } else if(eventName==="CANCEL"){
+    if(signupTimer)clearTimeout(signupTimer);
+    status("connectStatus","Meta signup was cancelled or exited. No connection was changed.\n"+lastMetaEvent,"error");
+  } else if(eventName==="ERROR"){
+    if(signupTimer)clearTimeout(signupTimer);
+    status("connectStatus","Meta reported an onboarding error.\n"+lastMetaEvent,"error");
+  } else {
+    status("connectStatus","Meta signup progress event received. Waiting for completion.\n"+lastMetaEvent);
+  }
+});
+$("connectBtn").onclick=()=>{
+if(!session){status("connectStatus","Please sign in first.","error");return}
+if(!window.FB){status("connectStatus","Meta SDK is still loading. Wait a moment and try again.","error");return}
+signupCode=null;signupData=null;processing=false;signupStartedAt=Date.now();lastMetaEvent="No Meta session event received yet.";
+if(signupTimer)clearTimeout(signupTimer);
+status("connectStatus","Opening Meta Coexistence signup. Complete every Meta screen and press Finish if shown. Do not choose standard migration or disconnect.");
+FB.login(response=>{
+  if(response?.authResponse?.code){
+    signupCode=response.authResponse.code;
+    if(signupData?.waba_id){status("connectStatus","Meta completion details already received. Exchanging authorization securely…");maybeExchange();}
+    else {
+      status("connectStatus","Authorization code received. Waiting for Coexistence completion event.\n"+lastMetaEvent);
+      if(signupTimer)clearTimeout(signupTimer);
+      signupTimer=setTimeout(()=>{
+        if(signupCode&&!signupData?.waba_id&&!processing){
+          status("connectStatus","DIAGNOSTIC: Meta returned an authorization code, but this page did not receive the Coexistence completion event within 25 seconds. Do not press Connect again yet.\n"+lastMetaEvent,"error");
+        }
+      },25000);
+    }
+  } else {
+    if(signupTimer)clearTimeout(signupTimer);
+    status("connectStatus","Meta did not return an authorization code.\n"+lastMetaEvent,"error");
+  }
+},{config_id:CONFIG_ID,response_type:"code",override_default_response_type:true,extras:{setup:{},featureType:"whatsapp_business_app_onboarding"}});
+};
+refresh();
+</script></body></html>
