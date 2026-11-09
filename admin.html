@@ -73,7 +73,7 @@ function normalizeBudgetForMatching(value){const raw=String(value||'').trim();co
 function formatPropertyPrice(value){if(value===null||value===undefined||value==='')return 'Not added';const n=Number(value);if(!Number.isFinite(n)||n<=0)return 'Not added';const crore=n>1000?n/10000000:n;return '₹'+crore.toLocaleString('en-IN',{minimumFractionDigits:crore<100?2:0,maximumFractionDigits:2})+' Cr'}
 async function loadPropertiesAdmin(){adminPropertyRows=(await api('properties')).data||[];const el=$('propertyTable');if(!adminPropertyRows.length){el.innerHTML='<div class="muted">No properties found.</div>';return}el.innerHTML='<div class="property-admin-grid">'+adminPropertyRows.map(r=>'<article class="property-admin-card"><h3>'+esc(r.title||'Untitled property')+'</h3><p><b>Type:</b> '+esc(r.property_type||'-')+' &nbsp; <b>BHK:</b> '+esc(r.bhk||'-')+'</p><p><b>Location:</b> '+esc(r.location||'-')+'</p><p><b>Price:</b> '+esc(formatPropertyPrice(r.price))+' &nbsp; <b>Status:</b> '+esc(r.status||'-')+'</p><p><b>Visibility:</b> '+esc(r.visibility||'-')+'</p><button class="btn primary property-edit-btn" type="button" data-edit-property="'+esc(r.id)+'">Edit Property Details</button></article>').join('')+'</div>';el.querySelectorAll('[data-edit-property]').forEach(b=>b.addEventListener('click',()=>editProperty(b.dataset.editProperty)))}
 function renderTable(el,rows,fields,action){if(!rows.length){el.innerHTML='<div class="muted">No records yet.</div>';return}el.innerHTML='<table class="crm-responsive-table"><thead><tr>'+fields.map(f=>`<th>${esc(f.replaceAll('_',' '))}</th>`).join('')+(action?'<th>Action</th>':'')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+fields.map(f=>`<td data-label="${esc(f.replaceAll('_',' '))}">${esc(r[f]??'-')}</td>`).join('')+(action?`<td data-label="Action" class="crm-action-cell">${action(r)}</td>`:'')+'</tr>').join('')+'</tbody></table>'}
-let rjCurrentBuyerId=null,rjCurrentBuyer=null,rjMatchedProperties=[],rjShareHistory=[];
+let rjCurrentBuyerId=null,rjCurrentBuyer=null,rjMatchedProperties=[],rjShareHistory=[],rjMatchRequestSeq=0;
 const INVENTORY_SHARE_URL=SUPABASE_URL+'/functions/v1/inventory-share';
 async function inventoryShareRequest(method,buyerId,body){const t=await token();const url=method==='GET'?INVENTORY_SHARE_URL+'?buyer_id='+encodeURIComponent(buyerId):INVENTORY_SHARE_URL;const res=await fetch(url,{method,headers:{Authorization:'Bearer '+t,'Content-Type':'application/json',apikey:SUPABASE_KEY},...(body?{body:JSON.stringify(body)}:{})});const data=await res.json().catch(()=>({}));if(!res.ok){const err=new Error(data.error||'Share history request failed');err.payload=data;err.status=res.status;throw err}return data}
 function rjMediaLinks(p){const m=Array.isArray(p.media)?p.media:[];return m.map(x=>typeof x==='string'?x:x?.url||x?.public_url||'').filter(x=>/^https?:\/\//i.test(String(x))).slice(0,3)}
@@ -135,10 +135,11 @@ async function rjShareProperties(ids,forceResend=false){
 }
 async function rjConfirmSent(propertyId){try{await inventoryShareRequest('POST',rjCurrentBuyerId,{buyer_id:rjCurrentBuyerId,property_id:propertyId,action:'confirm'});rjShareHistory=await inventoryShareRequest('GET',rjCurrentBuyerId).then(x=>x.data||[]);matchBuyer(rjCurrentBuyerId)}catch(e){alert(e.message)}}
 async function matchBuyer(id){
- const box=$('matchResults');rjCurrentBuyerId=id;rjCurrentBuyer=null;rjMatchedProperties=[];rjShareHistory=[];
+ const requestSeq=++rjMatchRequestSeq;const box=$('matchResults');rjCurrentBuyerId=id;rjCurrentBuyer=null;rjMatchedProperties=[];rjShareHistory=[];
  box.innerHTML='<div class="matchbox"><p class="muted">Finding the best property matches and loading this buyer’s details…</p></div>';
  try{
   const [d,h,allProperties,buyersResult]=await Promise.all([api('match/'+id),inventoryShareRequest('GET',id),api('properties'),api('leads')]);
+  if(requestSeq!==rjMatchRequestSeq)return;
   const buyers=buyersResult.data||[];rjCurrentBuyer=buyers.find(x=>String(x.id)===String(id))||null;
   if(!rjCurrentBuyer)throw Error('The selected buyer could not be loaded. Please refresh Buyers and try again.');
   window.rjBuyersCache=buyers;rjShareHistory=h.data||[];
