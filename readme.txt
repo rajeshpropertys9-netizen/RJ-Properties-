@@ -25,6 +25,9 @@ PRIVATE CRM — ADMIN
 - Lead temperature + follow-up date + call outcome
 - Call log history
 - Buyer → Property matching with type/BHK/location/budget scoring
+- WhatsApp inventory sharing: single property or selected collection
+- Buyer-wise duplicate-share blocking with share date/time and confirmed resend
+- Private property share history stored in Supabase; share opens WhatsApp composer (manual send remains under advisor control)
 - Quick Call Capture auto-syncs buyer/owner contact records when name + phone are supplied. Source platform and preferred language are captured in call notes for compatibility.
 - Site visit tracking
 - Follow-up tracking
@@ -54,6 +57,7 @@ V7: Hamburger menu fix, property catalog/details, WhatsApp and call CTAs, CRM fo
 V8: Complete property details, site visits, Buyer/Owner CRM, Quick Call Capture, voice-to-text, matching, dashboard and version history.
 
 BACKEND STATUS
+- Buyer/property WhatsApp share-history migration applied; inventory-share Edge Function active.
 - Supabase migration v8_matching_and_call_sync applied.
 - crm-api-v2 active version 5.
 - V7 live site remains separate and untouched.
