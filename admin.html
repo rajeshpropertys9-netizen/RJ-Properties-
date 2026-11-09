@@ -108,7 +108,7 @@ async function rjShareProperties(ids,forceResend=false){
  if(!chosen.length&&!forceResend){alert('These properties were already shared with this buyer. Use Confirm Resend on the property card if you want to send again.');return}
  if(!chosen.length&&forceResend){alert('No previously shared selected property was found. Refresh Match & Share and try again.');return}
  const btn=document.getElementById('rjShareSelectedBtn');if(btn){btn.disabled=true;btn.textContent='Preparing WhatsApp…'}
- let waTab=null;try{waTab=window.open('about:blank','_blank')}catch(openError){}
+ // Use same-tab navigation: iOS browsers often block scripted new tabs, then show a confusing popup warning.
  const ready=[];
  try{
   for(const p of chosen){
@@ -122,14 +122,13 @@ async function rjShareProperties(ids,forceResend=false){
     }else if(err.status!==409){throw err}
    }
   }
-  if(!ready.length){if(waTab)waTab.close();alert('No new properties were prepared for sharing. Check the buyer-wise share history.');return}
+  if(!ready.length){alert('No new properties were prepared for sharing. Check the buyer-wise share history.');return}
   const message=rjBuildShareMessage(buyer,ready),waUrl=rjWhatsAppUrl(buyer.phone,message);
   try{const h=await inventoryShareRequest('GET',buyerId);rjShareHistory=h.data||[]}catch(historyError){console.warn('Share history refresh failed:',historyError)}
-  if(waTab){try{waTab.opener=null;waTab.location.href=waUrl}catch(navError){window.location.href=waUrl}}else{window.location.href=waUrl}
   if(btn){btn.textContent='Share Selected on WhatsApp';btn.disabled=false}
-  matchBuyer(buyerId);
+  window.location.assign(waUrl);
+  return;
  }catch(err){
-  if(waTab)try{waTab.close()}catch(closeError){}
   alert('Could not prepare WhatsApp sharing: '+(err.message||'Please try again.'));
   if(btn){btn.textContent='Share Selected on WhatsApp';btn.disabled=false}
  }
