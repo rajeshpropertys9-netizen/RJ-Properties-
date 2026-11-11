@@ -137,11 +137,12 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 
 ## 11. Buyer requirement form approved visual update
 
-- Applied the user's approved premium red-and-gold buyer form direction to the existing public `buyer-requirement.html` page.
-- Refined the hero/header, title banner, typography, spacing, gold accents, and responsive mobile sizing.
-- Kept the live form fields and registration submission flow intact, including land/plot area and buying timeline fields.
-- Kept the Supabase buyer self-registration endpoint, duplicate-number handling, and existing status messages unchanged.
-- Preserved the existing form sections, validation, and trust-highlight footer.
-- No database schema, buyer records, or CRM matching behavior changed in this visual update.
-- Note: the deployed `rj-logo.jpg` asset is still the existing 320px-wide raster asset; this visual update reduces display scaling to avoid additional blur. Replacing it with the full-resolution master file remains a separate asset-upload task.
+- The approved buyer-form visual direction uses the official RJ Properties red-and-gold identity and a premium property-photo hero.
+- The hero uses the existing `hero-property.jpg` project asset behind the original official `rj-logo.jpg`; the logo is displayed at a smaller mobile-safe size to reduce visible upscaling on iPhone screens.
+- The redundant tagline above the form title was removed because the official logo already contains “Find Your Dream House”.
+- Form structure retains Personal Details, Property Requirements, and Additional Requirements, with the red-and-gold submit action and four trust highlights.
+- Existing fields and backend payload remain unchanged, including property type, location, budget, land/plot area, facing, property age, payment mode, buying timeline, and additional requirements.
+- Supabase buyer self-registration endpoint, duplicate-number handling, validation, status messages, and CRM buyer records are preserved.
+- No database schema, buyer records, or CRM matching behavior is changed by this visual update.
+- Deployment must pass the GitHub Pages workflow smoke tests before the new design is described as live.
 
