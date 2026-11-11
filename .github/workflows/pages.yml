@@ -80,7 +80,7 @@ jobs:
           const buyerRequirement = await get('buyer-requirement.html');
           must(buyerRequirement.body.includes('id="buyerForm"') && buyerRequirement.body.includes('id="landArea"') && buyerRequirement.body.includes('id="timeline"'), 'Public buyer requirement form and land-area/buying-timeline fields are deployed');
           must(buyerRequirement.body.includes("preferred_land_area:value('landArea')") && buyerRequirement.body.includes("preferred_buying_timeline:value('timeline')"), 'Buyer form sends land area and buying timeline to registration API');
-          const buyerScripts = [...buyerRequirement.body.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]).filter(x => x.trim());
+          const buyerScripts = [...buyerRequirement.body.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m => m[1]).filter(x => x.trim());
           for (const script of buyerScripts) new Function(script);
           must(buyerScripts.length > 0, 'Buyer requirement form JavaScript passes syntax validation');
           must(admin.body.includes("field==='p-price'&&Number(value)>1000)value=Number(value)/10000000"), 'CRM editor converts rupee-denominated legacy prices into crore units before editing');
