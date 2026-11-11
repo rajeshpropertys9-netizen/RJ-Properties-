@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#850b16">
+<title>Buyer Requirement Form | RJ Properties</title>
+<meta name="description" content="Share your property requirements with RJ Properties. Our property advisor will help you find the right home in Hyderabad.">
+<link rel="icon" href="rj-logo.png">
+<style>
+:root{--red:#850b16;--red2:#a80e1b;--gold:#bd861b;--ink:#201b19;--muted:#706965;--cream:#fbf7ef;--line:#e7d4ad}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fff 0%,#fbf7ef 100%);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#fff 0%,#fffaf1 55%,#f5ead7 100%);border-bottom:4px solid var(--gold);padding:26px 18px 22px;text-align:center}
+.hero:before,.hero:after{content:"";position:absolute;bottom:0;width:34%;height:5px;background:linear-gradient(90deg,transparent,var(--red),var(--gold));opacity:.8}.hero:before{left:0}.hero:after{right:0}
+.logo{display:block;width:min(440px,84vw);height:auto;max-height:210px;object-fit:contain;margin:0 auto 8px}
+.eyebrow{display:inline-block;color:var(--gold);font-weight:800;letter-spacing:2px;font-size:11px;margin:5px 0 12px}
+h1{margin:0 auto 8px;background:linear-gradient(90deg,#760711,#a80e1b,#760711);color:#fff;border-radius:16px;padding:12px 18px;max-width:760px;font-size:clamp(22px,4vw,34px);letter-spacing:.5px}
+.sub{font-size:clamp(18px,3vw,25px);font-weight:800;margin:12px 0 4px}.intro{margin:0;color:var(--muted);font-style:italic}
+.wrap{width:min(960px,calc(100% - 28px));margin:24px auto 32px}
+form{display:grid;gap:18px}.section{border:1.5px solid var(--gold);border-radius:20px;padding:22px 20px 20px;background:rgba(255,255,255,.9);box-shadow:0 8px 28px rgba(77,47,18,.06)}
+.section h2{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:white;border-radius:30px;padding:9px 17px;margin:-39px 0 17px;font-size:18px;box-shadow:0 4px 12px #850b1622}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 22px}.field{min-width:0}.field.full{grid-column:1/-1}label{display:block;font-weight:750;font-size:15px;margin:0 0 7px}label span{color:#d51c27}
+input,select,textarea{width:100%;min-height:50px;border:1.5px solid #c9c0b7;border-radius:13px;padding:12px 14px;background:#fff;color:#24201e;font:inherit;font-size:15px;outline:none;transition:.18s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px #bd861b22}
+textarea{min-height:105px;resize:vertical}.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.submit{width:100%;border:0;border-radius:17px;padding:17px 20px;background:linear-gradient(110deg,#a90d19,#790610);color:#fff;font-size:21px;font-weight:850;letter-spacing:.4px;box-shadow:0 8px 18px #850b162b;cursor:pointer}
+.submit:disabled{opacity:.65;cursor:wait}.status{display:none;border-radius:12px;padding:14px 16px;font-weight:650;line-height:1.45}.status.show{display:block}.status.ok{background:#eaf7ee;color:#176333;border:1px solid #b7dfc2}.status.err{background:#fff0ed;color:#9c2418;border:1px solid #f0c2ba}
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px;padding:16px 12px;background:#fff3d8;border-radius:18px;color:#5b4215;text-align:center}.trust div{font-size:13px;font-weight:700;border-right:1px solid #d4b46f;padding:3px 7px}.trust div:last-child{border:0}.trust b{display:block;font-size:20px;color:#a06d10;margin-bottom:4px}
+footer{text-align:center;color:#766b61;font-size:12px;padding:0 10px 24px}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+@media(max-width:640px){.hero{padding:18px 12px 20px}.logo{width:min(330px,88vw);max-height:160px}.wrap{width:calc(100% - 22px);margin:20px auto 26px}.section{padding:20px 13px 15px;border-radius:17px}.section h2{font-size:16px;padding:8px 13px;margin:-36px 0 15px}.fields{grid-template-columns:1fr;gap:13px}.field.full{grid-column:auto}input,select,textarea{min-height:48px}.submit{font-size:18px;padding:16px}.trust{grid-template-columns:repeat(2,1fr)}.trust div:nth-child(2){border-right:0}.trust div:nth-child(-n+2){border-bottom:1px solid #d4b46f;padding-bottom:12px}}
+</style>
+</head>
+<body>
+<header class="hero">
+<img class="logo" src="rj-logo.png" alt="RJ Properties – Find Your Dream House" onerror="this.style.display='none'">
+<div class="eyebrow">FIND YOUR DREAM HOUSE</div>
+<h1>BUYER REQUIREMENT FORM</h1>
+<div class="sub">Tell Us Your Property Requirements</div>
+<p class="intro">We help you find the right property.</p>
+</header>
+<main class="wrap">
+<form id="buyerForm" novalidate>
+<section class="section">
+<h2>♟ &nbsp; 1. Personal Details</h2>
+<div class="fields">
+<div class="field"><label for="name">Name <span>*</span></label><input id="name" name="name" autocomplete="name" maxlength="120" placeholder="Enter your full name" required></div>
+<div class="field"><label for="phone">Mobile / WhatsApp Number <span>*</span></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="Enter mobile number" required><div class="hint">Include country code if you are outside India.</div></div>
+<div class="field full"><label for="email">Email (Optional)</label><input id="email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="Enter email address"></div>
+</div></section>
+<section class="section">
+<h2>⌂ &nbsp; 2. Property Requirements</h2>
+<div class="fields">
+<div class="field"><label for="type">Property Type <span>*</span></label><select id="type" required><option value="">Select Property Type</option><option>Villa</option><option>Flat / Apartment</option><option>Independent House</option><option>Open Plot</option><option>Commercial</option><option>Other</option></select></div>
+<div class="field"><label for="location">Preferred Location <span>*</span></label><input id="location" maxlength="500" placeholder="E.g. Kokapet, Narsingi, Manikonda" required></div>
+<div class="field"><label for="budget">Budget</label><input id="budget" maxlength="80" placeholder="E.g. ₹2.5 Crore"></div>
+<div class="field"><label for="facing">Facing</label><select id="facing"><option value="">Select Facing</option><option>East</option><option>West</option><option>North</option><option>South</option><option>North-East</option><option>South-East</option><option>North-West</option><option>South-West</option><option>Any</option></select></div>
+<div class="field"><label for="age">Property Age (New / Old)</label><select id="age"><option value="">Select Property Age</option><option>New</option><option>Resale / Old</option><option>Under Construction</option><option>Any</option></select></div>
+<div class="field"><label for="payment">Payment Mode</label><select id="payment"><option value="">Select Payment Mode</option><option>Full Payment</option><option>Bank Loan</option><option>Part Payment</option><option>Flexible</option></select></div>
+<div class="field"><label for="bhk">BHK (Optional)</label><select id="bhk"><option value="">Select BHK</option><option>1 BHK</option><option>2 BHK</option><option>2.5 BHK</option><option>3 BHK</option><option>3.5 BHK</option><option>4 BHK</option><option>5+ BHK</option><option>Any</option></select></div>
+</div></section>
+<section class="section">
+<h2>▤ &nbsp; 3. Additional Requirements (Optional)</h2>
+<div class="field"><label for="extra">BHK / Area / Other Requirements</label><textarea id="extra" maxlength="2000" placeholder="Tell us more about your dream property...&#10;e.g. 3 BHK Villa, 300 Sq. Yds, Gated Community, etc."></textarea></div>
+</section>
+<div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" tabindex="-1" autocomplete="off"></div>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<button class="submit" id="submitBtn" type="submit">➤ &nbsp; SUBMIT REQUIREMENTS</button>
+</form>
+<div class="trust"><div><b>♧</b>Personalised<br>End-to-End Support</div><div><b>⌕</b>Verified<br>Properties</div><div><b>⌖</b>Prime Locations<br>in Hyderabad</div><div><b>◇</b>Trusted<br>Property Advisor</div></div>
+</main>
+<footer>RJ Properties · Personalised End-to-End Support<br>Your information is shared only with our property advisory team for this enquiry.</footer>
+<script>
+const SUPABASE_URL='https://bgmlgmdhypmfabyluqvv.supabase.co';
+const SUPABASE_KEY='sb_publishable_oy6A_pRkScEU94X33EzJFA_es-_b1Dg';
+const form=document.getElementById('buyerForm'),button=document.getElementById('submitBtn'),statusBox=document.getElementById('status');
+const value=id=>document.getElementById(id).value.trim();
+function showStatus(message,kind){statusBox.textContent=message;statusBox.className='status show '+kind;statusBox.scrollIntoView({behavior:'smooth',block:'center'});}
+form.addEventListener('submit',async event=>{
+ event.preventDefault();statusBox.className='status';statusBox.textContent='';
+ if(!form.reportValidity())return;
+ const phone=value('phone');
+ if(!/^\+?[0-9\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
+ button.disabled=true;button.textContent='SUBMITTING…';
+ const payload={name:value('name'),phone,email:value('email'),preferred_property_type:value('type'),preferred_locations:value('location'),preferred_budget:value('budget'),preferred_facing:value('facing'),preferred_property_age:value('age'),preferred_payment_mode:value('payment'),preferred_bhk:value('bhk'),additional_requirements:value('extra'),website:value('website')};
+ try{
+  const response=await fetch(SUPABASE_URL+'/functions/v1/buyer-self-registration',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});
+  const result=await response.json();
+  if(!response.ok)throw new Error(result.error||'Unable to submit. Please try again.');
+  showStatus(result.message||'Thank you! Your requirements have been submitted for review.', 'ok');
+  if(!result.duplicate){form.reset();button.textContent='SUBMITTED ✓';}
+  else button.textContent='SUBMIT REQUIREMENTS';
+ }catch(error){showStatus(error.message||'Network error. Please try again.', 'err');button.textContent='➤  SUBMIT REQUIREMENTS';}
+ finally{button.disabled=false;}
+});
+</script>
+</body></html>
