@@ -125,3 +125,12 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 
 **Deployment status:** code and database changes are committed/applied, but the latest GitHub Actions deployment is still queued at the time of this update. Do not call the UI update production-live until the latest workflow succeeds and the deployed CRM is checked.
 
+
+## 10. Official RJ Properties logo
+
+- The user-confirmed red-and-gold RJ Properties logo artwork with the exact "Find Your Dream House" tagline is the official brand asset.
+- Website asset path: `rj-logo.jpg`.
+- All public pages and CRM references use this same asset; the old incorrect `rj-logo.png` reference was removed.
+- Buyer requirement form logo uses responsive `object-fit: contain` sizing so the full artwork is visible on mobile without cropping or stretching.
+- Preserve this exact logo in future RJ Properties project and marketing work; do not substitute a generated logo.
+
