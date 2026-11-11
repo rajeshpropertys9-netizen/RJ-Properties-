@@ -83,6 +83,7 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
 <div class="field"><label for="facing">Facing</label><select id="facing"><option value="">Select Facing</option><option>East</option><option>West</option><option>North</option><option>South</option><option>North-East</option><option>South-East</option><option>North-West</option><option>South-West</option><option>Any</option></select></div>
 <div class="field"><label for="age">Property Age (New / Old)</label><select id="age"><option value="">Select Property Age</option><option>New</option><option>Resale / Old</option><option>Under Construction</option><option>Any</option></select></div>
 <div class="field"><label for="payment">Payment Mode</label><select id="payment"><option value="">Select Payment Mode</option><option>Full Payment</option><option>Bank Loan</option><option>Part Payment</option><option>Flexible</option></select></div>
+<div class="field"><label for="timeline">Buying Timeline</label><select id="timeline"><option value="">Select Buying Timeline</option><option>Immediately / Within 15 Days</option><option>Within 1 Month</option><option>Within 3 Months</option><option>Within 6 Months</option><option>After 6 Months</option><option>Just Exploring</option></select></div>
 </div></section>
 <section class="section">
 <h2><span class="ico">▤</span> 3. Additional Requirements (Optional)</h2>
@@ -107,7 +108,7 @@ form.addEventListener('submit',async event=>{
  const phone=value('phone');
  if(!/^\+?[0-9\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
  button.disabled=true;button.textContent='SUBMITTING…';
- const payload={name:value('name'),phone,email:'',preferred_property_type:value('type'),preferred_locations:value('location'),preferred_budget:value('budget'),preferred_land_area:value('landArea'),preferred_facing:value('facing'),preferred_property_age:value('age'),preferred_payment_mode:value('payment'),preferred_bhk:'',additional_requirements:value('extra'),website:value('website')};
+ const payload={name:value('name'),phone,email:'',preferred_property_type:value('type'),preferred_locations:value('location'),preferred_budget:value('budget'),preferred_land_area:value('landArea'),preferred_facing:value('facing'),preferred_property_age:value('age'),preferred_payment_mode:value('payment'),preferred_buying_timeline:value('timeline'),preferred_bhk:'',additional_requirements:value('extra'),website:value('website')};
  try{
   const response=await fetch(SUPABASE_URL+'/functions/v1/buyer-self-registration',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});
   const result=await response.json();
