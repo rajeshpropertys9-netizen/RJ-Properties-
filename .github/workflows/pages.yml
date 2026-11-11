@@ -76,6 +76,13 @@ jobs:
           must(admin.body.includes('id="propertyAdminForm"') && admin.body.includes('uploadPropertyPhotos'), 'Secure property manager with add/edit and photo upload is deployed');
           must(admin.body.includes('id="headerEditProperties"') && admin.body.includes("openTab('properties')"), 'Direct Edit Properties navigation is deployed');
           must(admin.body.includes('function editProperty(id)') && admin.body.includes('loadPropertiesAdmin'), 'Property list and edit handler are deployed');
+          must(admin.body.includes('Within Budget') && admin.body.includes('Up to ₹30L Above Budget') && admin.body.includes('Best Location Match'), 'Buyer matching displays all three budget/location categories');
+          const buyerRequirement = await get('buyer-requirement.html');
+          must(buyerRequirement.body.includes('id="buyerForm"') && buyerRequirement.body.includes('id="landArea"') && buyerRequirement.body.includes('id="timeline"'), 'Public buyer requirement form and land-area/buying-timeline fields are deployed');
+          must(buyerRequirement.body.includes('preferred_land_area:value') === false && buyerRequirement.body.includes("preferred_land_area:value('landArea')") && buyerRequirement.body.includes("preferred_buying_timeline:value('timeline')"), 'Buyer form sends land area and buying timeline to registration API');
+          const buyerScripts = [...buyerRequirement.body.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)].map(m => m[1]).filter(x => x.trim());
+          for (const script of buyerScripts) new Function(script);
+          must(buyerScripts.length > 0, 'Buyer requirement form JavaScript passes syntax validation');
           must(admin.body.includes("field==='p-price'&&Number(value)>1000)value=Number(value)/10000000"), 'CRM editor converts rupee-denominated legacy prices into crore units before editing');
           must(admin.body.includes('function formatPropertyPrice(value)') && admin.body.includes("esc(formatPropertyPrice(r.price))"), 'CRM property cards display prices in crore units instead of raw rupees');
           must(admin.body.includes("Math.round(Number($('p-price').value)*10000000)"), 'CRM saves crore-entered prices back to rupee-denominated database values');
@@ -145,6 +152,10 @@ jobs:
               must(await page.locator('#buyerForm button[type="submit"]').count() === 1, 'Buyer enquiry form renders');
               must(await page.locator('#sellerForm button[type="submit"]').count() === 1, 'Seller enquiry form renders');
               must(await page.locator('#propertyGrid .property-card').count() >= 4, 'Homepage featured properties shows all four published listings');
+              await page.goto(new URL('buyer-requirement.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
+              await page.locator('#buyerForm').waitFor();
+              must(await page.locator('#landArea').count() === 1 && await page.locator('#timeline').count() === 1, 'Buyer requirement form renders land-area and buying-timeline fields');
+              must(await page.locator('#buyerForm button[type="submit"]').count() === 1, 'Buyer requirement form submit button renders without creating a production enquiry');
               await page.goto(new URL('sell.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               await page.locator('#propertyForm').waitFor();
               must(await page.locator('#propertyForm button[type="submit"]').count() === 1, 'Full property intake form renders');
