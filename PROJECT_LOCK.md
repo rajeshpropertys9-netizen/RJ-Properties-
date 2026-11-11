@@ -140,6 +140,7 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - The approved buyer-form visual direction uses the official RJ Properties red-and-gold identity and a premium property-photo hero.
 - The hero uses the existing `hero-property.jpg` project asset behind the original official `rj-logo.jpg`; the logo is displayed at a smaller mobile-safe size to reduce visible upscaling on iPhone screens.
 - The redundant tagline above the form title was removed because the official logo already contains “Find Your Dream House”.
+- A mobile screenshot review caught that the tagline was still rendering beneath the logo; the duplicate line has now been explicitly removed and the logo URL cache-busted.
 - Form structure retains Personal Details, Property Requirements, and Additional Requirements, with the red-and-gold submit action and four trust highlights.
 - Existing fields and backend payload remain unchanged, including property type, location, budget, land/plot area, facing, property age, payment mode, buying timeline, and additional requirements.
 - Supabase buyer self-registration endpoint, duplicate-number handling, validation, status messages, and CRM buyer records are preserved.
