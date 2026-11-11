@@ -108,3 +108,18 @@ Therefore, the latest Buying Timeline update must **not** be described as produc
 
 ---
 **Instruction for future sessions:** Read this file first, then inspect the actual current code/database before making changes. Continue from the locked baseline; do not repeat completed work.
+
+## 9. Buyer–property matching improvement (implemented; deployment pending)
+
+The buyer matching RPC `public.match_buyer_properties(uuid)` and CRM Match & Share results were incrementally updated.
+
+- Results are grouped in the CRM into **Within Budget**, **Slightly Above Budget (up to 10%)**, and **Best Location Match — review asking price**.
+- Slightly-above-budget properties are included only up to 10% above the buyer's single budget or range maximum.
+- Best Location Match includes published/available inventory that matches the buyer's preferred location and property type even when the asking price is more than 10% above budget; the UI clearly labels the price for advisor review.
+- Preferred-location filtering remains in place; only published and available properties are considered.
+- A plain numeric budget such as `3.5` is interpreted as Crores, consistent with the CRM's Hyderabad property-budget entry convention. Values with explicit Lakh/Crore units continue to be parsed.
+- Existing share-history checks, duplicate-share blocking, confirmed resend controls, and buyer approval checks remain unchanged.
+- Test against the existing Rajesh records passed: budget `3.3cr` returned the ₹3.5 Cr Manikonda/Alkapur independent house under **Slightly Above Budget**; budget `3.5` returned it under **Within Budget**. No customer records were changed by these tests.
+
+**Deployment status:** code is committed, but the latest GitHub Pages workflow has not yet been confirmed successful. Verify the latest Actions run and test Match & Share in the live CRM before treating the UI grouping as production-live.
+
