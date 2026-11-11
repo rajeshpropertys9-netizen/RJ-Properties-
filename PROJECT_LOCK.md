@@ -134,3 +134,14 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Buyer requirement form logo uses responsive `object-fit: contain` sizing so the full artwork is visible on mobile without cropping or stretching.
 - Preserve this exact logo in future RJ Properties project and marketing work; do not substitute a generated logo.
 
+
+## 11. Buyer requirement form approved visual update
+
+- Applied the user's approved premium red-and-gold buyer form direction to the existing public `buyer-requirement.html` page.
+- Refined the hero/header, title banner, typography, spacing, gold accents, and responsive mobile sizing.
+- Kept the live form fields and registration submission flow intact, including land/plot area and buying timeline fields.
+- Kept the Supabase buyer self-registration endpoint, duplicate-number handling, and existing status messages unchanged.
+- Preserved the existing form sections, validation, and trust-highlight footer.
+- No database schema, buyer records, or CRM matching behavior changed in this visual update.
+- Note: the deployed `rj-logo.jpg` asset is still the existing 320px-wide raster asset; this visual update reduces display scaling to avoid additional blur. Replacing it with the full-resolution master file remains a separate asset-upload task.
+
