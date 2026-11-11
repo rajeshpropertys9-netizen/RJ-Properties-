@@ -79,6 +79,7 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
 <div class="field"><label for="type">Property Type <span>*</span></label><select id="type" required><option value="">Select Property Type</option><option>Villa</option><option>Flat / Apartment</option><option>Independent House</option><option>Open Plot</option><option>Commercial</option><option>Other</option></select></div>
 <div class="field"><label for="location">Preferred Location <span>*</span></label><input id="location" maxlength="500" placeholder="E.g. Kokapet, Narsingi, Manikonda" required></div>
 <div class="field"><label for="budget">Budget</label><input id="budget" maxlength="80" placeholder="E.g. ₹2.5 Crore"></div>
+<div class="field"><label for="landArea">Land / Plot Area (Optional)</label><input id="landArea" maxlength="100" placeholder="E.g. 300 Sq. Yds / 1 Acre"></div>
 <div class="field"><label for="facing">Facing</label><select id="facing"><option value="">Select Facing</option><option>East</option><option>West</option><option>North</option><option>South</option><option>North-East</option><option>South-East</option><option>North-West</option><option>South-West</option><option>Any</option></select></div>
 <div class="field"><label for="age">Property Age (New / Old)</label><select id="age"><option value="">Select Property Age</option><option>New</option><option>Resale / Old</option><option>Under Construction</option><option>Any</option></select></div>
 <div class="field"><label for="payment">Payment Mode</label><select id="payment"><option value="">Select Payment Mode</option><option>Full Payment</option><option>Bank Loan</option><option>Part Payment</option><option>Flexible</option></select></div>
@@ -106,7 +107,7 @@ form.addEventListener('submit',async event=>{
  const phone=value('phone');
  if(!/^\+?[0-9\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
  button.disabled=true;button.textContent='SUBMITTING…';
- const payload={name:value('name'),phone,email:'',preferred_property_type:value('type'),preferred_locations:value('location'),preferred_budget:value('budget'),preferred_facing:value('facing'),preferred_property_age:value('age'),preferred_payment_mode:value('payment'),preferred_bhk:'',additional_requirements:value('extra'),website:value('website')};
+ const payload={name:value('name'),phone,email:'',preferred_property_type:value('type'),preferred_locations:value('location'),preferred_budget:value('budget'),preferred_land_area:value('landArea'),preferred_facing:value('facing'),preferred_property_age:value('age'),preferred_payment_mode:value('payment'),preferred_bhk:'',additional_requirements:value('extra'),website:value('website')};
  try{
   const response=await fetch(SUPABASE_URL+'/functions/v1/buyer-self-registration',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});
   const result=await response.json();
