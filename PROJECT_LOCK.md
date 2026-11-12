@@ -176,3 +176,12 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - The scenic property hero remains full-width with a softened light overlay, red/gold framing accents, and the existing red-and-gold title treatment.
 - Desktop logo width is capped at 460 CSS px; mobile logo width is capped at 350 CSS px / 82vw with a 175px height cap.
 - Only buyer-requirement header presentation and matching deployment smoke assertions are changed. Do not change form fields, payload, Supabase integration, buyer records, CRM matching, or other CRM features.
+
+
+## 14. Exact first approved buyer-form preview restored
+
+- The latest user reference explicitly confirms the first compact buyer-form design preview as the target. Keep that visual direction, not the later oversized standalone-logo treatment.
+- Use the existing official RJ Properties logo centered over the scenic property hero image; the logo is compact and proportional on mobile (225px max / 56vw) and larger but controlled on desktop (440px max / 54vw).
+- Keep the scenic hero background visible on both sides of the logo with a soft warm overlay, followed by the maroon Buyer Requirement Form title, subtitle, and gold/red divider treatment.
+- Add the rounded premium outer frame around the page (desktop 24px; mobile 22px) with a subtle border/shadow; no separate white logo card, no duplicated tagline, and no invented or regenerated logo.
+- Preserve the three form sections, existing fields, submission flow, duplicate-number handling, Supabase integration, and CRM approval/matching behavior. This update is presentation-only.
