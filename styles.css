@@ -334,3 +334,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   footer .footer-grid{gap:16px}
   footer p{font-size:13px;line-height:1.45}
 }
+
+
+/* One-click WhatsApp property photo gallery */
+.property-photo-gallery{min-width:0;scroll-margin-top:96px}
+.property-photo-gallery h2{margin:0 0 12px;color:var(--maroon);font-size:22px;font-weight:850}
+.property-photo-gallery .detail-image{overflow:hidden;border:1px solid #d8c18e}
+.property-photo-gallery .media-strip img{border:1px solid #e4d5b4;cursor:zoom-in}
+@media(max-width:760px){.property-photo-gallery{scroll-margin-top:72px}.property-photo-gallery h2{font-size:19px}.property-photo-gallery .media-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.property-photo-gallery .media-strip img{height:clamp(120px,42vw,210px)}}
