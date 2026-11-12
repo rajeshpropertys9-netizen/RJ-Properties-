@@ -92,6 +92,8 @@ jobs:
           for (const script of inlineScripts) new Function(script);
           must(inlineScripts.length > 0, 'Property manager inline JavaScript passes syntax validation');
           const app = await get('app.js');
+          new Function(app.body);
+          must(true, 'Shared frontend JavaScript passes syntax validation');
           must(app.body.includes('create_public_enquiry') && app.body.includes('create_seller_intake') && app.body.includes('create_site_visit_request'), 'Frontend RPC wiring is present');
           const catalogResponse = await fetch(process.env.SUPABASE_URL + '/rest/v1/rpc/get_published_properties', {
             method: 'POST',
@@ -177,7 +179,11 @@ jobs:
               await page.goto(new URL(detailHref, base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               await page.locator('.detail-card').waitFor({ timeout: 20000 });
               const galleryUrls = await page.locator('.media-strip img').evaluateAll(imgs => imgs.map(img => img.getAttribute('src')).filter(Boolean));
+              must(galleryUrls.length > 0, 'Property detail renders its available additional photos');
               must(new Set(galleryUrls).size === galleryUrls.length, 'Property detail gallery does not repeat the same photo URL');
+              await page.goto(new URL(detailHref + '#photos', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
+              await page.locator('#photos').waitFor();
+              must(await page.locator('#photos .media-strip img').count() > 0, 'WhatsApp View All Property Photos link opens the full photo gallery');
               await page.locator('.site-visit-open').click();
               await page.locator('#siteVisitForm').waitFor();
               must(await page.locator('#siteVisitForm input[name="name"]').count() === 1 && await page.locator('#siteVisitForm input[name="phone"]').count() === 1 && await page.locator('#siteVisitForm input[name="visitDate"]').count() === 1, 'Site-visit request form renders required contact and date fields');
