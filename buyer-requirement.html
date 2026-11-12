@@ -55,6 +55,62 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
  .trust div:nth-child(2){border-right:0}
  .trust div:nth-child(-n+2){border-bottom:1px solid #d4b46f}
 }
+
+/* Reference design refinement: compact framed banner and two-column mobile form */
+.hero{min-height:205px;padding:10px 16px 16px;border-bottom:4px solid var(--gold);background-image:linear-gradient(90deg,rgba(255,250,241,.18),rgba(255,250,241,.48) 30%,rgba(255,250,241,.48) 70%,rgba(255,250,241,.18)),url('hero-property.jpg');}
+.hero:before{content:"";position:absolute;inset:7px 10px 10px;width:auto;height:auto;border:7px solid #b20d1a;border-radius:13px;background:transparent;transform:none;pointer-events:none;z-index:0;box-shadow:inset 0 0 0 2px #e4b957;}
+.hero:after{display:none}
+.hero-inner{max-width:1100px}
+.logo{width:min(390px,58vw);max-height:145px;margin:0 auto 5px;object-fit:contain;mix-blend-mode:multiply}
+h1{margin:0 auto 7px;padding:8px 28px;font-size:clamp(19px,3vw,29px);border-radius:28px;box-shadow:0 5px 14px #850b1630}
+.sub{font-size:clamp(17px,2.6vw,24px);margin:5px 0 1px}
+.intro{font-size:clamp(13px,1.8vw,16px)}
+.wrap{margin-top:19px}
+.section{border-radius:17px;padding:18px 15px 15px}
+.section h2{margin:-34px 0 12px;padding:7px 13px;font-size:16px}
+.fields{gap:11px 18px}
+input,select{min-height:43px;border-radius:11px;padding:8px 9px 8px 36px;font-size:14px}
+textarea{min-height:70px;border-radius:11px;padding:9px 10px 9px 36px;font-size:13px}
+label{font-size:13px;margin-bottom:4px}
+.field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#landArea):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#timeline):before,.field:has(#extra):before{left:11px;top:33px;font-size:16px}
+.submit{padding:13px 16px;font-size:19px;border-radius:17px}
+.trust{margin-top:14px;padding:9px 6px}
+.trust div{font-size:12px;padding:6px 7px}
+.trust b{font-size:21px}
+@media(max-width:650px){
+ .hero{min-height:0;padding:9px 10px 13px}
+ .hero:before{inset:5px 6px 7px;border-width:5px;border-radius:10px}
+ .logo{width:min(255px,72vw);max-height:100px;margin-bottom:4px}
+ h1{padding:7px 12px;font-size:clamp(15px,4.2vw,20px);margin-bottom:5px;border-radius:22px;white-space:nowrap}
+ .sub{font-size:clamp(15px,4vw,19px);margin:4px 0 1px}
+ .intro{font-size:12px}
+ .wrap{width:calc(100% - 18px);margin:15px auto 18px}
+ form{gap:13px}
+ .section{padding:15px 10px 11px;border-radius:14px}
+ .section h2{font-size:13px;padding:6px 10px;margin:-29px 0 10px;gap:6px}
+ .section h2 .ico{font-size:16px}
+ .fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 10px}
+ .field.full{grid-column:1/-1}
+ label{font-size:11.5px;line-height:1.2;margin-bottom:4px}
+ input,select{min-height:36px;padding:6px 5px 6px 29px;font-size:11.5px;border-radius:9px}
+ textarea{min-height:56px;padding:7px 7px 7px 29px;font-size:11px;border-radius:9px}
+ .field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#landArea):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#timeline):before,.field:has(#extra):before{left:9px;top:29px;font-size:14px}
+ .field:has(#extra):before{top:29px}
+ .hint{font-size:9px;line-height:1.2;margin-top:3px}
+ .submit{font-size:16px;padding:12px 8px;border-radius:14px}
+ .trust{grid-template-columns:repeat(4,minmax(0,1fr));padding:7px 3px;margin-top:11px;border-radius:18px}
+ .trust div{display:flex;flex-direction:column;gap:3px;font-size:9px;padding:5px 2px;min-height:54px;line-height:1.2;border-right:1px solid #d4b46f!important;border-bottom:0!important}
+ .trust div:last-child{border-right:0!important}
+ .trust b{font-size:17px}
+ footer{font-size:10px;padding-bottom:16px}
+}
+@media(max-width:370px){
+ .fields{gap:8px 7px}
+ label{font-size:10.5px}
+ input,select{font-size:10.5px}
+ .trust div{font-size:8px}
+}
+
 </style>
 </head>
 <body>
