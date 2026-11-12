@@ -9,12 +9,12 @@
 <style>
 :root{--red:#850b16;--red2:#b20d1b;--gold:#bd8b2e;--ink:#171313;--muted:#6e6863}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#fffaf4;color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-.hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:0 16px 20px;background:#fffaf4 url('hero-property.jpg') center 43%/cover no-repeat;border-bottom:4px solid #c59a43}
-.hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(255,255,255,.57),rgba(255,255,255,.78) 28%,rgba(255,255,255,.78) 72%,rgba(255,255,255,.48))}
+html{min-height:100%;background:#f1ece4}body{width:min(1100px,100%);min-height:100vh;margin:18px auto;background:#fffaf4;color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;border:1px solid #eadfce;border-radius:24px;overflow:hidden;box-shadow:0 12px 34px rgba(46,28,12,.10)}
+.hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;padding:7px 16px 20px;background:#fffaf4 url('hero-property.jpg') center 43%/cover no-repeat;border-bottom:4px solid #c59a43;border-radius:23px 23px 0 0}
+.hero:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(255,250,242,.35),rgba(255,250,242,.72) 28%,rgba(255,250,242,.72) 72%,rgba(255,250,242,.35))}
 .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:12px;background:linear-gradient(90deg,#8d0c16,#d2a34a 20%,transparent 30%,transparent 70%,#d2a34a 82%,#8d0c16)}
 .hero-inner{position:relative;max-width:1100px;margin:auto}
-.logo{display:block;width:min(490px,62vw);max-width:90%;height:auto;max-height:265px;object-fit:contain;margin:0 auto 4px;background:transparent;border:0;border-radius:0;box-shadow:none;mix-blend-mode:multiply}
+.logo{display:block;width:min(440px,54vw);max-width:90%;height:auto;max-height:220px;object-fit:contain;margin:0 auto 4px;background:transparent;border:0;border-radius:0;box-shadow:none;mix-blend-mode:multiply;filter:contrast(1.04) saturate(1.04)}
 .eyebrow,.brand-tagline,#brandTagline{display:none!important}
 h1{position:relative;display:table;max-width:88%;margin:0 auto 10px;padding:10px 48px;background:linear-gradient(100deg,#780711,#b10d19 50%,#780711);color:#fff;border-radius:32px;font-size:clamp(21px,3.4vw,35px);line-height:1.2;letter-spacing:.2px;box-shadow:0 5px 12px #850b1625}
 h1:before,h1:after{content:"";position:absolute;top:50%;width:58px;height:4px;border-top:2px solid #c69a39;border-bottom:2px solid #c69a39;transform:translateY(-50%)}
@@ -49,9 +49,10 @@ textarea{min-height:98px;resize:vertical;padding-top:13px}
 footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-height:1.6}
 .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 @media(max-width:650px){
- .hero{padding:0 10px 14px;background-position:center 43%}
- .hero:before{background:linear-gradient(90deg,rgba(255,255,255,.5),rgba(255,255,255,.76),rgba(255,255,255,.5))}
- .logo{width:min(370px,86vw);max-height:190px;margin-bottom:3px}
+ html{background:#fffaf4}body{width:100%;min-height:100vh;margin:0;border:0;border-radius:22px;box-shadow:none}
+ .hero{padding:7px 10px 14px;background-position:center 43%}
+ .hero:before{background:linear-gradient(90deg,rgba(255,250,242,.32),rgba(255,250,242,.68),rgba(255,250,242,.32))}
+ .logo{width:min(225px,56vw);max-height:155px;margin-bottom:5px}
  h1{max-width:90%;padding:8px 16px;font-size:clamp(17px,4.6vw,23px);border-radius:25px;margin-bottom:7px}
  h1:before,h1:after{width:23px}h1:before{right:calc(100% + 7px)}h1:after{left:calc(100% + 7px)}
  .sub{font-size:clamp(17px,4.3vw,22px);margin:5px 0 1px}
@@ -79,7 +80,7 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
 </head>
 <body>
 <header class="hero"><div class="hero-inner">
-<img class="logo" src="rj-logo.jpg?v=20261112-logo-final-0620" loading="eager" fetchpriority="high" alt="RJ Properties – Find Your Dream House" onerror="this.style.display='none'">
+<img class="logo" src="rj-logo.jpg?v=20261113-reference-header-v1" loading="eager" fetchpriority="high" alt="RJ Properties – Find Your Dream House" onerror="this.style.display='none'">
 
 <h1>BUYER REQUIREMENT FORM</h1>
 <div class="sub">Tell Us Your Property Requirements</div>
