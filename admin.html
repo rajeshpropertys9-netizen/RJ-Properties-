@@ -87,7 +87,8 @@ p.facing?'🧭 Facing: '+p.facing:null,
 p.amenities?'✨ Amenities: '+p.amenities:null,
 p.map_url?'📍 Map: '+p.map_url:null,
 p.video_url?'🎥 Video: '+p.video_url:null,
-...rjMediaLinks(p).map((u,i)=>'📸 Photo '+(i+1)+': '+u)
+rjMediaLinks(p).length?'📸 PROPERTY PHOTOS':null,
+...rjMediaLinks(p).map((u,i)=>'🖼️ Photo '+(i+1)+': '+u)
 ].filter(Boolean).join('\n')}
 function rjWhatsAppUrl(phone,message){let digits=String(phone||'').replace(/\D/g,'');if(digits.length===10)digits='91'+digits;return 'https://wa.me/'+digits+'?text='+encodeURIComponent(message)}
 function rjBuyerBudgetLabel(b){return String(b?.preferred_budget||b?.budget||'Not specified').trim()||'Not specified'}
