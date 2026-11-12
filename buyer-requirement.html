@@ -274,6 +274,51 @@ h1:after{left:calc(100% + 14px)!important;right:auto!important}
  .intro{font-size:13px!important}
 }
 
+
+/* Approved reference image proportions — visual styling only */
+@media (min-width:761px){
+  .hero{
+    min-height:470px!important;
+    padding:14px 18px 22px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    background-position:center 46%!important;
+  }
+  .hero-inner{width:100%!important;max-width:1000px!important}
+  .logo{
+    width:min(500px,62vw)!important;
+    max-height:270px!important;
+    margin:0 auto 10px!important;
+  }
+  h1{
+    padding:12px 48px!important;
+    margin:0 auto 10px!important;
+    border-radius:34px!important;
+    font-size:clamp(23px,3.5vw,36px)!important;
+  }
+  .sub{font-size:clamp(22px,3vw,30px)!important;margin:8px 0 2px!important}
+  .intro{font-size:clamp(16px,2.2vw,21px)!important}
+  .wrap{width:min(964px,calc(100% - 60px))!important;margin:26px auto 30px!important}
+  form{gap:22px!important}
+  .section{padding:24px 23px 20px!important;border-radius:22px!important}
+  .section h2{font-size:clamp(18px,2vw,21px)!important;padding:9px 17px!important;margin:-40px 0 17px!important}
+  .fields{gap:17px 38px!important}
+  label{font-size:clamp(16px,1.8vw,19px)!important;margin-bottom:7px!important}
+  input,select{min-height:58px!important;border-radius:16px!important;padding:12px 14px 12px 49px!important;font-size:clamp(15px,1.6vw,18px)!important}
+  textarea{min-height:98px!important;border-radius:16px!important;padding:13px 14px 12px 49px!important;font-size:clamp(15px,1.6vw,18px)!important}
+  .field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#extra):before{left:17px!important;top:42px!important;font-size:22px!important}
+  .submit{width:88%!important;min-height:78px!important;padding:17px 22px!important;border-radius:25px!important;font-size:clamp(22px,3vw,30px)!important}
+  .trust{width:calc(100% + 30px)!important;margin:23px 0 0 -15px!important;padding:15px 10px!important;border-radius:28px!important}
+  .trust div{font-size:clamp(13px,1.5vw,17px)!important;padding:8px 10px!important}
+  .trust b{font-size:30px!important}
+}
+@media(max-width:760px){
+  .hero{min-height:0!important;padding:9px 10px 13px!important}
+  .logo{width:min(345px,72vw)!important;max-height:158px!important}
+  .wrap{width:calc(100% - 20px)!important;margin:18px auto 22px!important}
+}
+
 </style>
 </head>
 <body>
