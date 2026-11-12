@@ -319,6 +319,135 @@ h1:after{left:calc(100% + 14px)!important;right:auto!important}
   .wrap{width:calc(100% - 20px)!important;margin:18px auto 22px!important}
 }
 
+
+/* FINAL REFERENCE MATCH — use the supplied second image as the page design */
+:root{--red:#850b16;--red2:#b10d19;--gold:#bd861b;--gold2:#d8b66a;--ink:#201b19;--muted:#706965;--cream:#fffaf1;--line:#d0ad67}
+body{
+  background:linear-gradient(180deg,#fffdf9 0%,#fffaf1 100%)!important;
+  color:#171313!important;
+}
+.hero{
+  display:block!important;position:relative!important;overflow:hidden!important;
+  min-height:0!important;height:auto!important;
+  padding:12px 18px 22px!important;
+  text-align:center!important;
+  background:
+    linear-gradient(90deg,rgba(255,250,241,.34) 0%,rgba(255,250,241,.72) 20%,rgba(255,250,241,.88) 50%,rgba(255,250,241,.72) 80%,rgba(255,250,241,.34) 100%),
+    url('hero-property.jpg') center 45%/cover no-repeat!important;
+  border:0!important;border-bottom:3px solid #c69a39!important;
+}
+.hero:before,.hero:after{content:none!important;display:none!important}
+.hero-inner{position:relative!important;z-index:1!important;max-width:1000px!important;margin:0 auto!important;padding:0!important}
+.logo{
+  display:block!important;width:min(490px,62vw)!important;max-width:90%!important;
+  height:auto!important;max-height:220px!important;object-fit:contain!important;
+  object-position:center!important;margin:0 auto 8px!important;padding:0!important;
+  background:transparent!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;mix-blend-mode:multiply!important;
+  filter:contrast(1.05) saturate(1.04)!important;
+}
+h1{
+  display:table!important;position:relative!important;max-width:88%!important;
+  margin:0 auto 10px!important;padding:12px 48px!important;
+  background:linear-gradient(100deg,#850b16,#b10d19 50%,#850b16)!important;
+  color:#fff!important;border:0!important;border-radius:34px!important;
+  font-size:clamp(21px,3.4vw,36px)!important;letter-spacing:.3px!important;
+  line-height:1.2!important;box-shadow:0 6px 16px #850b1630!important;
+}
+h1:before,h1:after{content:""!important;display:block!important;position:absolute!important;top:50%!important;width:48px!important;height:4px!important;border-top:2px solid #c69a39!important;border-bottom:2px solid #c69a39!important;transform:translateY(-50%)!important}
+h1:before{right:calc(100% + 14px)!important;left:auto!important}
+h1:after{left:calc(100% + 14px)!important;right:auto!important}
+.sub{font-size:clamp(20px,3vw,30px)!important;font-weight:900!important;margin:8px 0 2px!important;color:#171313!important}
+.intro{font-size:clamp(15px,2.1vw,21px)!important;font-style:italic!important;margin:0!important;color:#292321!important}
+.wrap{width:min(964px,calc(100% - 60px))!important;margin:26px auto 30px!important}
+form{display:grid!important;gap:22px!important}
+.section{
+  border:1.5px solid #c5a052!important;border-radius:22px!important;
+  padding:24px 23px 20px!important;background:rgba(255,255,255,.96)!important;
+  box-shadow:0 5px 18px rgba(77,47,18,.035)!important;
+}
+.section h2{
+  display:inline-flex!important;align-items:center!important;gap:10px!important;
+  margin:-41px 0 17px!important;padding:9px 18px!important;
+  background:linear-gradient(100deg,#780711,#a80e1b)!important;
+  color:#fff!important;border-radius:30px!important;
+  font-size:clamp(17px,2vw,21px)!important;line-height:1.25!important;
+  box-shadow:0 4px 12px #850b1622!important;
+}
+.section h2 .ico{font-size:22px!important;line-height:1!important}
+.fields{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:17px 38px!important}
+.field{min-width:0!important}
+label{display:block!important;font-size:clamp(15px,1.8vw,19px)!important;font-weight:800!important;margin:0 0 7px!important;color:#171313!important}
+input,select,textarea{
+  width:100%!important;min-height:58px!important;border:1.5px solid #bdb8b3!important;
+  border-radius:16px!important;padding:12px 14px 12px 49px!important;
+  background:#fff!important;color:#24201e!important;
+  font:inherit!important;font-size:clamp(14px,1.6vw,18px)!important;
+  outline:none!important;box-shadow:inset 0 1px 2px #00000008!important;
+}
+textarea{min-height:98px!important;padding:13px 14px 12px 49px!important;resize:vertical!important}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)!important;box-shadow:0 0 0 3px #bd861b22!important}
+.field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#extra):before{
+  left:17px!important;top:42px!important;font-size:22px!important;color:#8b1018!important;
+}
+.field:has(#extra):before{top:43px!important}
+.field:has(#landArea),.field:has(#timeline){display:none!important}
+.submit{
+  width:88%!important;justify-self:center!important;min-height:78px!important;
+  border:0!important;border-radius:25px!important;padding:17px 22px!important;
+  background:linear-gradient(105deg,#c10e1c,#790610)!important;color:#fff!important;
+  font-size:clamp(22px,3vw,30px)!important;font-weight:900!important;
+  letter-spacing:.5px!important;box-shadow:0 9px 20px #850b1630!important;
+}
+.trust{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:0!important;margin:23px -15px 0!important;padding:15px 10px!important;
+  background:linear-gradient(100deg,#fff1d3,#fff7e7)!important;
+  border:1px solid #f0dfba!important;border-radius:28px!important;
+}
+.trust div{
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:9px!important;padding:8px 10px!important;border-right:1px solid #d4b46f!important;
+  font-size:clamp(12px,1.5vw,17px)!important;font-weight:750!important;color:#5b4215!important;
+}
+.trust div:last-child{border-right:0!important}
+.trust b{font-size:30px!important;color:#a06d10!important}
+footer{color:#766b61!important;font-size:12px!important;padding:0 12px 25px!important;line-height:1.6!important}
+@media(max-width:760px){
+  .hero{padding:8px 10px 12px!important;background-position:center 45%!important}
+  .logo{width:min(300px,75vw)!important;max-height:132px!important;margin-bottom:5px!important}
+  h1{max-width:88%!important;padding:7px 15px!important;font-size:clamp(16px,4.4vw,22px)!important;border-radius:23px!important;margin-bottom:5px!important}
+  h1:before,h1:after{width:19px!important}
+  h1:before{right:calc(100% + 7px)!important}
+  h1:after{left:calc(100% + 7px)!important}
+  .sub{font-size:clamp(16px,4.2vw,21px)!important;margin:4px 0 1px!important}
+  .intro{font-size:12px!important}
+  .wrap{width:calc(100% - 20px)!important;margin:18px auto 22px!important}
+  form{gap:16px!important}
+  .section{padding:17px 11px 13px!important;border-radius:17px!important}
+  .section h2{font-size:14px!important;padding:7px 11px!important;margin:-32px 0 12px!important;gap:7px!important}
+  .section h2 .ico{font-size:18px!important}
+  .fields{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 12px!important}
+  label{font-size:clamp(11px,3vw,13px)!important;line-height:1.2!important;margin-bottom:5px!important}
+  input,select{min-height:43px!important;padding:7px 5px 7px 32px!important;font-size:clamp(10.5px,2.8vw,13px)!important;border-radius:11px!important}
+  textarea{min-height:75px!important;padding:8px 7px 8px 33px!important;font-size:12px!important;border-radius:11px!important}
+  .field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#extra):before{left:10px!important;top:32px!important;font-size:16px!important}
+  .field:has(#extra):before{top:33px!important}
+  .hint{font-size:9px!important;line-height:1.2!important}
+  .submit{width:92%!important;min-height:58px!important;padding:13px 10px!important;font-size:18px!important;border-radius:17px!important}
+  .trust{grid-template-columns:repeat(4,minmax(0,1fr))!important;margin:14px -4px 0!important;padding:8px 4px!important;border-radius:19px!important}
+  .trust div{display:flex!important;flex-direction:column!important;gap:4px!important;font-size:9px!important;line-height:1.2!important;padding:6px 2px!important;min-height:60px!important;border-right:1px solid #d4b46f!important}
+  .trust b{font-size:19px!important}
+  footer{font-size:10px!important;padding-bottom:16px!important}
+}
+@media(max-width:370px){
+  .logo{width:min(270px,73vw)!important;max-height:115px!important}
+  .fields{gap:10px 8px!important}
+  label{font-size:10.5px!important}
+  input,select{font-size:10.5px!important}
+  .trust div{font-size:8px!important}
+}
+
 </style>
 </head>
 <body>
