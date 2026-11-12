@@ -167,3 +167,12 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Preserve all existing buyer fields, labels, validation, registration payload, Supabase endpoint, duplicate handling, and CRM integration. The land/plot area and buying timeline fields remain included even if not visible in the reference screenshot crop.
 - Presentation-only update; no database schema or CRM records are changed.
 - Deployment workflow assertions are updated to verify the new visual markers. Do not call the design live until the GitHub Pages build, smoke tests, and form checks all pass.
+
+
+## 13. Buyer form logo and hero frame aligned to approved reference
+
+- The user confirmed the supplied full-page reference as the visual target for the logo and header frame.
+- The official logo is centered directly in the hero artwork without a separate white card, border, or drop shadow; its white JPEG background blends into the light hero using multiply blending.
+- The scenic property hero remains full-width with a softened light overlay, red/gold framing accents, and the existing red-and-gold title treatment.
+- Desktop logo width is capped at 460 CSS px; mobile logo width is capped at 350 CSS px / 82vw with a 175px height cap.
+- Only buyer-requirement header presentation and matching deployment smoke assertions are changed. Do not change form fields, payload, Supabase integration, buyer records, CRM matching, or other CRM features.
