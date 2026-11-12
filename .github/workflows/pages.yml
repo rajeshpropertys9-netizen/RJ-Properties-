@@ -79,7 +79,7 @@ jobs:
           must(admin.body.includes('Within Budget') && admin.body.includes('Up to ₹30L Above Budget') && admin.body.includes('Best Location Match'), 'Buyer matching displays all three budget/location categories');
           const buyerRequirement = await get('buyer-requirement.html');
           must(buyerRequirement.body.includes('id="buyerForm"') && buyerRequirement.body.includes('id="landArea"') && buyerRequirement.body.includes('id="timeline"'), 'Public buyer requirement form and land-area/buying-timeline fields are deployed');
-          must(buyerRequirement.body.includes('class="logo"') && buyerRequirement.body.includes('hero-property.jpg') && buyerRequirement.body.includes('width:min(230px,62vw)'), 'Buyer form uses the branded property-photo hero and mobile-sized official logo');
+          must(buyerRequirement.body.includes('class="logo"') && buyerRequirement.body.includes('hero-property.jpg') && buyerRequirement.body.includes('width:min(160px,46vw)') && buyerRequirement.body.includes('20261112-sharp-mobile'), 'Buyer form uses the branded property-photo hero, sharp mobile-sized official logo and fresh cache version');
           must(buyerRequirement.body.includes("preferred_land_area:value('landArea')") && buyerRequirement.body.includes("preferred_buying_timeline:value('timeline')"), 'Buyer form sends land area and buying timeline to registration API');
           const buyerScripts = [...buyerRequirement.body.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].map(m => m[1]).filter(x => x.trim());
           for (const script of buyerScripts) new Function(script);
