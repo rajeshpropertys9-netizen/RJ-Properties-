@@ -38,7 +38,7 @@ textarea{min-height:98px;resize:vertical;padding-top:13px}
 .field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#landArea):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#timeline):before,.field:has(#extra):before{position:absolute;left:17px;top:42px;z-index:1;color:#8b1018;font-size:23px;font-weight:800;line-height:1;pointer-events:none}
 .field:has(#name):before{content:"♙"}.field:has(#phone):before{content:"☎"}.field:has(#type):before{content:"▦"}.field:has(#location):before{content:"●"}.field:has(#budget):before{content:"₹"}.field:has(#landArea):before{content:"⌂"}.field:has(#facing):before{content:"◉"}.field:has(#age):before{content:"▦"}.field:has(#payment):before{content:"▣"}.field:has(#timeline):before{content:"◷"}.field:has(#extra):before{content:"✎"}
 .hint{font-size:12px;color:var(--muted);margin-top:6px}
-.field:has(#landArea),.field:has(#timeline){display:none!important}
+/* Land / Plot Area and Buying Timeline are visible in the approved form. */
 .submit{position:relative;width:88%;justify-self:center;border:0;border-radius:27px;padding:17px 20px 17px 74px;background:linear-gradient(105deg,#c10e1c,#790610);color:#fff;font-size:clamp(20px,3vw,28px);font-weight:900;letter-spacing:.4px;box-shadow:0 8px 17px #850b1630;cursor:pointer}
 .submit:before{content:"";position:absolute;left:-7px;top:50%;transform:translateY(-50%);width:66px;height:66px;border-radius:50%;background:#fff url('rj-logo.jpg?v=20261113-submit-logo') center/cover no-repeat;border:3px solid #fff;box-shadow:0 2px 8px #0002}
 .submit:disabled{opacity:.65;cursor:wait}
