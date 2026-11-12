@@ -159,3 +159,11 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - This is a presentation-only change. Do not modify buyer form fields, submission payload, Supabase integration, CRM data, or matching behavior as part of this logo fix.
 - A true high-resolution asset replacement is still a separate task if a larger source file is added to the repository; do not claim the raster source itself was replaced by this CSS change.
 
+
+## 13. Buyer form premium reference design
+
+- Match the buyer form visual reference supplied on 12 November 2026: prominent centered RJ Properties logo, property-photo hero, deep-red rounded title banner, gold decorative accents, warm cream background, gold-outline rounded form sections, red section labels, large rounded fields with burgundy icons, bold red submit button, and four trust highlights.
+- Maintain responsive two-column fields on wider screens and single-column fields on narrow mobile screens.
+- Preserve all existing buyer fields, labels, validation, registration payload, Supabase endpoint, duplicate handling, and CRM integration. The land/plot area and buying timeline fields remain included even if not visible in the reference screenshot crop.
+- Presentation-only update; no database schema or CRM records are changed.
+- Deployment workflow assertions are updated to verify the new visual markers. Do not call the design live until the GitHub Pages build, smoke tests, and form checks all pass.
