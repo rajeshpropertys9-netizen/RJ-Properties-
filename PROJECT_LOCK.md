@@ -146,4 +146,7 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Supabase buyer self-registration endpoint, duplicate-number handling, validation, status messages, and CRM buyer records are preserved.
 - No database schema, buyer records, or CRM matching behavior is changed by this visual update.
 - Deployment must pass the GitHub Pages workflow smoke tests before the new design is described as live.
+- Mobile logo sizing is capped at 160 CSS px so the current 320 px logo asset is not enlarged beyond its native retina display width on iPhone; desktop sizing is capped at 190 CSS px.
+- Logo and favicon URLs use a fresh cache-busting version; any legacy eyebrow tagline is forcibly hidden so the tagline embedded in the official logo is not duplicated.
+- This is a presentation-only correction. Buyer form fields, submission endpoint, duplicate handling, CRM data, and matching logic remain unchanged.
 
