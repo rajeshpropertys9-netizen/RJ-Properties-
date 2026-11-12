@@ -76,7 +76,7 @@ function renderTable(el,rows,fields,action){if(!rows.length){el.innerHTML='<div 
 let rjCurrentBuyerId=null,rjCurrentBuyer=null,rjMatchedProperties=[],rjShareHistory=[],rjMatchRequestSeq=0,rjShareHistoryReady=false;
 const INVENTORY_SHARE_URL=SUPABASE_URL+'/functions/v1/inventory-share';
 async function inventoryShareRequest(method,buyerId,body){const t=await token();const url=method==='GET'?INVENTORY_SHARE_URL+'?buyer_id='+encodeURIComponent(buyerId):INVENTORY_SHARE_URL;const res=await fetch(url,{method,headers:{Authorization:'Bearer '+t,'Content-Type':'application/json',apikey:SUPABASE_KEY},...(body?{body:JSON.stringify(body)}:{})});const data=await res.json().catch(()=>({}));if(!res.ok){const err=new Error(data.error||'Share history request failed');err.payload=data;err.status=res.status;throw err}return data}
-function rjMediaLinks(p){const m=Array.isArray(p.media)?p.media:[];return m.map(x=>typeof x==='string'?x:x?.url||x?.public_url||'').filter(x=>/^https?:\/\//i.test(String(x))).slice(0,3)}
+function rjMediaLinks(p){const m=Array.isArray(p.media)?p.media:[];return m.map(x=>typeof x==='string'?x:x?.url||x?.public_url||'').filter(x=>/^https?:\/\//i.test(String(x)))}
 function rjPropertyMessage(p){
  const propertyId=p.slug||p.property_id||p.id;
  const photosUrl=propertyId&&rjMediaLinks(p).length?'https://rajeshpropertys9-netizen.github.io/RJ-Properties-/property.html?id='+encodeURIComponent(propertyId)+'#photos':'';
@@ -85,6 +85,8 @@ function rjPropertyMessage(p){
  '🏡 '+(p.title||'Property'),
  value(p.property_type)?'🏠 Property Type: '+p.property_type:null,
  value(p.bhk)?'🛏️ Configuration: '+p.bhk:null,
+ value(p.bedrooms)?'🛏️ Bedrooms: '+p.bedrooms:null,
+ value(p.bathrooms)?'🛁 Bathrooms: '+p.bathrooms:null,
  '📍 Location: '+(p.location||'Hyderabad'),
  value(p.built_up_area)?'📐 Built-up Area: '+p.built_up_area+' Sft':null,
  value(p.plot_area)?'📏 Plot / Land Area: '+p.plot_area:null,
@@ -98,7 +100,7 @@ function rjPropertyMessage(p){
  value(p.maintenance_charges)?'🔧 Maintenance: '+p.maintenance_charges:null,
  value(p.community_name)?'🏘️ Community: '+p.community_name:null,
  value(p.amenities)?'✨ Amenities: '+p.amenities:null,
- '💰 Property Asking Price: '+formatPropertyPrice(p.price),
+ formatPropertyPrice(p.price)!=='Not added'?'💰 Asking Price: '+formatPropertyPrice(p.price):null,
  p.video_url?'🎥 Property Video: '+p.video_url:null,
  p.map_url?'🗺️ Google Maps: '+p.map_url:null,
  photosUrl?'📸 View All Property Photos: '+photosUrl:null
