@@ -150,3 +150,12 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Logo and favicon URLs use a fresh cache-busting version; any legacy eyebrow tagline is forcibly hidden so the tagline embedded in the official logo is not duplicated.
 - This is a presentation-only correction. Buyer form fields, submission endpoint, duplicate handling, CRM data, and matching logic remain unchanged.
 
+## 12. Buyer form logo display correction
+
+- The buyer form header uses the existing official RJ Properties logo asset only; no substitute/generated brand mark is permitted.
+- Logo is centered on a clean white plate with controlled mobile sizing to avoid excessive enlargement of the current repository asset.
+- The duplicate standalone “Find Your Dream House” line is suppressed because the tagline is already part of the official logo artwork.
+- The logo asset URL is cache-busted so browsers request the current asset reference after deployment.
+- This is a presentation-only change. Do not modify buyer form fields, submission payload, Supabase integration, CRM data, or matching behavior as part of this logo fix.
+- A true high-resolution asset replacement is still a separate task if a larger source file is added to the repository; do not claim the raster source itself was replaced by this CSS change.
+
