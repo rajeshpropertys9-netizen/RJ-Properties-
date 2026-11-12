@@ -76,30 +76,22 @@ function renderTable(el,rows,fields,action){if(!rows.length){el.innerHTML='<div 
 let rjCurrentBuyerId=null,rjCurrentBuyer=null,rjMatchedProperties=[],rjShareHistory=[],rjMatchRequestSeq=0,rjShareHistoryReady=false;
 const INVENTORY_SHARE_URL=SUPABASE_URL+'/functions/v1/inventory-share';
 async function inventoryShareRequest(method,buyerId,body){const t=await token();const url=method==='GET'?INVENTORY_SHARE_URL+'?buyer_id='+encodeURIComponent(buyerId):INVENTORY_SHARE_URL;const res=await fetch(url,{method,headers:{Authorization:'Bearer '+t,'Content-Type':'application/json',apikey:SUPABASE_KEY},...(body?{body:JSON.stringify(body)}:{})});const data=await res.json().catch(()=>({}));if(!res.ok){const err=new Error(data.error||'Share history request failed');err.payload=data;err.status=res.status;throw err}return data}
-function rjPropertyMessage(p){
- const pid=p.property_id||p.id||p.slug;
- const detailUrl=pid?'https://rajeshpropertys9-netizen.github.io/RJ-Properties-/property.html?id='+encodeURIComponent(p.slug||pid):'';
- const lines=[
- '🏡 '+(p.title||'Property'),
- p.property_type?'🏠 Type: '+p.property_type:null,
- p.bhk?'🛏️ Bedrooms: '+p.bhk:null,
- '📍 Location: '+(p.location||'Hyderabad'),
- p.built_up_area?'📐 Built-up Area: '+p.built_up_area+' Sft':p.area_sqft?'📐 Area: '+p.area_sqft+' Sft':p.plot_area?'📐 Plot Area: '+p.plot_area:null,
- p.facing?'🧭 Facing: '+p.facing:null,
- '💰 Asking Price: '+formatPropertyPrice(p.price),
- detailUrl?'🖼️ Photos & Full Details: '+detailUrl:null,
- p.video_url?'🎥 Property Video: '+p.video_url:null,
- p.map_url?'📍 Google Maps: '+p.map_url:null
- ];
- return lines.filter(Boolean).join('\\n');
-}
+function rjMediaLinks(p){const m=Array.isArray(p.media)?p.media:[];return m.map(x=>typeof x==='string'?x:x?.url||x?.public_url||'').filter(x=>/^https?:\\/\\//i.test(String(x))).slice(0,3)}
+function rjPropertyMessage(p){return [
+'🏡 '+(p.title||'Property'),
+[p.property_type,p.bhk].filter(Boolean).join(' · '),
+'📍 Location: '+(p.location||'Hyderabad'),
+p.built_up_area?'📐 Built-up Area: '+p.built_up_area+' Sft':p.area_sqft?'📐 Area: '+p.area_sqft+' Sft':p.plot_area?'📐 Plot Area: '+p.plot_area:null,
+p.facing?'🧭 Facing: '+p.facing:null,
+'💰 Property Asking Price: '+formatPropertyPrice(p.price),
+p.amenities?'✨ Amenities: '+p.amenities:null,
+p.map_url?'📍 Map: '+p.map_url:null,
+p.video_url?'🎥 Video: '+p.video_url:null,
+...rjMediaLinks(p).map((u,i)=>'📸 Photo '+(i+1)+': '+u)
+].filter(Boolean).join('\\n')}
 function rjWhatsAppUrl(phone,message){let digits=String(phone||'').replace(/\\D/g,'');if(digits.length===10)digits='91'+digits;return 'https://wa.me/'+digits+'?text='+encodeURIComponent(message)}
 function rjBuyerBudgetLabel(b){return String(b?.preferred_budget||b?.budget||'Not specified').trim()||'Not specified'}
-function rjBuildShareMessage(b,properties){
- const intro=['🏡 RJ PROPERTIES','Hi '+(b.name||'there')+',','Your Preferred Budget: '+rjBuyerBudgetLabel(b),'Here are the property options shortlisted for you:'];
- const details=properties.map((p,i)=>'\\n'+(properties.length>1?'PROPERTY '+(i+1)+'\\n':'')+rjPropertyMessage(p));
- return [...intro,...details,'\\nFor more information or to arrange a site visit, simply reply to this message.','RJ Properties | Personalised End-to-End Property Support','📞 +91 83328 47728'].join('\\n');
-}
+function rjBuildShareMessage(b,properties){const intro=['🏡 RJ PROPERTIES','Hi '+(b.name||'there')+',','Your Preferred Budget: '+rjBuyerBudgetLabel(b),'Here are the property options shortlisted for your requirement:'];const details=properties.map((p,i)=>'\\n'+(properties.length>1?(i+1)+'. ':'')+rjPropertyMessage(p));return [...intro,...details,'\\nFor more details or to schedule a site visit, please reply to this message.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\\n')}
 async function rjShareSelected(){if(!rjCurrentBuyerId)return;const ids=Array.from(document.querySelectorAll('[data-share-select]:checked:not(:disabled)')).map(x=>x.value);if(!ids.length){alert('Select at least one property to share.');return}await rjShareProperties(ids,false)}
 async function rjShareOne(propertyId){await rjShareProperties([propertyId],false)}
 async function rjResendProperty(propertyId){const p=rjMatchedProperties.find(x=>String(x.property_id||x.id)===String(propertyId));if(!p)return;if(!confirm('This property was already shared with '+(rjCurrentBuyer?.name||'this buyer')+'. Do you want to resend it on WhatsApp?'))return;await rjShareProperties([propertyId],true)}
