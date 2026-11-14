@@ -21,7 +21,7 @@ VALIDATION
 - No live test owner or test property created; production records were not modified for QA.
 
 DEPLOYMENT
-- GitHub commit: 23a45b806bd12830d36768488dd0257a4ed0ef5b (admin UI)
+- GitHub commit: 6a9b9bfb1f08ac4cf584a3f93d2a4d52f22addd0 (final admin UI)
 - PROJECT_LOCK.md records the implementation and deployment caveat.
 - GitHub Pages workflow was pending at the last status check.
 - Final live validation requires successful Pages workflow, opening the CRM on mobile, and a controlled test owner with two properties. Do not call the UI production-live until that check passes.
