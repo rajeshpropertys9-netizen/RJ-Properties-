@@ -74,6 +74,8 @@ jobs:
           must(detail.body.includes('renderPropertyDetail') && detail.body.includes('app.js'), 'Property detail and site-visit handler are deployed');
           const admin = await get('admin.html');
           must(admin.body.includes('id="propertyAdminForm"') && admin.body.includes('uploadPropertyPhotos'), 'Secure property manager with add/edit and photo upload is deployed');
+          must(admin.body.includes('id="ownerForm"') && admin.body.includes('One Owner Can Have Multiple Properties') && admin.body.includes('id="ownerPropertiesList"'), 'Private CRM Owner module supports full profiles and multiple linked properties');
+          must(admin.body.includes('data-document="sale_deed"') && admin.body.includes('data-document="ec"') && admin.body.includes('data-document="occupancy_certificate"'), 'Owner property records include private legal document links');
           must(admin.body.includes('id="headerEditProperties"') && admin.body.includes("openTab('properties')"), 'Direct Edit Properties navigation is deployed');
           must(admin.body.includes('function editProperty(id)') && admin.body.includes('loadPropertiesAdmin'), 'Property list and edit handler are deployed');
           must(admin.body.includes('Within Budget') && admin.body.includes('Up to ₹30L Above Budget') && admin.body.includes('Best Location Match'), 'Buyer matching displays all three budget/location categories');
@@ -108,7 +110,7 @@ jobs:
             must(catalog.some(p => String(p.title || '').includes(title)), 'Published catalog includes ' + title);
           }
           // Read-only anonymous checks: private CRM tables must not disclose rows to a public visitor.
-          for (const table of ['buyers', 'owners', 'property_owner_private', 'call_logs', 'followups', 'site_visits', 'enquiries']) {
+          for (const table of ['buyers', 'owners', 'owner_properties', 'property_owner_private', 'call_logs', 'followups', 'site_visits', 'enquiries']) {
             const response = await fetch(process.env.SUPABASE_URL + '/rest/v1/' + table + '?select=*&limit=1', {
               headers: { apikey: process.env.SUPABASE_PUBLISHABLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_PUBLISHABLE_KEY }
             });
