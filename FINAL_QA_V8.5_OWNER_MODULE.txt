@@ -1,0 +1,27 @@
+RJ PROPERTIES CRM V8.5 — OWNER MODULE QA
+
+IMPLEMENTED
+- Expanded private Owner profile fields for contact, ownership, source, reference, selling, and follow-up details.
+- One Owner → Multiple Properties through public.owner_properties.
+- Each property can be linked to existing CRM inventory or entered as off-market inventory.
+- Per-property details include area, layout, legal status, pricing, selling conditions, and private document URLs.
+- Owner list displays the count of linked properties and provides View / Edit Owner.
+- Existing Owners table and legacy property_id retained; legacy links migrated additively.
+- Official RJ Properties logo and existing CRM modules retained.
+
+BACKEND
+- Migration: complete_owner_module_v85 — applied successfully.
+- owner_properties: RLS enabled; direct anon/authenticated grants revoked.
+- crm-api-v2 deployed, version 18; supports owner_properties GET, POST, PATCH, DELETE via authenticated admin API.
+- Existing owner records and notes preserved.
+
+VALIDATION
+- Supabase schema confirms new owner profile columns and owner_properties foreign keys.
+- Main inline admin JavaScript syntax check: PASS.
+- No live test owner or test property created; production records were not modified for QA.
+
+DEPLOYMENT
+- GitHub commit: 23a45b806bd12830d36768488dd0257a4ed0ef5b (admin UI)
+- PROJECT_LOCK.md records the implementation and deployment caveat.
+- GitHub Pages workflow was pending at the last status check.
+- Final live validation requires successful Pages workflow, opening the CRM on mobile, and a controlled test owner with two properties. Do not call the UI production-live until that check passes.
