@@ -195,7 +195,7 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Legacy `owners.property_id` remains in place; existing relationships are copied additively to `owner_properties` where present. Existing owner notes and records are not deleted.
 - New table has RLS enabled and direct anon/authenticated grants revoked; access is through the admin-authenticated `crm-api-v2` Edge Function using the service role.
 - Database migration `complete_owner_module_v85` applied successfully. `crm-api-v2` deployed as version 18 with owner-property GET/POST/PATCH/DELETE support.
-- `admin.html` updated to V8.5; owner list shows linked-property count and supports view/edit. Main inline JavaScript syntax check passed.
-- GitHub commit: `23a45b806bd12830d36768488dd0257a4ed0ef5b`.
+- `admin.html` updated to V8.5; owner list shows linked-property count and supports view/edit. Main inline JavaScript syntax check passed after final room-field and partial-save safeguards.
+- Latest owner module code commit: `6a9b9bfb1f08ac4cf584a3f93d2a4d52f22addd0`; migration source committed as `owner_module_v85.sql` (`cfd829e12a46ec031cfef3111c63337e0d2a6997`).
 - **Deployment status:** GitHub Pages workflow for this commit was pending at the last check. Do not call the live UI production-verified until the workflow succeeds and the deployed owner form is opened and tested on mobile.
 - **Live data validation still required:** create a controlled test owner with two linked properties, edit one property without changing the other, and verify owner/property records remain private. Do not create a fake production owner automatically.
