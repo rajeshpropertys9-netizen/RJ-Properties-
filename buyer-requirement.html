@@ -81,7 +81,7 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
 
 /* Final approved RJ Properties buyer form reference styling */
 body{width:min(1100px,100%);margin:0 auto;border:0;border-radius:0;background:#fffaf4;box-shadow:none}
-.hero{min-height:420px;padding:12px 18px 24px;background-color:#fffaf4;background-image:linear-gradient(180deg,rgba(255,250,244,.02) 0%,rgba(255,250,244,.03) 48%,rgba(255,250,244,.82) 82%,#fffaf4 98%),url('hero-property.jpg');background-repeat:no-repeat;background-position:center top;background-size:100% auto;border-radius:0;border-bottom:4px solid #c59a43}
+.hero{min-height:420px;padding:12px 18px 24px;background-color:#fffaf4;background-image:linear-gradient(180deg,rgba(255,250,244,.02) 0%,rgba(255,250,244,.03) 48%,rgba(255,250,244,.82) 82%,#fffaf4 98%),url('hero-property.jpg');background-repeat:no-repeat;background-position:center top;background-size:110% auto;border-radius:0;border-bottom:4px solid #c59a43}
 .hero:before{background:linear-gradient(90deg,rgba(255,255,255,.12),transparent 18%,transparent 82%,rgba(255,255,255,.12))}
 .hero-inner{max-width:1100px}
 .logo{width:min(430px,54vw);max-width:90%;max-height:230px;margin:3px auto 12px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;mix-blend-mode:multiply;filter:none}
@@ -97,18 +97,18 @@ form{gap:22px}
 label{font-size:clamp(15px,1.8vw,19px)}
 input,select,textarea{min-height:58px;border-radius:14px;background:#fff;padding:12px 14px 12px 49px}
 textarea{min-height:100px}
-#budget{grid-column:1;grid-row:2}
-#facing{grid-column:2;grid-row:2}
-#age{grid-column:1;grid-row:3}
-#payment{grid-column:2;grid-row:3}
-#landArea{grid-column:1;grid-row:4}
-#timeline{grid-column:2;grid-row:4}
+.field:has(#budget){grid-column:1;grid-row:2}
+.field:has(#facing){grid-column:2;grid-row:2}
+.field:has(#age){grid-column:1;grid-row:3}
+.field:has(#payment){grid-column:2;grid-row:3}
+.field:has(#landArea){grid-column:1;grid-row:4}
+.field:has(#timeline){grid-column:2;grid-row:4}
 .submit{width:88%;padding:17px 20px;border-radius:27px;text-align:center;font-size:clamp(20px,3vw,28px)}
 .submit:before{display:none}
 .trust{margin:20px -15px 0;padding:13px 10px;border-radius:28px;background:linear-gradient(100deg,#fff1d3,#fff7e7)}
 @media(max-width:650px){
  body{width:100%;margin:0;border:0;border-radius:0}
- .hero{min-height:345px;padding:8px 8px 20px;background-size:auto 285px;background-position:center top;background-image:linear-gradient(180deg,rgba(255,250,244,.02) 0%,rgba(255,250,244,.04) 50%,rgba(255,250,244,.84) 80%,#fffaf4 98%),url('hero-property.jpg')}
+ .hero{min-height:345px;padding:8px 8px 20px;background-size:auto 245px;background-position:center top;background-image:linear-gradient(180deg,rgba(255,250,244,.02) 0%,rgba(255,250,244,.04) 50%,rgba(255,250,244,.84) 80%,#fffaf4 98%),url('hero-property.jpg')}
  .logo{width:min(300px,78vw);max-height:155px;margin:4px auto 9px;padding:0}
  h1{max-width:90%;padding:8px 17px;font-size:clamp(17px,4.5vw,23px);margin-bottom:7px}
  h1:before,h1:after{width:22px}
