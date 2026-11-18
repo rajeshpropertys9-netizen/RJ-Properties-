@@ -199,3 +199,15 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Latest owner module UI commit: `fb48ad7b3c88bd295a546df827d8f3646611595c` (browser title/login labels included); migration source committed as `owner_module_v85.sql` (`cfd829e12a46ec031cfef3111c63337e0d2a6997`).
 - **Deployment status:** GitHub Pages workflow for this commit was pending at the last check. Do not call the live UI production-verified until the workflow succeeds and the deployed owner form is opened and tested on mobile.
 - **Live data validation still required:** create a controlled test owner with two linked properties, edit one property without changing the other, and verify owner/property records remain private. Do not create a fake production owner automatically.
+
+
+## 16. Buyer form reference restoration — 19 November 2026
+
+- User reconfirmed the supplied full-page Buyer Requirement Form image as the exact visual reference. Treat this image as the approved visual lock; do not make unsolicited layout, logo, colour, spacing, or field-order changes after approval.
+- Latest presentation-only update restores the reference styling: compact centered official logo blended over the property hero, maroon title banner with gold accents, cream page, rounded gold-outline sections, burgundy section labels and icons, two-column property fields on wider screens, large red submit button, and four gold line-art trust icons.
+- Existing public form fields remain present: name, mobile, property type, location, budget, land/plot area, facing, property age, payment mode, buying timeline, and additional requirements. Narrow mobile widths stack fields for legibility.
+- Supabase buyer-self-registration endpoint, payload keys, validation, duplicate-number handling, pending-approval flow, CRM buyer records, and matching are unchanged.
+- No database, CRM module, owner records, or property inventory changes were made.
+- Latest HTML visual commits: 8c7ac8064bca52da851d2b441e9c26bbd36fa7be and 9914a9f53cd34278422265e77c0f73e9325ad83e.
+- The current repository hero image asset is retained and cropped/faded in the header so its embedded lower WhatsApp/location strip does not compete with the form title. This is a best match using the existing asset; the hero photograph is not a pixel-identical replacement for the supplied mockup artwork.
+- Deployment status: the GitHub Pages workflow for the latest visual update must succeed before calling the page production-live. Complete a live mobile visual check and form-render smoke test before locking this revision as production-approved.
