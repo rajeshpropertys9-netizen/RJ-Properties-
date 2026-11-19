@@ -523,3 +523,37 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .hero-brand-mark{font-size:41px}
   .hero-brand-name{font-size:32px}
 }
+
+
+/* Use the exact official RJ Properties artwork — no recreated crest or text */
+.hero-brand{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:0 0 8px;
+  padding:0;
+  line-height:0;
+  background:transparent;
+}
+.hero-brand img{
+  display:block;
+  width:clamp(235px,29vw,300px);
+  max-width:100%;
+  height:auto;
+  max-height:205px;
+  object-fit:contain;
+  object-position:left center;
+  background:transparent;
+  mix-blend-mode:multiply;
+  filter:contrast(1.04) saturate(1.03);
+}
+@media(max-width:650px){
+  .hero-brand{margin:0 0 7px}
+  .hero-brand img{
+    width:clamp(235px,68vw,275px);
+    max-height:205px;
+  }
+}
+@media(max-width:370px){
+  .hero-brand img{width:230px;max-height:190px}
+}
