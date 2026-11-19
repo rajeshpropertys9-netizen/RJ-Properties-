@@ -342,3 +342,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .property-photo-gallery .detail-image{overflow:hidden;border:1px solid #d8c18e}
 .property-photo-gallery .media-strip img{border:1px solid #e4d5b4;cursor:zoom-in}
 @media(max-width:760px){.property-photo-gallery{scroll-margin-top:72px}.property-photo-gallery h2{font-size:19px}.property-photo-gallery .media-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.property-photo-gallery .media-strip img{height:clamp(120px,42vw,210px)}}
+
+
+/* Hero brand name: visible above the headline on desktop and mobile */
+.hero-brand{
+  display:inline-block;
+  margin:0 0 12px;
+  color:var(--maroon);
+  font-family:Georgia,serif;
+  font-size:clamp(23px,2.2vw,30px);
+  font-weight:800;
+  letter-spacing:.4px;
+  line-height:1.1;
+}
+@media(max-width:650px){
+  .hero-brand{font-size:22px;margin-bottom:10px}
+}
