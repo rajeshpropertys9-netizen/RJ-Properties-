@@ -367,3 +367,34 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .hero-brand{margin:0 0 10px}
   .hero-brand img{width:clamp(170px,48vw,220px);max-height:88px}
 }
+
+
+/* Premium integrated hero identity: blend the official logo into the hero */
+.hero-brand{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:0 0 8px;
+  padding:0;
+  line-height:0;
+  background:transparent;
+}
+.hero-brand img{
+  display:block;
+  width:clamp(250px,30vw,360px);
+  max-width:100%;
+  height:auto;
+  max-height:150px;
+  object-fit:contain;
+  object-position:left center;
+  background:transparent;
+  mix-blend-mode:multiply;
+  filter:contrast(1.06) saturate(1.04);
+}
+@media(max-width:650px){
+  .hero-brand{margin:0 0 7px}
+  .hero-brand img{
+    width:clamp(230px,66vw,285px);
+    max-height:120px;
+  }
+}
