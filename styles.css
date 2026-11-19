@@ -358,3 +358,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:650px){
   .hero-brand{font-size:22px;margin-bottom:10px}
 }
+
+
+/* Official full RJ Properties logo artwork in hero */
+.hero-brand{display:block;margin:0 0 12px;line-height:0}
+.hero-brand img{display:block;width:clamp(180px,24vw,270px);height:auto;max-height:112px;object-fit:contain;object-position:left center}
+@media(max-width:650px){
+  .hero-brand{margin:0 0 10px}
+  .hero-brand img{width:clamp(170px,48vw,220px);max-height:88px}
+}
