@@ -438,3 +438,88 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .hero-brand-mark{font-size:37px}
   .hero-brand-name{font-size:31px}
 }
+
+
+/* RJ Properties custom crest wordmark inspired by the official brand artwork */
+.hero-brand{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  width:max-content;
+  max-width:100%;
+  margin:0 0 12px;
+  padding:0;
+  line-height:1;
+  background:transparent;
+}
+.hero-brand-emblem{
+  display:block;
+  width:clamp(170px,23vw,245px);
+  height:auto;
+  margin:0 0 -2px 2px;
+  overflow:visible;
+}
+.hero-brand-line{
+  display:flex;
+  align-items:baseline;
+  gap:5px;
+  white-space:nowrap;
+  line-height:.92;
+}
+.hero-brand-mark{
+  color:#d5a13a;
+  background:linear-gradient(145deg,#fff0a6 0%,#d7a13b 30%,#8d5a0b 58%,#f8d878 78%,#a66c12 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(48px,6vw,66px);
+  font-weight:900;
+  letter-spacing:-3px;
+  -webkit-text-stroke:.5px #8c5b12;
+  filter:drop-shadow(1px 2px 1px rgba(0,0,0,.22));
+}
+.hero-brand-name{
+  color:#9b1018;
+  background:linear-gradient(180deg,#c92b30 0%,#8e0711 48%,#5d0007 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(39px,4.9vw,55px);
+  font-weight:900;
+  letter-spacing:-1.7px;
+  -webkit-text-stroke:.35px #6f0710;
+  filter:drop-shadow(1px 2px 1px rgba(0,0,0,.2));
+}
+.hero-brand-ornament{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:5px 0 0 8px;
+  color:#8b5c12;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(12px,1.4vw,16px);
+  font-style:italic;
+  font-weight:700;
+  letter-spacing:.15px;
+  text-shadow:0 1px rgba(255,255,255,.7);
+}
+.hero-brand-ornament i{
+  display:block;
+  width:22px;
+  height:1px;
+  background:#b78319;
+}
+@media(max-width:650px){
+  .hero-brand{margin:0 0 9px}
+  .hero-brand-emblem{width:clamp(155px,43vw,190px)}
+  .hero-brand-mark{font-size:46px;letter-spacing:-2.5px}
+  .hero-brand-name{font-size:36px;letter-spacing:-1.2px}
+  .hero-brand-ornament{font-size:12px;margin-top:4px}
+}
+@media(max-width:370px){
+  .hero-brand-emblem{width:145px}
+  .hero-brand-mark{font-size:41px}
+  .hero-brand-name{font-size:32px}
+}
