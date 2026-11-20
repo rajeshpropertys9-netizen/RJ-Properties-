@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Builder Project Registration | RJ Properties</title>
+<meta name="description" content="Submit your project and available inventory to RJ Properties, Hyderabad.">
+<link rel="icon" href="rj-logo.jpg">
+<style>
+:root{--red:#9f2529;--gold:#b68b3c;--ink:#242424;--muted:#6c6c6c;--line:#e8e1d7;--cream:#fbf8f2}
+*{box-sizing:border-box}body{margin:0;background:#f5f3ef;color:var(--ink);font:15px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line)}.head{max-width:980px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:18px}.logo{width:170px;max-height:72px;object-fit:contain}.contact{color:var(--red);font-weight:700;text-decoration:none}
+main{max-width:900px;margin:30px auto;padding:0 16px 48px}.intro{text-align:center;margin:0 auto 22px}.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:2px}.intro h1{font-family:Georgia,serif;font-size:clamp(28px,5vw,40px);margin:7px 0;color:var(--red)}.intro p{margin:0;color:var(--muted)}
+form{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,4vw,34px);box-shadow:0 10px 35px #3a29100b}
+.section{margin:0 0 28px}.section h2{font-size:17px;margin:0 0 16px;padding:0 0 10px;border-bottom:1px solid var(--line);color:var(--red)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}.field{min-width:0}.field.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}label span{color:#b22b2b}input,select,textarea{width:100%;border:1px solid #dcd6cd;border-radius:8px;padding:12px 12px;font:inherit;background:#fff;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px #b68b3c1b}textarea{min-height:94px;resize:vertical}.hint{font-size:12px;color:var(--muted);margin-top:5px}.submit{width:100%;border:0;border-radius:9px;padding:15px;background:var(--red);color:#fff;font-size:15px;font-weight:800;letter-spacing:.4px;cursor:pointer}.submit:disabled{opacity:.65;cursor:wait}.privacy{text-align:center;color:var(--muted);font-size:12px;margin:12px 0 0}.success,.error{display:none;padding:14px;border-radius:9px;margin:0 0 18px}.success{background:#edf7ef;color:#185b2a}.error{background:#fff0ef;color:#8d201b}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.logo{width:140px}.contact{font-size:13px}main{margin-top:20px}}
+</style>
+</head>
+<body>
+<header><div class="head"><a href="index.html"><img class="logo" src="rj-logo.jpg" alt="RJ Properties"></a><a class="contact" href="https://wa.me/918332847728">WhatsApp: +91 83328 47728</a></div></header>
+<main>
+<div class="intro"><div class="eyebrow">BUILDER & DEVELOPER NETWORK</div><h1>Project Registration</h1><p>Share your project and available inventory with RJ Properties, Hyderabad</p></div>
+<form id="builderForm">
+<div id="success" class="success" role="status"></div><div id="error" class="error" role="alert"></div>
+<div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<section class="section"><h2>01 · Builder / Company Details</h2><div class="grid">
+<div class="field"><label>Builder / Company Name <span>*</span></label><input name="builder_company" required maxlength="180" placeholder="Company / Developer name"></div>
+<div class="field"><label>Contact Person <span>*</span></label><input name="contact_name" required maxlength="140" placeholder="Full name"></div>
+<div class="field"><label>Mobile / WhatsApp Number <span>*</span></label><input name="phone" required type="tel" maxlength="30" placeholder="+91"></div>
+<div class="field"><label>Email Address</label><input name="email" type="email" maxlength="180" placeholder="name@company.com"></div>
+</div></section>
+<section class="section"><h2>02 · Project Details</h2><div class="grid">
+<div class="field"><label>Project Name <span>*</span></label><input name="project_name" required maxlength="180" placeholder="Project / Community name"></div>
+<div class="field"><label>Project Location / Locality</label><input name="locality" maxlength="180" placeholder="e.g. Kokapet, Narsingi"></div>
+<div class="field"><label>Property Type</label><select name="property_type"><option value="">Select type</option><option>Luxury Villas</option><option>Apartments / Flats</option><option>Plots</option><option>Independent Houses</option><option>Commercial</option><option>Other</option></select></div>
+<div class="field"><label>RERA Registration Number</label><input name="rera_number" maxlength="100" placeholder="TS RERA number"></div>
+<div class="field"><label>Project Status</label><select name="project_status"><option value="">Select status</option><option>Pre-launch</option><option>Under Construction</option><option>Ready to Move</option><option>Completed</option></select></div>
+<div class="field"><label>Total Project Land Area</label><input name="total_project_area" maxlength="100" placeholder="e.g. 6.3 Acres"></div>
+<div class="field"><label>Total Units</label><input name="total_units" type="number" min="0" placeholder="Total units"></div>
+<div class="field"><label>Currently Available Units</label><input name="available_units" type="number" min="0" placeholder="Available units"></div>
+<div class="field"><label>Expected Possession Date</label><input name="possession_date" placeholder="e.g. Dec 2027"></div>
+<div class="field"><label>Price Range</label><input name="price_range" placeholder="e.g. ₹2.5 Cr – ₹5 Cr"></div>
+</div></section>
+<section class="section"><h2>03 · Available Inventory</h2><div class="grid">
+<div class="field full"><label>Unit-wise Inventory Details</label><textarea name="unit_inventory" maxlength="4000" placeholder="Add unit / villa / flat number, BHK, plot area, built-up area, facing, floor, price and availability. One unit per line is helpful."></textarea><div class="hint">If multiple units are available, list each unit separately with its price and status.</div></div>
+<div class="field full"><label>Amenities & Key Features</label><textarea name="amenities" maxlength="2000" placeholder="Clubhouse, swimming pool, gym, parks, security, etc."></textarea></div>
+<div class="field full"><label>Payment Plan / Terms</label><textarea name="payment_terms" maxlength="1200" placeholder="Construction-linked plan, milestones, other charges, etc."></textarea></div>
+</div></section>
+<section class="section"><h2>04 · Brochure, Media & Location</h2><div class="grid">
+<div class="field"><label>Project Brochure Link</label><input name="brochure_url" type="url" placeholder="https://..."></div>
+<div class="field"><label>Floor Plan Link</label><input name="floor_plan_url" type="url" placeholder="https://..."></div>
+<div class="field"><label>Project Photos Link</label><input name="photos_url" type="url" placeholder="Google Drive link"></div>
+<div class="field"><label>Project Video Link</label><input name="video_url" type="url" placeholder="YouTube link"></div>
+<div class="field full"><label>Google Maps Location Link</label><input name="map_url" type="url" placeholder="https://maps.google.com/..."></div>
+<div class="field full"><label>Additional Notes</label><textarea name="additional_notes" maxlength="2000" placeholder="Any other important project information"></textarea></div>
+</div></section>
+<button class="submit" id="submitBtn" type="submit">SUBMIT PROJECT DETAILS</button>
+<p class="privacy">Your information will be shared privately with RJ Properties for review. Submission does not automatically publish the project.</p>
+</form></main>
+<footer>© 2026 RJ Properties · Find Your Dream House · Hyderabad</footer>
+<script>
+const form=document.getElementById('builderForm'),btn=document.getElementById('submitBtn'),ok=document.getElementById('success'),bad=document.getElementById('error');
+form.addEventListener('submit',async e=>{e.preventDefault();ok.style.display='none';bad.style.display='none';btn.disabled=true;btn.textContent='SUBMITTING…';
+try{const payload=Object.fromEntries(new FormData(form).entries());const response=await fetch('https://bgmlgmdhypmfabyluqvv.supabase.co/functions/v1/builder-project-submit',{method:'POST',headers:{'Content-Type':'application/json','apikey':'sb_publishable_oy6A_pRkScEU94X33EzJFA_es-_b1Dg'},body:JSON.stringify(payload)});const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||'Could not submit. Please try again.');ok.textContent='Thank you! Your project details have been received. Reference: '+result.reference+'. RJ Properties will review and contact you.';ok.style.display='block';form.reset();ok.scrollIntoView({behavior:'smooth',block:'center'});}catch(err){bad.textContent=err.message||'Submission failed. Please WhatsApp RJ Properties.';bad.style.display='block';}finally{btn.disabled=false;btn.textContent='SUBMIT PROJECT DETAILS';}});
+</script>
+</body></html>
