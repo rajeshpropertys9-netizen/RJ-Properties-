@@ -201,10 +201,18 @@ form{display:grid!important;gap:14px!important}
 label{display:block!important;font-weight:800!important;font-size:clamp(14px,1.5vw,18px)!important;margin:0 0 6px!important;color:#171313!important}
 label span{color:#d51c27!important}
 input:not([type=checkbox]),select,textarea{width:100%!important;min-height:48px!important;border:1.5px solid #c8c4c0!important;border-radius:12px!important;padding:9px 13px!important;background:#fff!important;color:#24201e!important;font:inherit!important;font-size:15px!important;outline:none!important;box-shadow:inset 0 1px 2px #00000008!important}
-select[multiple]{min-height:48px!important;height:48px!important;overflow:hidden!important}
+
 textarea{min-height:78px!important;resize:vertical!important;padding:10px 13px!important}
 input:focus,select:focus,textarea:focus{border-color:#bd8b2e!important;box-shadow:0 0 0 3px #bd861b22!important}
 .hint{font-size:11px!important;color:#6e6863!important;margin-top:4px!important}
+.location-picker{position:relative;width:100%}
+.location-picker summary{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;min-height:48px!important;padding:9px 13px!important;border:1.5px solid #c8c4c0!important;border-radius:12px!important;background:#fff!important;color:#6e6863!important;font-size:15px!important;font-weight:400!important;cursor:pointer!important;list-style:none!important;margin:0!important}
+.location-picker summary::-webkit-details-marker{display:none}
+.location-chevron{font-size:22px!important;color:#555!important;line-height:1!important}
+.location-options{position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:20;max-height:245px;overflow:auto;padding:8px 10px;background:#fff;border:1px solid #c6a35d;border-radius:12px;box-shadow:0 8px 24px #0002}
+.location-options label{display:flex!important;align-items:center!important;gap:9px!important;padding:7px 3px!important;margin:0!important;font-size:14px!important;font-weight:500!important;white-space:normal!important}
+.location-options input{appearance:auto!important;width:18px!important;height:18px!important;min-height:18px!important;flex:0 0 18px!important;margin:0!important;padding:0!important;accent-color:#920b17!important}
+
 .check-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px 18px!important;margin:4px 0 16px!important}
 .check-option{display:flex!important;align-items:center!important;gap:9px!important;font-weight:500!important;font-size:clamp(13px,1.4vw,17px)!important;margin:0!important;white-space:nowrap!important}
 .check-option input{appearance:auto!important;width:20px!important;height:20px!important;min-height:20px!important;flex:0 0 20px!important;margin:0!important;accent-color:#920b17!important}
@@ -237,7 +245,7 @@ footer{text-align:center!important;color:#766b61!important;font-size:12px!import
  .personal-fields,.property-fields{grid-template-columns:1fr!important;gap:11px!important}
  label{font-size:14px!important}
  input:not([type=checkbox]),select,textarea{min-height:46px!important;font-size:14px!important}
- select[multiple]{height:46px!important;min-height:46px!important}
+ 
  .check-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px 8px!important;margin:8px 0 14px!important}
  .check-option{font-size:12px!important;gap:6px!important;white-space:normal!important}
  .check-option input{width:18px!important;height:18px!important;flex-basis:18px!important}
@@ -276,7 +284,7 @@ footer{text-align:center!important;color:#766b61!important;font-size:12px!import
 <h2><span class="ico">⌂</span> 2. Property Requirements</h2>
 <div class="fields property-fields">
 <div class="field"><label for="type">Property Type <span>*</span></label><select id="type" required><option value="">Select Property Type</option><option>Villa</option><option>Flat / Apartment</option><option>Independent House</option><option>Land / Open Plot</option><option>Commercial</option></select></div>
-<div class="field"><label for="location">Preferred Location(s) <span>*</span></label><select id="location" multiple required aria-describedby="locationHint"><option>Manikonda</option><option>Kokapet</option><option>Narsingi</option><option>Puppalguda</option><option>Nanakramguda / Financial District</option><option>Gachibowli</option><option>Bandlaguda Jagir</option><option>Gandipet</option><option>Alkapur Township</option><option>Other Hyderabad Locations</option></select><div class="hint" id="locationHint">Select one or more locations (tap to select multiple).</div></div>
+<div class="field location-field"><label for="locationPicker">Preferred Location(s) <span>*</span></label><details class="location-picker" id="locationPicker"><summary id="locationSummary">Select Location(s)<span class="location-chevron">⌄</span></summary><div class="location-options"><label><input type="checkbox" name="locationChoice" value="Manikonda"> Manikonda</label><label><input type="checkbox" name="locationChoice" value="Kokapet"> Kokapet</label><label><input type="checkbox" name="locationChoice" value="Narsingi"> Narsingi</label><label><input type="checkbox" name="locationChoice" value="Puppalguda"> Puppalguda</label><label><input type="checkbox" name="locationChoice" value="Nanakramguda / Financial District"> Nanakramguda / Financial District</label><label><input type="checkbox" name="locationChoice" value="Gachibowli"> Gachibowli</label><label><input type="checkbox" name="locationChoice" value="Bandlaguda Jagir"> Bandlaguda Jagir</label><label><input type="checkbox" name="locationChoice" value="Gandipet"> Gandipet</label><label><input type="checkbox" name="locationChoice" value="Alkapur Township"> Alkapur Township</label><label><input type="checkbox" name="locationChoice" value="Other Hyderabad Locations"> Other Hyderabad Locations</label></div></details><input type="hidden" id="location"><div class="hint" id="locationHint">Choose one or more preferred locations.</div></div>
 <div class="field"><label for="bhk">Configuration (BHK) <span>*</span></label><select id="bhk" required><option value="">Select BHK</option><option>1 BHK</option><option>2 BHK</option><option>3 BHK</option><option>4 BHK</option><option>5 BHK</option><option>6+ BHK</option><option>Villa / Independent House</option><option>Plot / Land</option><option>Commercial</option><option>Any</option></select></div>
 <div class="field"><label for="budget">Budget Range <span>*</span></label><select id="budget" required><option value="">Select Budget Range</option><option>Below ₹50 Lakhs</option><option>₹50 Lakhs – ₹1 Crore</option><option>₹1 – ₹2 Crores</option><option>₹2 – ₹3 Crores</option><option>₹3 – ₹5 Crores</option><option>₹5 – ₹10 Crores</option><option>₹10 – ₹20 Crores</option><option>Above ₹20 Crores</option><option>Negotiable / Flexible</option></select></div>
 </div></section>
@@ -311,13 +319,16 @@ const SUPABASE_URL='https://bgmlgmdhypmfabyluqvv.supabase.co';
 const SUPABASE_KEY='sb_publishable_oy6A_pRkScEU94X33EzJFA_es-_b1Dg';
 const form=document.getElementById('buyerForm'),button=document.getElementById('submitBtn'),statusBox=document.getElementById('status');
 const value=id=>document.getElementById(id).value.trim();
+const locationSummary=document.getElementById('locationSummary');
+function syncLocations(){const selected=[...form.querySelectorAll('input[name="locationChoice"]:checked')].map(x=>x.value);document.getElementById('location').value=selected.join(', ');locationSummary.textContent=selected.length?(selected.length<=2?selected.join(', '):selected.length+' locations selected'):'Select Location(s)';const arrow=document.createElement('span');arrow.className='location-chevron';arrow.textContent='⌄';locationSummary.appendChild(arrow);}
+form.querySelectorAll('input[name="locationChoice"]').forEach(x=>x.addEventListener('change',syncLocations));
 function showStatus(message,kind){statusBox.textContent=message;statusBox.className='status show '+kind;statusBox.scrollIntoView({behavior:'smooth',block:'center'});}
 form.addEventListener('submit',async event=>{
  event.preventDefault();statusBox.className='status';statusBox.textContent='';
  if(!form.reportValidity())return;
  const phone=value('phone');
  if(!/^\\+?[0-9\\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
- const locations=[...document.getElementById('location').selectedOptions].map(o=>o.value);
+ const locations=[...form.querySelectorAll('input[name="locationChoice"]:checked')].map(o=>o.value);
  if(!locations.length){showStatus('Please select at least one preferred location.','err');return;}
  const selectedExtras=[...form.querySelectorAll('input[name="extra"]:checked')].map(x=>x.value);
  const notes=[selectedExtras.length?'Additional preferences: '+selectedExtras.join(', '):'',value('extraNotes')].filter(Boolean).join('\\n');
