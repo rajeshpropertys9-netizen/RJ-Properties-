@@ -327,11 +327,11 @@ form.addEventListener('submit',async event=>{
  event.preventDefault();statusBox.className='status';statusBox.textContent='';
  if(!form.reportValidity())return;
  const phone=value('phone');
- if(!/^\\+?[0-9\\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
+ if(!/^\+?[0-9\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
  const locations=[...form.querySelectorAll('input[name="locationChoice"]:checked')].map(o=>o.value);
  if(!locations.length){showStatus('Please select at least one preferred location.','err');return;}
  const selectedExtras=[...form.querySelectorAll('input[name="extra"]:checked')].map(x=>x.value);
- const notes=[selectedExtras.length?'Additional preferences: '+selectedExtras.join(', '):'',value('extraNotes')].filter(Boolean).join('\\n');
+ const notes=[selectedExtras.length?'Additional preferences: '+selectedExtras.join(', '):'',value('extraNotes')].filter(Boolean).join('\n');
  button.disabled=true;button.textContent='Submitting…';
  const payload={name:value('name'),phone,email:value('email'),preferred_property_type:value('type'),preferred_locations:locations.join(', '),preferred_budget:value('budget'),preferred_bhk:value('bhk'),preferred_land_area:'',preferred_facing:'',preferred_property_age:'',preferred_payment_mode:'',preferred_buying_timeline:'',additional_requirements:notes,website:value('website')};
  try{
