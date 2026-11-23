@@ -176,6 +176,62 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
  .intro{margin-bottom:0!important}
 }
 
+
+/* Exact approved full-page buyer requirement reference */
+body{max-width:1100px!important;width:min(1100px,100%)!important;margin:0 auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fffaf4!important}
+.hero{min-height:0!important;padding:10px 20px 18px!important;background:#fffaf4!important;border-radius:0!important}
+.hero:before{height:390px!important;background-image:linear-gradient(180deg,rgba(255,250,244,.02),rgba(255,250,244,.08) 62%,#fffaf4 100%),url('avni-lake-view-villa.webp?v=20261123-clean-hero')!important;background-size:100% 100%,cover!important;background-position:center top!important}
+.logo{width:min(490px,60vw)!important;max-height:none!important;margin:0 auto 8px!important;background:transparent!important}
+.wrap{width:calc(100% - 56px)!important;max-width:1000px!important;margin:18px auto 24px!important}
+form{gap:14px!important}
+.section{padding:16px 30px 20px!important;border:1.5px solid #c6a35d!important;border-radius:22px!important;background:rgba(255,255,255,.58)!important}
+.section h2{margin:0 0 10px!important;padding:7px 18px 7px 10px!important;font-size:clamp(16px,2vw,22px)!important}
+.section h2 .ico{width:34px!important;height:34px!important}
+.fields{gap:12px 34px!important}
+.personal-fields{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.property-fields{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.field{min-width:0!important}
+label{font-size:clamp(14px,1.5vw,18px)!important;margin-bottom:6px!important}
+input:not([type=checkbox]),select,textarea{min-height:48px!important;padding:9px 13px!important;border-radius:12px!important;font-size:15px!important;background:#fff!important}
+select[multiple]{min-height:76px!important}
+textarea{min-height:78px!important}
+.hint{font-size:11px!important;margin-top:4px!important}
+.check-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px 18px;margin:4px 0 16px}
+.check-option{display:flex;align-items:center;gap:9px;font-weight:500!important;font-size:clamp(13px,1.4vw,17px)!important;margin:0!important}
+.check-option input{appearance:auto!important;width:20px!important;height:20px!important;min-height:20px!important;flex:0 0 20px;margin:0!important;accent-color:#920b17}
+.other-field{margin-top:2px}
+.optional{font-weight:500;color:#29221d}
+.submit{width:min(560px,78%)!important;padding:16px 22px!important;border-radius:38px!important;font-size:clamp(20px,2.5vw,29px)!important;text-align:center!important}
+.submit:before{display:none!important}
+.trust{margin:14px 0 0!important;padding:10px!important;border-radius:20px!important}
+.trust div{flex-direction:column!important;gap:4px!important;text-align:center!important}
+.trust b{color:#9b101a!important}
+@media(max-width:700px){
+ .hero{padding:8px 10px 14px!important}
+ .hero:before{height:250px!important;background-size:100% 100%,cover!important}
+ .logo{width:min(340px,82vw)!important;margin:0 auto 8px!important}
+ h1{max-width:94%!important;padding:9px 18px!important;font-size:clamp(17px,4.5vw,24px)!important}
+ .sub{font-size:clamp(17px,4.4vw,23px)!important}
+ .intro{font-size:13px!important}
+ .wrap{width:calc(100% - 24px)!important;margin:14px auto 18px!important}
+ form{gap:12px!important}
+ .section{padding:14px 13px 16px!important;border-radius:17px!important}
+ .section h2{font-size:15px!important;padding:6px 12px 6px 8px!important}
+ .section h2 .ico{width:29px!important;height:29px!important;font-size:18px!important}
+ .personal-fields,.property-fields{grid-template-columns:1fr!important;gap:11px!important}
+ label{font-size:14px!important}
+ input:not([type=checkbox]),select,textarea{min-height:46px!important;font-size:14px!important}
+ select[multiple]{min-height:92px!important}
+ .check-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 8px;margin:8px 0 14px}
+ .check-option{font-size:12px!important;gap:6px}
+ .check-option input{width:18px!important;height:18px!important;flex-basis:18px}
+ .submit{width:90%!important;min-height:56px!important;font-size:19px!important;padding:13px 12px!important}
+ .trust{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:0!important}
+ .trust div{min-height:72px;border-right:1px solid #d4b46f!important}
+ .trust div:nth-child(2n){border-right:0!important}
+ .trust div:nth-child(n+3){border-top:1px solid #d4b46f!important}
+}
+
 </style>
 </head>
 <body>
@@ -189,30 +245,37 @@ footer{text-align:center;color:#766b61;font-size:12px;padding:0 12px 25px;line-h
 <main class="wrap">
 <form id="buyerForm" novalidate>
 <section class="section">
-<h2><span class="ico">👤</span> 1. Personal Details</h2>
-<div class="fields">
+<h2><span class="ico">●</span> 1. Personal Details</h2>
+<div class="fields personal-fields">
 <div class="field"><label for="name">Name <span>*</span></label><input id="name" name="name" autocomplete="name" maxlength="120" placeholder="Enter your full name" required></div>
 <div class="field"><label for="phone">Mobile / WhatsApp Number <span>*</span></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="Enter mobile number" required><div class="hint">Include country code if you are outside India.</div></div>
+<div class="field"><label for="email">Email (Optional)</label><input id="email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="Enter your email address"></div>
 </div></section>
 <section class="section">
 <h2><span class="ico">⌂</span> 2. Property Requirements</h2>
-<div class="fields">
-<div class="field"><label for="type">Property Type <span>*</span></label><select id="type" required><option value="">Select Property Type</option><option>Villa</option><option>Flat / Apartment</option><option>Independent House</option><option>Land / Open Plot</option><option>Commercial</option><option>Other</option></select></div>
-<div class="field"><label for="location">Preferred Location <span>*</span></label><input id="location" maxlength="500" placeholder="E.g. Kokapet, Narsingi, Manikonda" required></div>
-<div class="field"><label for="budget">Budget</label><input id="budget" maxlength="80" placeholder="E.g. ₹2.5 Crore"></div>
-<div class="field"><label for="landArea">Land / Plot Area (Optional)</label><input id="landArea" maxlength="100" placeholder="E.g. 300 Sq. Yds / 1 Acre"></div>
-<div class="field"><label for="facing">Facing</label><select id="facing"><option value="">Select Facing</option><option>East</option><option>West</option><option>North</option><option>South</option><option>North-East</option><option>South-East</option><option>North-West</option><option>South-West</option><option>Any</option></select></div>
-<div class="field"><label for="age">Property Age (New / Old)</label><select id="age"><option value="">Select Property Age</option><option>New</option><option>Resale / Old</option><option>Under Construction</option><option>Any</option></select></div>
-<div class="field"><label for="payment">Payment Mode</label><select id="payment"><option value="">Select Payment Mode</option><option>Full Payment</option><option>Bank Loan</option><option>Part Payment</option><option>Flexible</option></select></div>
-<div class="field"><label for="timeline">Buying Timeline</label><select id="timeline"><option value="">Select Buying Timeline</option><option>Immediately / Within 15 Days</option><option>Within 1 Month</option><option>Within 3 Months</option><option>Within 6 Months</option><option>After 6 Months</option><option>Just Exploring</option></select></div>
+<div class="fields property-fields">
+<div class="field"><label for="type">Property Type <span>*</span></label><select id="type" required><option value="">Select Property Type</option><option>Villa</option><option>Flat / Apartment</option><option>Independent House</option><option>Land / Open Plot</option><option>Commercial</option></select></div>
+<div class="field"><label for="location">Preferred Location(s) <span>*</span></label><select id="location" multiple required aria-describedby="locationHint"><option>Manikonda</option><option>Kokapet</option><option>Narsingi</option><option>Puppalguda</option><option>Nanakramguda / Financial District</option><option>Gachibowli</option><option>Bandlaguda Jagir</option><option>Gandipet</option><option>Alkapur Township</option><option>Other Hyderabad Locations</option></select><div class="hint" id="locationHint">Select one or more locations (tap to select multiple).</div></div>
+<div class="field"><label for="bhk">Configuration (BHK) <span>*</span></label><select id="bhk" required><option value="">Select BHK</option><option>1 BHK</option><option>2 BHK</option><option>3 BHK</option><option>4 BHK</option><option>5 BHK</option><option>6+ BHK</option><option>Villa / Independent House</option><option>Plot / Land</option><option>Commercial</option><option>Any</option></select></div>
+<div class="field"><label for="budget">Budget Range <span>*</span></label><select id="budget" required><option value="">Select Budget Range</option><option>Below ₹50 Lakhs</option><option>₹50 Lakhs – ₹1 Crore</option><option>₹1 – ₹2 Crores</option><option>₹2 – ₹3 Crores</option><option>₹3 – ₹5 Crores</option><option>₹5 – ₹10 Crores</option><option>₹10 – ₹20 Crores</option><option>Above ₹20 Crores</option><option>Negotiable / Flexible</option></select></div>
 </div></section>
 <section class="section">
-<h2><span class="ico">▤</span> 3. Additional Requirements (Optional)</h2>
-<div class="field"><label for="extra">BHK / Area / Other Requirements</label><textarea id="extra" maxlength="2000" placeholder="Tell us more about your dream property...&#10;(e.g. 3 BHK Villa, 300 Sq. Yds, Gated Community, etc.)"></textarea></div>
+<h2><span class="ico">☷</span> 3. Additional Requirements</h2>
+<div class="check-grid">
+<label class="check-option"><input type="checkbox" name="extra" value="Gated Community"> Gated Community</label>
+<label class="check-option"><input type="checkbox" name="extra" value="Ready to Move"> Ready to Move</label>
+<label class="check-option"><input type="checkbox" name="extra" value="Under Construction"> Under Construction</label>
+<label class="check-option"><input type="checkbox" name="extra" value="RERA Approved"> RERA Approved</label>
+<label class="check-option"><input type="checkbox" name="extra" value="Vastu Compliant"> Vastu Compliant</label>
+<label class="check-option"><input type="checkbox" name="extra" value="East Facing"> East Facing</label>
+<label class="check-option"><input type="checkbox" name="extra" value="North Facing"> North Facing</label>
+<label class="check-option"><input type="checkbox" name="extra" value="Flexible (Any)"> Flexible (Any)</label>
+</div>
+<div class="field full other-field"><label for="extraNotes">Other Requirements <span class="optional">(Optional)</span></label><textarea id="extraNotes" maxlength="2000" placeholder="Tell us more about your requirement (e.g., specific project, size, amenities, etc.)"></textarea></div>
 </section>
 <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" tabindex="-1" autocomplete="off"></div>
 <div id="status" class="status" role="status" aria-live="polite"></div>
-<button class="submit" id="submitBtn" type="submit">➤ &nbsp; SUBMIT REQUIREMENTS</button>
+<button class="submit" id="submitBtn" type="submit">➤ &nbsp; Submit Requirements</button>
 </form>
 <div class="trust">
 <div><b><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 19 12 11l7 4 4-3 13 11-8 9-9-7-4 4-8-7z"/><path d="m12 11 7 7m-4 5 5 5m1-9 7 7m-3-11 7 6"/></svg></b><span>Personalised<br>End-to-End Support</span></div>
@@ -232,17 +295,21 @@ form.addEventListener('submit',async event=>{
  event.preventDefault();statusBox.className='status';statusBox.textContent='';
  if(!form.reportValidity())return;
  const phone=value('phone');
- if(!/^\+?[0-9\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
- button.disabled=true;button.textContent='SUBMITTING…';
- const payload={name:value('name'),phone,email:'',preferred_property_type:value('type'),preferred_locations:value('location'),preferred_budget:value('budget'),preferred_land_area:value('landArea'),preferred_facing:value('facing'),preferred_property_age:value('age'),preferred_payment_mode:value('payment'),preferred_buying_timeline:value('timeline'),preferred_bhk:'',additional_requirements:value('extra'),website:value('website')};
+ if(!/^\\+?[0-9\\s()-]{10,20}$/.test(phone)){showStatus('Please enter a valid mobile / WhatsApp number.','err');return;}
+ const locations=[...document.getElementById('location').selectedOptions].map(o=>o.value);
+ if(!locations.length){showStatus('Please select at least one preferred location.','err');return;}
+ const selectedExtras=[...form.querySelectorAll('input[name="extra"]:checked')].map(x=>x.value);
+ const notes=[selectedExtras.length?'Additional preferences: '+selectedExtras.join(', '):'',value('extraNotes')].filter(Boolean).join('\\n');
+ button.disabled=true;button.textContent='Submitting…';
+ const payload={name:value('name'),phone,email:value('email'),preferred_property_type:value('type'),preferred_locations:locations.join(', '),preferred_budget:value('budget'),preferred_bhk:value('bhk'),preferred_land_area:'',preferred_facing:'',preferred_property_age:'',preferred_payment_mode:'',preferred_buying_timeline:'',additional_requirements:notes,website:value('website')};
  try{
   const response=await fetch(SUPABASE_URL+'/functions/v1/buyer-self-registration',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});
   const result=await response.json();
   if(!response.ok)throw new Error(result.error||'Unable to submit. Please try again.');
-  showStatus(result.message||'Thank you! Your requirements have been submitted for review.', 'ok');
-  if(!result.duplicate){form.reset();button.textContent='SUBMITTED ✓';}
-  else button.textContent='➤  SUBMIT REQUIREMENTS';
- }catch(error){showStatus(error.message||'Network error. Please try again.','err');button.textContent='➤  SUBMIT REQUIREMENTS';}
+  showStatus(result.message||'Thank you! Your requirements have been submitted for review.','ok');
+  if(!result.duplicate){form.reset();button.textContent='Submitted ✓';}
+  else button.textContent='➤  Submit Requirements';
+ }catch(error){showStatus(error.message||'Network error. Please try again.','err');button.textContent='➤  Submit Requirements';}
  finally{button.disabled=false;}
 });
 </script>
