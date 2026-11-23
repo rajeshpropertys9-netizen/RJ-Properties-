@@ -282,11 +282,35 @@ input:not([type=checkbox]),select,textarea{padding-left:13px!important}
  .intro{margin-bottom:0!important}
 }
 
+/* FINAL MOBILE LOGO FIX — transparent official SVG, compact reference sizing */
+.logo{
+ display:block!important;
+ width:min(270px,68vw)!important;
+ max-width:78%!important;
+ height:auto!important;
+ max-height:190px!important;
+ object-fit:contain!important;
+ margin:4px auto 9px!important;
+ padding:0!important;
+ background:transparent!important;
+ border:0!important;
+ border-radius:0!important;
+ box-shadow:none!important;
+ mix-blend-mode:normal!important;
+ filter:none!important;
+ opacity:1!important;
+}
+@media(max-width:700px){
+ .logo{width:min(260px,68vw)!important;max-width:78%!important;max-height:185px!important;margin:2px auto 8px!important}
+ .hero{padding:6px 8px 14px!important}
+ .hero:before{height:245px!important;background-position:center 42%!important}
+}
+
 </style>
 </head>
 <body>
 <header class="hero"><div class="hero-inner">
-<img class="logo" src="rj-logo.jpg?v=20261124-final-reference" loading="eager" fetchpriority="high" alt="RJ Properties – Find Your Dream House" onerror="this.style.display='none'">
+<img class="logo" src="rj-logo-transparent.svg?v=20261124-transparent-logo-fix" loading="eager" fetchpriority="high" alt="RJ Properties – Find Your Dream House" onerror="this.style.display='none'">
 
 <h1>Buyer Requirement Form</h1>
 <div class="sub">Tell Us Your Property Requirements</div>
