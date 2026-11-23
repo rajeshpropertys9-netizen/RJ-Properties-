@@ -260,6 +260,10 @@ footer{text-align:center!important;color:#766b61!important;font-size:12px!import
  .trust{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
 
+/* MOBILE REVIEW FIX: remove legacy field icons that overlap placeholder text */
+.field:has(#name):before,.field:has(#phone):before,.field:has(#type):before,.field:has(#location):before,.field:has(#budget):before,.field:has(#landArea):before,.field:has(#facing):before,.field:has(#age):before,.field:has(#payment):before,.field:has(#timeline):before,.field:has(#extra):before{display:none!important;content:none!important}
+input:not([type=checkbox]),select,textarea{padding-left:13px!important}
+
 
 </style>
 </head>
