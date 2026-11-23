@@ -224,3 +224,19 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - The existing Supabase buyer-self-registration endpoint, duplicate-phone detection, pending-approval flow, and CRM buyer records remain in place. No database migration or existing customer record change is part of this UI update.
 - This approved field arrangement supersedes the earlier public form fields on the page; CRM's existing extra buyer fields and stored data are not deleted.
 - The page and deployment smoke tests have been updated. Do not describe this revision as live until GitHub Pages deploy and smoke/UI checks succeed and the deployed page is visually checked on mobile.
+
+
+## 18. FINAL LOCK — Buyer Requirement Form reference (24 November 2026)
+
+- The user's supplied full-page RJ Properties Buyer Requirement Form image is the authoritative visual reference and supersedes previous buyer-form styling.
+- Header: cream canvas, luxury villa/city hero backdrop, exact official RJ Properties logo, red rounded Buyer Requirement Form title, bold requirement heading, italic supporting line, gold accents.
+- Section 1 Personal Details: Name, Mobile / WhatsApp Number, optional Email. Three columns on desktop; stacked fields on mobile.
+- Section 2 Property Requirements: Property Type, Preferred Location(s), Configuration (BHK), Budget Range. Two columns on desktop; stacked on mobile.
+- Section 3 Additional Requirements: Gated Community, Ready to Move, Under Construction, RERA Approved, Vastu Compliant, East Facing, North Facing, Flexible (Any), and optional Other Requirements text.
+- Primary action: prominent red Submit Requirements button.
+- Footer benefits in this exact order: Personalised Property Suggestions; Expert Guidance; Site Visit Assistance; End-to-End Support.
+- Brand colors and visual language are locked: cream/white background, RJ red/burgundy, gold borders and accents, rounded section cards, clean responsive typography.
+- Existing buyer-self-registration endpoint and payload mapping remain. Existing duplicate-number protection, pending-approval workflow, CRM records, and database data must not be deleted or altered as part of design work.
+- Multi-location selection remains supported; selected locations are stored in the existing preferred_locations field. Selected checkboxes and optional notes are stored in existing additional_requirements.
+- Future changes must preserve this exact layout and visual style unless the user explicitly approves a design change.
+- Production lock is complete only after GitHub Pages deploy succeeds, workflow smoke tests pass, and the live page is checked at mobile width. Until then, treat code as updated but not production-verified.
