@@ -240,3 +240,15 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Multi-location selection remains supported; selected locations are stored in the existing preferred_locations field. Selected checkboxes and optional notes are stored in existing additional_requirements.
 - Future changes must preserve this exact layout and visual style unless the user explicitly approves a design change.
 - Production verification completed 24 November 2026: GitHub Pages deployment succeeded; live smoke test passed; Playwright mobile-width (390px) buyer form check confirmed email, BHK, budget, multi-location picker, all eight preference checkboxes, and submit button render; LIVE_UI_SMOKE_OK passed. Treat this exact revision as production-locked.
+
+
+## 19. Buyer Requirement Form — reference-image correction (24 November 2026)
+
+- The user's full-page 1024x1536 reference image is the exact visual target. The live mobile screenshot previously differed: it used the alternate Avni villa image as the mobile hero and the keyed transparent logo appeared washed out.
+- Mobile hero background now uses the same `hero-property.jpg` banner as the desktop hero, instead of the alternate Avni villa image.
+- The official transparent RJ logo SVG retains its original artwork and now uses a stronger alpha transfer so gold and red details are not washed out against the hero image.
+- Mobile logo is enlarged to use up to 90vw and is not height-cropped.
+- Keep the exact functional HTML form below the banner. Do not replace it with a flattened image: all form fields, multi-location choices, eight additional requirement checkboxes, submission flow and existing backend mapping must remain functional.
+- Keep the approved reference layout: red title pill, bold headline, italic subtitle, cream canvas, red/gold section headers, three-column Personal Details and two-column Property Requirements on desktop, responsive stacked fields on mobile, red submit button, four footer benefits.
+- Deployment workflow now checks that the mobile hero uses `hero-property.jpg`, the official logo image loads at a visible width, and the logo is not hidden/transparent.
+- Treat the reference as locked. Do not mark this correction as production verified until the latest deployment and mobile browser test pass.
