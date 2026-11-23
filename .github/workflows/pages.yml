@@ -162,6 +162,8 @@ jobs:
               must(await page.locator('#propertyGrid .property-card').count() >= 4, 'Homepage featured properties shows all four published listings');
               await page.goto(new URL('buyer-requirement.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
               await page.locator('#buyerForm').waitFor();
+              const headerCheck = await page.locator('.hero').evaluate(el => ({ bg: getComputedStyle(el).backgroundImage, logo: (() => { const img = el.querySelector('.logo'); return { loaded: !!img && img.complete && img.naturalWidth > 0, width: img?.getBoundingClientRect().width || 0, opacity: img ? getComputedStyle(img).opacity : '0' }; })() }));
+              must(headerCheck.bg.includes('hero-property.jpg') && headerCheck.logo.loaded && headerCheck.logo.width > 250 && Number(headerCheck.logo.opacity) > 0.95, 'Buyer form mobile hero uses approved property banner and vivid official logo');
               must(await page.locator('#email').count() === 1 && await page.locator('#bhk').count() === 1 && await page.locator('#budget').count() === 1 && await page.locator('#locationPicker').count() === 1 && await page.locator('input[name="locationChoice"]').count() === 10 && await page.locator('input[name="extra"]').count() === 8, 'Buyer requirement form renders email, BHK, budget, multi-location picker and all eight preference checkboxes');
               must(await page.locator('#buyerForm button[type="submit"]').count() === 1, 'Buyer requirement form submit button renders without creating a production enquiry');
               await page.goto(new URL('sell.html', base).toString(), { waitUntil: 'networkidle', timeout: 60000 });
