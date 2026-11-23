@@ -211,3 +211,16 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Latest HTML visual commits: 8c7ac8064bca52da851d2b441e9c26bbd36fa7be and 9914a9f53cd34278422265e77c0f73e9325ad83e.
 - The current repository hero image asset is retained and cropped/faded in the header so its embedded lower WhatsApp/location strip does not compete with the form title. This is a best match using the existing asset; the hero photograph is not a pixel-identical replacement for the supplied mockup artwork.
 - Deployment status: the GitHub Pages workflow for the latest visual update must succeed before calling the page production-live. Complete a live mobile visual check and form-render smoke test before locking this revision as production-approved.
+
+
+## 17. Buyer requirement form — new exact full-page reference (23 November 2026)
+
+- The user's latest full-page image explicitly supersedes the prior public buyer-form visual and field arrangement.
+- Target layout: official RJ Properties logo integrated into a premium villa/city hero; centered red Buyer Requirement Form banner; bold heading/subheading; cream background; gold-outline rounded sections; three sections titled Personal Details, Property Requirements, Additional Requirements; prominent red Submit Requirements button; four benefit items at the bottom.
+- Personal Details: name, mobile/WhatsApp, optional email.
+- Property Requirements: property type, preferred location(s), configuration (BHK), budget range.
+- Additional Requirements: checkboxes for Gated Community, Ready to Move, Under Construction, RERA Approved, Vastu Compliant, East Facing, North Facing, Flexible (Any), plus optional free-text notes.
+- Multiple selected locations are serialized as a comma-separated preferred_locations string. Selected preference checkboxes are retained in the existing additional_requirements/notes field. Email and BHK map to existing buyer-self-registration payload fields.
+- The existing Supabase buyer-self-registration endpoint, duplicate-phone detection, pending-approval flow, and CRM buyer records remain in place. No database migration or existing customer record change is part of this UI update.
+- This approved field arrangement supersedes the earlier public form fields on the page; CRM's existing extra buyer fields and stored data are not deleted.
+- The page and deployment smoke tests have been updated. Do not describe this revision as live until GitHub Pages deploy and smoke/UI checks succeed and the deployed page is visually checked on mobile.
