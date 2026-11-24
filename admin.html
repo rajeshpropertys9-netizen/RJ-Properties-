@@ -135,15 +135,9 @@ async function compressImageUniversal(file,targetBytes=500000){
   const encode=(mime,quality)=>new Promise(resolve=>{
    let settled=false;
    const done=blob=>{if(!settled){settled=true;resolve(blob&&blob.type===mime?blob:null)}};
-   if(typeof canvas.toBlob==='function'){
-    try{canvas.toBlob(done,mime,quality)}catch(_){done(null)}
-   }else done(null);
-   // Safari/webviews that expose toBlob but return null get a data-URL fallback.
-   setTimeoutFallback();
-   function setTimeoutFallback(){
-    if(settled)return;
-    try{const blob=dataUrlBlob(mime,quality);done(blob)}catch(_){done(null)}
-   }
+   const fallback=()=>{try{done(dataUrlBlob(mime,quality))}catch(_){done(null)}};
+   if(typeof canvas.toBlob!=='function'){fallback();return}
+   try{canvas.toBlob(blob=>{if(blob&&blob.type===mime)done(blob);else fallback()},mime,quality)}catch(_){fallback()}
   });
   let bestUnderLimit=null;
   const qualities=[.90,.86,.82,.78,.74,.70,.66,.62,.58,.54,.50,.46,.42,.38];
