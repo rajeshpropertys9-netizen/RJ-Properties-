@@ -118,7 +118,7 @@ async function compressOwnerPhoto(file){
   const initialScale=Math.min(1,maxDimension/Math.max(sourceWidth,sourceHeight));
   const startWidth=Math.max(1,Math.round(sourceWidth*initialScale)),startHeight=Math.max(1,Math.round(sourceHeight*initialScale));
   const startLong=Math.max(startWidth,startHeight);
-  const dimensions=[startLong,3600,3400,3200,3000,2800,2560,2304,2048].filter((v,i,a)=>v<=startLong&&a.indexOf(v)===i);
+  const dimensions=[startLong,3600,3400,3200,3000,2800,2560,2304,2048,1920,1728,1600,1440,1280,1152,1024,900,800,720,640,512,480].filter((v,i,a)=>v<=startLong&&a.indexOf(v)===i);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
   if(!ctx)throw Error('Photo compression is not supported in this browser.');
   const makeBlob=(width,height,quality)=>new Promise((resolve,reject)=>{canvas.width=width;canvas.height=height;ctx.clearRect(0,0,width,height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(image,0,0,width,height);canvas.toBlob(webp=>{if(webp&&webp.type==='image/webp'){resolve(webp);return}canvas.toBlob(jpeg=>{if(jpeg&&jpeg.type==='image/jpeg'){resolve(jpeg);return}canvas.toBlob(png=>png&&png.type==='image/png'?resolve(png):reject(Error('This browser cannot create a compressed photo. Please open the CRM directly in Safari.')),'image/png')},'image/jpeg',quality)},'image/webp',quality)});
