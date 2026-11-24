@@ -121,21 +121,21 @@ async function compressOwnerPhoto(file){
   const dimensions=[startLong,3600,3400,3200,3000,2800,2560,2304,2048].filter((v,i,a)=>v<=startLong&&a.indexOf(v)===i);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
   if(!ctx)throw Error('Photo compression is not supported in this browser.');
-  const makeBlob=(width,height,quality)=>new Promise((resolve,reject)=>{canvas.width=width;canvas.height=height;ctx.clearRect(0,0,width,height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(image,0,0,width,height);canvas.toBlob(webp=>{if(webp&&webp.type==='image/webp'){resolve(webp);return}canvas.toBlob(jpeg=>jpeg&&jpeg.type==='image/jpeg'?resolve(jpeg):reject(Error('This iPhone browser cannot create a compressed JPEG/WebP photo. Please try opening the CRM in Safari.')),'image/jpeg',quality)},'image/webp',quality)});
+  const makeBlob=(width,height,quality)=>new Promise((resolve,reject)=>{canvas.width=width;canvas.height=height;ctx.clearRect(0,0,width,height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(image,0,0,width,height);canvas.toBlob(webp=>{if(webp&&webp.type==='image/webp'){resolve(webp);return}canvas.toBlob(jpeg=>{if(jpeg&&jpeg.type==='image/jpeg'){resolve(jpeg);return}canvas.toBlob(png=>png&&png.type==='image/png'?resolve(png):reject(Error('This browser cannot create a compressed photo. Please open the CRM directly in Safari.')),'image/png')},'image/jpeg',quality)},'image/webp',quality)});
   let selected=null;
   const qualities=[.92,.88,.84,.80,.76,.72,.68,.64,.60,.56,.52,.48,.44,.40,.36,.32];
   for(const longest of dimensions){
    const scale=longest/startLong,width=Math.max(1,Math.round(startWidth*scale)),height=Math.max(1,Math.round(startHeight*scale));
    for(const quality of qualities){
     const blob=await makeBlob(width,height,quality);
-    if(!['image/webp','image/jpeg'].includes(blob.type))throw Error('This browser cannot create a supported compressed photo. Please update Safari and try again.');
+    if(!['image/webp','image/jpeg','image/png'].includes(blob.type))throw Error('This browser cannot create a supported compressed photo. Please update Safari and try again.');
     if(blob.size<=targetBytes){selected={blob,width,height,quality};break}
    }
    if(selected)break;
   }
   if(!selected)throw Error('This photo could not be compressed below 1 MB. Please choose another photo or crop it slightly.');
   const base=(file.name||'property-photo').replace(new RegExp('\\.[^.]+$'),'')||'property-photo';
-  const ext=selected.blob.type==='image/jpeg'?'jpg':'webp';
+  const ext=selected.blob.type==='image/jpeg'?'jpg':selected.blob.type==='image/png'?'png':'webp';
   const output=new File([selected.blob],base+'.'+ext,{type:selected.blob.type,lastModified:Date.now()});
   output.compressionInfo={width:selected.width,height:selected.height,quality:selected.quality};
   return output;
