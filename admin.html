@@ -109,58 +109,63 @@ function addOwnerPropertyCard(data={}){$('ownerPropertiesList').appendChild(owne
 async function compressImageUniversal(file,targetBytes=500000){
  if(!file||!file.type||!file.type.startsWith('image/'))throw Error('Please choose an image file.');
  if(file.size>50*1024*1024)throw Error(file.name+' is over 50 MB. Please choose a smaller original photo.');
- let source=null,bitmap=null,objectUrl=null;
+ const objectUrl=URL.createObjectURL(file);
  try{
-  if(typeof createImageBitmap==='function'){
-   try{bitmap=await createImageBitmap(file,{imageOrientation:'from-image'});source=bitmap}catch(_){}
-  }
-  if(!source){
-   objectUrl=URL.createObjectURL(file);
-   const img=new Image();img.decoding='async';
-   await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('This browser cannot decode this photo format. Please choose JPG, PNG or WebP.'));img.src=objectUrl});
-   source=img;
-  }
-  const sourceW=source.width||source.naturalWidth,sourceH=source.height||source.naturalHeight;
+  // Use the proven HTMLImageElement + Canvas path first; avoid createImageBitmap
+  // because some iOS in-app browsers decode selected photos inconsistently.
+  const img=new Image();
+  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('This browser could not read this photo. Please choose a JPG or PNG copy.'));img.src=objectUrl;});
+  const sourceW=img.naturalWidth,sourceH=img.naturalHeight;
   if(!sourceW||!sourceH)throw Error('Could not read the photo dimensions.');
-  const originalLong=Math.max(sourceW,sourceH),maxSide=Math.min(3840,originalLong);
-  const sides=[maxSide,3600,3400,3200,3000,2800,2560,2304,2048,1920,1728,1600,1440,1280,1152,1024,900,800,720,640,512,480].filter((v,i,a)=>v<=maxSide&&a.indexOf(v)===i);
+  const originalLong=Math.max(sourceW,sourceH);
+  const sides=[3840,3600,3200,2880,2560,2304,2048,1920,1728,1600,1440,1280,1152,1024,900,800,720,640,512,480].filter((v,i,a)=>v<=originalLong&&a.indexOf(v)===i);
+  if(!sides.length)sides.push(originalLong);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d',{alpha:false});
-  if(!ctx)throw Error('This browser does not support photo compression.');
-  const encode=(mime,quality)=>new Promise((resolve,reject)=>{
+  if(!ctx)throw Error('Photo compression is not supported in this browser.');
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  const dataUrlBlob=(mime,quality)=>{
+   const data=canvas.toDataURL(mime,quality);
+   const parts=data.split(',');
+   const match=parts[0].match(/data:([^;]+)/);
+   if(!match||!parts[1])return null;
+   const binary=atob(parts[1]),bytes=new Uint8Array(binary.length);
+   for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);
+   return new Blob([bytes],{type:match[1]});
+  };
+  const encode=(mime,quality)=>new Promise(resolve=>{
+   let settled=false;
+   const done=blob=>{if(!settled){settled=true;resolve(blob&&blob.type===mime?blob:null)}};
    if(typeof canvas.toBlob==='function'){
-    try{canvas.toBlob(blob=>blob?resolve(blob):resolve(null),mime,quality)}catch(_){resolve(null)}
-    return;
+    try{canvas.toBlob(done,mime,quality)}catch(_){done(null)}
+   }else done(null);
+   // Safari/webviews that expose toBlob but return null get a data-URL fallback.
+   setTimeoutFallback();
+   function setTimeoutFallback(){
+    if(settled)return;
+    try{const blob=dataUrlBlob(mime,quality);done(blob)}catch(_){done(null)}
    }
-   try{
-    const data=canvas.toDataURL(mime,quality);
-    const parts=data.split(','),match=parts[0].match(/data:([^;]+)/),type=match?match[1]:'image/png';
-    const binary=atob(parts[1]),bytes=new Uint8Array(binary.length);
-    for(let n=0;n<binary.length;n++)bytes[n]=binary.charCodeAt(n);
-    resolve(new Blob([bytes],{type}));
-   }catch(e){reject(e)}
   });
-  let best=null;
-  const formats=[{mime:'image/webp',qualities:[.90,.84,.78,.72,.66,.60,.54,.48,.42,.36]},{mime:'image/jpeg',qualities:[.90,.84,.78,.72,.66,.60,.54,.48,.42,.36]},{mime:'image/png',qualities:[undefined]}];
+  let bestUnderLimit=null;
+  const qualities=[.90,.86,.82,.78,.74,.70,.66,.62,.58,.54,.50,.46,.42,.38];
   for(const side of sides){
    const scale=Math.min(1,side/originalLong);
    const width=Math.max(1,Math.round(sourceW*scale)),height=Math.max(1,Math.round(sourceH*scale));
-   canvas.width=width;canvas.height=height;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);ctx.drawImage(source,0,0,width,height);
-   for(const format of formats){
-    for(const quality of format.qualities){
-     const blob=await encode(format.mime,quality);
-     if(!blob||!['image/webp','image/jpeg','image/png'].includes(blob.type))continue;
-     if(!best||blob.size<best.blob.size)best={blob,width,height,quality:quality??null};
-     if(blob.size<=targetBytes)return best={blob,width,height,quality:quality??null};
-     if(blob.size<=1000000&&(!best||best.blob.size>1000000||blob.size<best.blob.size))best={blob,width,height,quality:quality??null};
+   canvas.width=width;canvas.height=height;
+   ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);ctx.drawImage(img,0,0,width,height);
+   for(const mime of ['image/webp','image/jpeg']){
+    for(const quality of qualities){
+     const blob=await encode(mime,quality);
+     if(!blob)continue;
+     const candidate={blob,width,height,quality};
+     if(blob.size<=1000000&&(!bestUnderLimit||width*height>bestUnderLimit.width*bestUnderLimit.height||(width*height===bestUnderLimit.width*bestUnderLimit.height&&quality>bestUnderLimit.quality)))bestUnderLimit=candidate;
+     if(blob.size<=targetBytes)return candidate;
     }
    }
+   if(Math.max(width,height)<=480)break;
   }
-  if(best&&best.blob.size<=1000000)return best;
-  throw Error('Could not reduce this photo below 1 MB in this browser. Please choose another photo or crop it.');
- }finally{
-  if(bitmap&&typeof bitmap.close==='function')bitmap.close();
-  if(objectUrl)URL.revokeObjectURL(objectUrl);
- }
+  if(bestUnderLimit)return bestUnderLimit;
+  throw Error('This photo could not be compressed below 1 MB on this browser. Please choose a JPG/PNG photo or use the iPhone Photos app to save a compatible copy.');
+ }finally{URL.revokeObjectURL(objectUrl)}
 }
 async function compressOwnerPhoto(file){
  const result=await compressImageUniversal(file,500000);
