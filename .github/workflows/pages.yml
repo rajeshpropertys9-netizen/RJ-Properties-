@@ -73,6 +73,8 @@ jobs:
           const detail = await get('property.html');
           must(detail.body.includes('renderPropertyDetail') && detail.body.includes('app.js'), 'Property detail and site-visit handler are deployed');
           const admin = await get('admin.html');
+          must(admin.body.includes('RJ Properties CRM V8.9'), 'CRM V8.9 version is deployed (not a stale V8.8 page)');
+          must(admin.body.includes('async function compressImageUniversal') && admin.body.includes('async function compressOwnerPhoto') && admin.body.includes('async function compressPropertyPhoto'), 'Universal image compression is deployed for owner and main property uploads');
           must(admin.body.includes('id="propertyAdminForm"') && admin.body.includes('uploadPropertyPhotos'), 'Secure property manager with add/edit and photo upload is deployed');
           must(admin.body.includes('id="ownerForm"') && admin.body.includes('One Owner Can Have Multiple Properties') && admin.body.includes('id="ownerPropertiesList"'), 'Private CRM Owner module supports full profiles and multiple linked properties');
           must(admin.body.includes('data-document="sale_deed"') && admin.body.includes('data-document="ec"') && admin.body.includes('data-document="occupancy_certificate"'), 'Owner property records include private legal document links');
