@@ -97,7 +97,7 @@ function ownerPropertyCard(data={}){
  const booleans=['pooja_room','servant_room','storeroom'];
  const inputs=fields.map(([key,label])=>'<label>'+label+(key==='notes'?'<textarea data-field="'+key+'" rows="2">'+esc(data[key]||'')+'</textarea>':booleans.includes(key)?'<select data-field="'+key+'"><option value="">Not specified</option><option value="true">Yes</option><option value="false">No</option></select>':'<input data-field="'+key+'" '+(numeric.includes(key)?'type="number" min="0" step="any"':(['youtube_video_url','instagram_video_url'].includes(key)?'type="url" placeholder="https://"':''))+' value="'+esc(data[key]??'')+'">')+'</label>').join('');
  const card=document.createElement('article');card.className='owner-property-card property-admin-card';card.dataset.id=data.id||'';
- card.innerHTML='<div class="actions" style="justify-content:space-between;align-items:center"><h3>Owner Property</h3><button type="button" class="btn outline small" data-remove-owner-property>Remove Property</button></div><label>Link Existing CRM Property<select data-field="property_id">'+options+'</select></label><div class="formgrid" style="margin-top:12px">'+inputs+'</div><h4 style="margin:14px 0 8px">Legal Document Links (private)</h4><div class="formgrid"><label>Sale Deed URL<input data-document="sale_deed" type="url"></label><label>Link Documents URL<input data-document="link_documents" type="url"></label><label>Encumbrance Certificate (EC) URL<input data-document="ec" type="url"></label><label>RERA Document URL<input data-document="rera" type="url"></label><label>LRS / BRS Document URL<input data-document="lrs_brs" type="url"></label><label>Property Tax Receipt URL<input data-document="property_tax" type="url"></label><label>Occupancy Certificate URL<input data-document="occupancy_certificate" type="url"></label></div><div class="media-panel" style="margin-top:16px;padding:14px;border:1px solid #e4ddd2;border-radius:12px;background:#fff"><h4 style="margin:0 0 8px">Property Photos (Private Admin Only)</h4><input data-owner-photo-input type="file" accept="image/*" multiple><small class="muted">Up to 10 photos · automatic 4K WebP compression · max 1 MB each · stored privately</small><div data-owner-photo-preview class="media-grid"></div></div>';
+ card.innerHTML='<div class="actions" style="justify-content:space-between;align-items:center"><h3>Owner Property</h3><button type="button" class="btn outline small" data-remove-owner-property>Remove Property</button></div><label>Link Existing CRM Property<select data-field="property_id">'+options+'</select></label><div class="formgrid" style="margin-top:12px">'+inputs+'</div><h4 style="margin:14px 0 8px">Legal Document Links (private)</h4><div class="formgrid"><label>Sale Deed URL<input data-document="sale_deed" type="url"></label><label>Link Documents URL<input data-document="link_documents" type="url"></label><label>Encumbrance Certificate (EC) URL<input data-document="ec" type="url"></label><label>RERA Document URL<input data-document="rera" type="url"></label><label>LRS / BRS Document URL<input data-document="lrs_brs" type="url"></label><label>Property Tax Receipt URL<input data-document="property_tax" type="url"></label><label>Occupancy Certificate URL<input data-document="occupancy_certificate" type="url"></label></div><div class="media-panel" style="margin-top:16px;padding:14px;border:1px solid #e4ddd2;border-radius:12px;background:#fff"><h4 style="margin:0 0 8px">Property Photos (Private Admin Only)</h4><input data-owner-photo-input type="file" accept="image/*" multiple><small class="muted">Up to 10 photos · automatic high-quality compression · 4K where possible · max 1 MB each · stored privately</small><div data-owner-photo-preview class="media-grid"></div></div>';
  const docs=data.legal_documents||{};card.querySelectorAll('[data-document]').forEach(el=>el.value=docs[el.dataset.document]||'');
  card._photoPaths=Array.isArray(data.photo_paths)?data.photo_paths.slice():[];card._originalPhotoPaths=card._photoPaths.slice();card._coverPhotoPath=data.cover_photo_path||card._photoPaths[0]||null;card._pendingPhotoFiles=[];
  const photoInput=card.querySelector('[data-owner-photo-input]');photoInput.addEventListener('change',async()=>{const files=Array.from(photoInput.files||[]);photoInput.value='';if(card._photoPaths.length+card._pendingPhotoFiles.length+files.length>10){alert('Maximum 10 photos per property.');return}const button=photoInput;button.disabled=true;try{for(const file of files){const compressed=await compressOwnerPhoto(file);card._pendingPhotoFiles.push(compressed);renderOwnerPropertyMedia(card)}}catch(error){alert(error.message||'Photo compression failed.')}finally{button.disabled=false}});renderOwnerPropertyMedia(card);
@@ -116,25 +116,29 @@ async function compressOwnerPhoto(file){
   const sourceWidth=image.naturalWidth,sourceHeight=image.naturalHeight;
   if(!sourceWidth||!sourceHeight)throw Error('Could not read this photo.');
   const initialScale=Math.min(1,maxDimension/Math.max(sourceWidth,sourceHeight));
+  const startWidth=Math.max(1,Math.round(sourceWidth*initialScale)),startHeight=Math.max(1,Math.round(sourceHeight*initialScale));
+  const startLong=Math.max(startWidth,startHeight);
+  const dimensions=[startLong,3600,3400,3200,3000,2800,2560,2304,2048].filter((v,i,a)=>v<=startLong&&a.indexOf(v)===i);
   const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
   if(!ctx)throw Error('Photo compression is not supported in this browser.');
   const makeBlob=(width,height,quality)=>new Promise((resolve,reject)=>{canvas.width=width;canvas.height=height;ctx.clearRect(0,0,width,height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(image,0,0,width,height);canvas.toBlob(blob=>blob?resolve(blob):reject(Error('Could not compress this photo.')),'image/webp',quality)});
-  let width=Math.max(1,Math.round(sourceWidth*initialScale)),height=Math.max(1,Math.round(sourceHeight*initialScale)),blob=null;
-  for(let pass=0;pass<9;pass++){
-   for(const quality of [.92,.88,.84,.80,.76,.72,.68]){
-    blob=await makeBlob(width,height,quality);
+  let selected=null;
+  const qualities=[.92,.88,.84,.80,.76,.72,.68,.64,.60,.56,.52,.48,.44,.40,.36,.32];
+  for(const longest of dimensions){
+   const scale=longest/startLong,width=Math.max(1,Math.round(startWidth*scale)),height=Math.max(1,Math.round(startHeight*scale));
+   for(const quality of qualities){
+    const blob=await makeBlob(width,height,quality);
     if(!['image/webp','image/jpeg'].includes(blob.type))throw Error('This browser cannot create a supported compressed photo. Please update Safari and try again.');
-    if(blob.size<=targetBytes)break;
+    if(blob.size<=targetBytes){selected={blob,width,height,quality};break}
    }
-   if(blob&&blob.size<=targetBytes)break;
-   if(Math.max(width,height)<=2560)break;
-   const scale=Math.max(.82,2560/Math.max(width,height));
-   width=Math.max(1,Math.round(width*scale));height=Math.max(1,Math.round(height*scale));
+   if(selected)break;
   }
-  if(!blob||blob.size>targetBytes)throw Error('This image is unusually detailed and could not be reduced below 1 MB while preserving good quality. Please choose another photo.');
+  if(!selected)throw Error('This photo could not be compressed below 1 MB. Please choose another photo or crop it slightly.');
   const base=(file.name||'property-photo').replace(new RegExp('\\.[^.]+$'),'')||'property-photo';
-  const ext=blob.type==='image/jpeg'?'jpg':'webp';
-  return new File([blob],base+'.'+ext,{type:blob.type,lastModified:Date.now()});
+  const ext=selected.blob.type==='image/jpeg'?'jpg':'webp';
+  const output=new File([selected.blob],base+'.'+ext,{type:selected.blob.type,lastModified:Date.now()});
+  output.compressionInfo={width:selected.width,height:selected.height,quality:selected.quality};
+  return output;
  }finally{URL.revokeObjectURL(objectUrl)}
 }
 async function renderOwnerPropertyMedia(card){const box=card.querySelector('[data-owner-photo-preview]');if(!box)return;box.innerHTML='';const bucket='rj-owner-property-media';for(const path of card._photoPaths||[]){const item=document.createElement('div');item.className='media-thumb';const img=document.createElement('img');img.alt='Private property photo';const signed=await sb.storage.from(bucket).createSignedUrl(path,1800);if(signed.data?.signedUrl)img.src=signed.data.signedUrl;else img.alt='Photo preview unavailable';item.appendChild(img);const cover=document.createElement('button');cover.type='button';cover.className='btn secondary';cover.textContent=card._coverPhotoPath===path?'★ Cover Photo':'Set Cover';cover.addEventListener('click',()=>{card._coverPhotoPath=path;renderOwnerPropertyMedia(card)});item.appendChild(cover);const remove=document.createElement('button');remove.type='button';remove.className='btn danger';remove.textContent='Remove';remove.addEventListener('click',()=>{card._photoPaths=card._photoPaths.filter(x=>x!==path);if(card._coverPhotoPath===path)card._coverPhotoPath=card._photoPaths[0]||null;renderOwnerPropertyMedia(card)});item.appendChild(remove);box.appendChild(item)}for(const file of card._pendingPhotoFiles||[]){const item=document.createElement('div');item.className='media-thumb';const img=document.createElement('img');img.alt=file.name;img.src=URL.createObjectURL(file);item.appendChild(img);const caption=document.createElement('small');caption.textContent='Ready to upload';item.appendChild(caption);box.appendChild(item)}}
