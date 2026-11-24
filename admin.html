@@ -123,7 +123,7 @@ async function compressOwnerPhoto(file){
   for(let pass=0;pass<9;pass++){
    for(const quality of [.92,.88,.84,.80,.76,.72,.68]){
     blob=await makeBlob(width,height,quality);
-    if(blob.type!=='image/webp')throw Error('WebP compression is unavailable in this browser. Please update Safari and try again.');
+    if(!['image/webp','image/jpeg'].includes(blob.type))throw Error('This browser cannot create a supported compressed photo. Please update Safari and try again.');
     if(blob.size<=targetBytes)break;
    }
    if(blob&&blob.size<=targetBytes)break;
@@ -133,7 +133,8 @@ async function compressOwnerPhoto(file){
   }
   if(!blob||blob.size>targetBytes)throw Error('This image is unusually detailed and could not be reduced below 1 MB while preserving good quality. Please choose another photo.');
   const base=(file.name||'property-photo').replace(new RegExp('\\.[^.]+$'),'')||'property-photo';
-  return new File([blob],base+'.webp',{type:'image/webp',lastModified:Date.now()});
+  const ext=blob.type==='image/jpeg'?'jpg':'webp';
+  return new File([blob],base+'.'+ext,{type:blob.type,lastModified:Date.now()});
  }finally{URL.revokeObjectURL(objectUrl)}
 }
 async function renderOwnerPropertyMedia(card){const box=card.querySelector('[data-owner-photo-preview]');if(!box)return;box.innerHTML='';const bucket='rj-owner-property-media';for(const path of card._photoPaths||[]){const item=document.createElement('div');item.className='media-thumb';const img=document.createElement('img');img.alt='Private property photo';const signed=await sb.storage.from(bucket).createSignedUrl(path,1800);if(signed.data?.signedUrl)img.src=signed.data.signedUrl;else img.alt='Photo preview unavailable';item.appendChild(img);const cover=document.createElement('button');cover.type='button';cover.className='btn secondary';cover.textContent=card._coverPhotoPath===path?'★ Cover Photo':'Set Cover';cover.addEventListener('click',()=>{card._coverPhotoPath=path;renderOwnerPropertyMedia(card)});item.appendChild(cover);const remove=document.createElement('button');remove.type='button';remove.className='btn danger';remove.textContent='Remove';remove.addEventListener('click',()=>{card._photoPaths=card._photoPaths.filter(x=>x!==path);if(card._coverPhotoPath===path)card._coverPhotoPath=card._photoPaths[0]||null;renderOwnerPropertyMedia(card)});item.appendChild(remove);box.appendChild(item)}for(const file of card._pendingPhotoFiles||[]){const item=document.createElement('div');item.className='media-thumb';const img=document.createElement('img');img.alt=file.name;img.src=URL.createObjectURL(file);item.appendChild(img);const caption=document.createElement('small');caption.textContent='Ready to upload';item.appendChild(caption);box.appendChild(item)}}
@@ -295,7 +296,7 @@ $('ownerForm').onsubmit=async e=>{
    if(card.dataset.id)await api('owner-property/'+encodeURIComponent(card.dataset.id),{method:'PATCH',body:JSON.stringify(data)});
    else{const createdProperty=await api('owner-property',{method:'POST',body:JSON.stringify(data)});card.dataset.id=createdProperty.data?.id||'';}
    if(!card.dataset.id)throw Error('Property record was not returned; photos were not uploaded.');
-   const uploaded=[];for(const file of card._pendingPhotoFiles||[]){if(file.size>1000000)throw Error('Compressed photo exceeds 1 MB. Please select the photo again.');const random=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));const path=ownerId+'/'+card.dataset.id+'/'+random+'.webp';const result=await sb.storage.from('rj-owner-property-media').upload(path,file,{contentType:'image/webp',upsert:false});if(result.error)throw result.error;uploaded.push(path)}
+   const uploaded=[];for(const file of card._pendingPhotoFiles||[]){if(file.size>1000000)throw Error('Compressed photo exceeds 1 MB. Please select the photo again.');const random=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));const ext=file.type==='image/jpeg'?'jpg':'webp';const path=ownerId+'/'+card.dataset.id+'/'+random+'.'+ext;const result=await sb.storage.from('rj-owner-property-media').upload(path,file,{contentType:file.type,upsert:false});if(result.error)throw result.error;uploaded.push(path)}
    const removed=(card._originalPhotoPaths||[]).filter(path=>!(card._photoPaths||[]).includes(path));const finalPaths=[...(card._photoPaths||[]),...uploaded];let cover=card._coverPhotoPath;if(!cover||!finalPaths.includes(cover))cover=finalPaths[0]||null;
    if(uploaded.length||removed.length||cover!==(card._coverPhotoPath||null)){const saved=await api('owner-property/'+encodeURIComponent(card.dataset.id),{method:'PATCH',body:JSON.stringify({photo_paths:finalPaths,cover_photo_path:cover})});if(removed.length){const deletion=await sb.storage.from('rj-owner-property-media').remove(removed);if(deletion.error)throw deletion.error}}
    card._photoPaths=finalPaths;card._originalPhotoPaths=finalPaths.slice();card._coverPhotoPath=cover;card._pendingPhotoFiles=[];
