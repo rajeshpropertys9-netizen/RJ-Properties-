@@ -52,7 +52,8 @@ jobs:
           node <<'NODE'
           const base = process.env.PAGE_URL;
           const deployed = new URL(base);
-          if (deployed.hostname !== 'rajeshpropertys9-netizen.github.io' || deployed.pathname.replace(/\\/?$/, '/') !== '/RJ-Properties-/') {
+          const normalizedPath = deployed.pathname.endsWith('/') ? deployed.pathname : deployed.pathname + '/';
+          if (deployed.hostname !== 'rajeshpropertys9-netizen.github.io' || normalizedPath !== '/RJ-Properties-/') {
             throw new Error('Unexpected GitHub Pages URL: ' + base + '. Expected https://rajeshpropertys9-netizen.github.io/RJ-Properties-/');
           }
           console.log('PASS: GitHub Pages is deployed on the locked canonical owner/repository URL');
