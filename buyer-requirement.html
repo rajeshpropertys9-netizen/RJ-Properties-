@@ -349,6 +349,7 @@ input:not([type=checkbox]),select,textarea{padding-left:13px!important}
 </section>
 <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" tabindex="-1" autocomplete="off"></div>
 <div id="status" class="status" role="status" aria-live="polite"></div>
+<a id="whatsappContinue" class="submit" href="#" target="_blank" rel="noopener" hidden style="display:none;text-decoration:none;text-align:center;margin-top:10px;background:#168b45">Continue on WhatsApp</a>
 <button class="submit" id="submitBtn" type="submit">➤ &nbsp; Submit Requirements</button>
 </form>
 <div class="trust">
@@ -377,16 +378,27 @@ form.addEventListener('submit',async event=>{
  if(!locations.length){showStatus('Please select at least one preferred location.','err');return;}
  const selectedExtras=[...form.querySelectorAll('input[name="extra"]:checked')].map(x=>x.value);
  const notes=[selectedExtras.length?'Additional preferences: '+selectedExtras.join(', '):'',value('extraNotes')].filter(Boolean).join('\n');
+ const buyerName=value('name'),buyerEmail=value('email'),buyerType=value('type'),buyerBhk=value('bhk'),buyerBudget=value('budget');
+ const whatsappMessage=['🏡 RJ PROPERTIES','New buyer requirement from website','Name: '+buyerName,'Mobile / WhatsApp: '+phone,buyerEmail?'Email: '+buyerEmail:'','Property Type: '+buyerType,'Preferred Locations: '+locations.join(', '),'Configuration: '+buyerBhk,'Budget: '+buyerBudget,notes?'Additional Requirements: '+notes:'','Please contact me regarding suitable property options.'].filter(Boolean).join('\n');
+ const whatsappUrl='https://wa.me/918332847728?text='+encodeURIComponent(whatsappMessage);
+ const whatsappTab=window.open('about:blank','_blank');
+ const whatsappLink=document.getElementById('whatsappContinue');
+ if(whatsappLink){whatsappLink.href=whatsappUrl;whatsappLink.hidden=true;whatsappLink.style.display='none';}
  button.disabled=true;button.textContent='Submitting…';
- const payload={name:value('name'),phone,email:value('email'),preferred_property_type:value('type'),preferred_locations:locations.join(', '),preferred_budget:value('budget'),preferred_bhk:value('bhk'),preferred_land_area:'',preferred_facing:'',preferred_property_age:'',preferred_payment_mode:'',preferred_buying_timeline:'',additional_requirements:notes,website:value('website')};
+ const payload={name:buyerName,phone,email:buyerEmail,preferred_property_type:buyerType,preferred_locations:locations.join(', '),preferred_budget:buyerBudget,preferred_bhk:buyerBhk,preferred_land_area:'',preferred_facing:'',preferred_property_age:'',preferred_payment_mode:'',preferred_buying_timeline:'',additional_requirements:notes,website:value('website')};
  try{
   const response=await fetch(SUPABASE_URL+'/functions/v1/buyer-self-registration',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY},body:JSON.stringify(payload)});
   const result=await response.json();
   if(!response.ok)throw new Error(result.error||'Unable to submit. Please try again.');
   showStatus(result.message||'Thank you! Your requirements have been submitted for review.','ok');
+  if(whatsappTab&&!whatsappTab.closed){whatsappTab.location.href=whatsappUrl;}
+  else if(whatsappLink){whatsappLink.hidden=false;whatsappLink.style.display='block';}
   if(!result.duplicate){form.reset();button.textContent='Submitted ✓';}
   else button.textContent='➤  Submit Requirements';
- }catch(error){showStatus(error.message||'Network error. Please try again.','err');button.textContent='➤  Submit Requirements';}
+ }catch(error){
+  if(whatsappTab&&!whatsappTab.closed)whatsappTab.close();
+  showStatus(error.message||'Network error. Please try again.','err');button.textContent='➤  Submit Requirements';
+ }
  finally{button.disabled=false;}
 });
 </script>
