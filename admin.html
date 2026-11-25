@@ -149,6 +149,7 @@ async function compressImageUniversal(file,targetBytes=500000){
   });
   let bestUnderLimit=null;
   const qualities=[.90,.86,.82,.78,.74,.70,.66,.62,.58,.54,.50,.46,.42,.38];
+  let blackDecodeChecked=false;
   for(const side of sides){
    const scale=Math.min(1,side/originalLong);
    const width=Math.max(1,Math.round(sourceW*scale)),height=Math.max(1,Math.round(sourceH*scale));
@@ -156,7 +157,8 @@ async function compressImageUniversal(file,targetBytes=500000){
    ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);ctx.drawImage(img,0,0,width,height);
    // iOS in-app browsers can occasionally report a successful decode with an all-black canvas.
    // Reject near-solid-black output from a substantial original instead of storing a blank photo.
-   if(file.size>10000){
+   if(file.size>10000&&!blackDecodeChecked){
+    blackDecodeChecked=true;
     let nearBlack=0;
     for(let gy=0;gy<5;gy++)for(let gx=0;gx<5;gx++){
      const px=Math.min(width-1,Math.floor((gx+.5)*width/5)),py=Math.min(height-1,Math.floor((gy+.5)*height/5));
