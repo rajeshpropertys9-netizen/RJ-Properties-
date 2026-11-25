@@ -426,9 +426,11 @@ $('ownerForm').onsubmit=async e=>{
    for(const key of ['youtube_video_url','instagram_video_url']){const value=data[key];if(value){let u;try{u=new URL(value)}catch(_){throw Error('Enter a valid '+key.replaceAll('_',' ')+' link.')}const host=u.hostname.toLowerCase();const valid=key==='youtube_video_url'?['youtube.com','www.youtube.com','youtu.be','www.youtu.be'].includes(host):['instagram.com','www.instagram.com'].includes(host);if(u.protocol!=='https:'||!valid)throw Error('Enter a valid '+key.replaceAll('_',' ')+' link.')}}
    data.photo_paths=card._photoPaths||[];data.cover_photo_path=card._coverPhotoPath||null;
    if(!data.title&&!data.property_id&&!data.locality&&!data.expected_price&&!(card._pendingPhotoFiles||[]).length)continue;
-   if(card.dataset.id)await api('owner-property/'+encodeURIComponent(card.dataset.id),{method:'PATCH',body:JSON.stringify(data)});
-   else{const createdProperty=await api('owner-property',{method:'POST',body:JSON.stringify(data)});card.dataset.id=createdProperty.data?.id||'';}
+   let savedOwnerProperty;
+   if(card.dataset.id){const saved=await api('owner-property/'+encodeURIComponent(card.dataset.id),{method:'PATCH',body:JSON.stringify(data)});savedOwnerProperty=saved.data;}
+   else{const createdProperty=await api('owner-property',{method:'POST',body:JSON.stringify(data)});savedOwnerProperty=createdProperty.data;card.dataset.id=savedOwnerProperty?.id||'';}
    if(!card.dataset.id)throw Error('Property record was not returned; photos were not uploaded.');
+   const inventoryCode=card.querySelector('[data-inventory-code]');if(inventoryCode&&savedOwnerProperty?.inventory_code)inventoryCode.textContent=savedOwnerProperty.inventory_code;
    const uploaded=[];const pendingFiles=card._pendingPhotoFiles||[];const totalBytes=pendingFiles.reduce((sum,file)=>sum+file.size,0);card._pendingUploadedPaths=card._pendingUploadedPaths||new Map();
    pendingFiles.forEach(file=>{if(file.size>500000)throw Error('Compressed photo exceeds the 500 KB target. Please select the photo again.')});
    const fileProgress=pendingFiles.map(file=>card._pendingUploadedPaths.has(file)?file.size:0);
