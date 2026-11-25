@@ -252,3 +252,16 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Keep the approved reference layout: red title pill, bold headline, italic subtitle, cream canvas, red/gold section headers, three-column Personal Details and two-column Property Requirements on desktop, responsive stacked fields on mobile, red submit button, four footer benefits.
 - Deployment workflow checks that the mobile hero pseudo-element uses `hero-property.jpg`, the official `rj-logo.jpg` loads at a visible width, and the logo uses full-opacity multiply blending to avoid a white box.
 - Production verification completed 24 November 2026: GitHub Pages deployment succeeded; live smoke test passed; Playwright mobile browser test at 390px confirmed the hero pseudo-element loads the property banner, the official logo image loads visibly above 250px with full opacity and multiply blending, all buyer fields and eight preferences render, and the submit button is present without creating a production enquiry. Treat this corrected mobile/desktop header as production-locked.
+
+
+## 20. Canonical public URL and deployment lock (25 November 2026)
+
+- The only approved GitHub Pages origin for this repository is `https://rajeshpropertys9-netizen.github.io/RJ-Properties-/`.
+- The only approved public Buyer Requirement Form URL is `https://rajeshpropertys9-netizen.github.io/RJ-Properties-/buyer-requirement.html`.
+- These URLs are derived from the actual GitHub repository owner `rajeshpropertys9-netizen` and repository `RJ-Properties-`. Do not copy or manually retype a similar-looking GitHub username/domain from old WhatsApp messages.
+- The WhatsApp screenshot showed a different, misspelled Pages hostname (`rajeshproperties9-netizen.github.io`). That hostname is not the owner of this repository and must not be reused.
+- The Pages deployment workflow now has a hard guard: deployment smoke tests fail unless GitHub Pages reports the exact canonical hostname and repository path. The workflow also performs a direct live fetch of `buyer-requirement.html` and checks its form markup.
+- All future buyer-form sharing must copy the URL from this section or the canonical link file `PUBLIC_LINKS.md`; do not construct it manually.
+- This guard prevents publishing a deployment under the wrong owner/repository URL from being reported as successful. It cannot prevent someone from manually pasting a typo into an external WhatsApp message; always copy the canonical link.
+- Visual design, buyer fields, Supabase submission endpoint, existing CRM data and other project functionality remain unchanged by this deployment guard.
+- **Status:** repository workflow guard committed; production deployment and live URL verification are pending the resulting GitHub Actions run. Do not claim the permanent fix is production-verified until the workflow succeeds and the canonical Buyer Requirement Form URL opens without a 404.
