@@ -411,19 +411,27 @@ $('ownerForm').onsubmit=async e=>{
    if(card.dataset.id)await api('owner-property/'+encodeURIComponent(card.dataset.id),{method:'PATCH',body:JSON.stringify(data)});
    else{const createdProperty=await api('owner-property',{method:'POST',body:JSON.stringify(data)});card.dataset.id=createdProperty.data?.id||'';}
    if(!card.dataset.id)throw Error('Property record was not returned; photos were not uploaded.');
-   const uploaded=[];const pendingFiles=card._pendingPhotoFiles||[];const totalBytes=pendingFiles.reduce((sum,file)=>sum+file.size,0);let completedBytes=0;card._pendingUploadedPaths=card._pendingUploadedPaths||new Map();
-   for(let photoIndex=0;photoIndex<pendingFiles.length;photoIndex++){
-    const file=pendingFiles[photoIndex];if(file.size>500000)throw Error('Compressed photo exceeds the 500 KB target. Please select the photo again.');
-    let path=card._pendingUploadedPaths.get(file);
-    if(!path){
+   const uploaded=[];const pendingFiles=card._pendingPhotoFiles||[];const totalBytes=pendingFiles.reduce((sum,file)=>sum+file.size,0);card._pendingUploadedPaths=card._pendingUploadedPaths||new Map();
+   pendingFiles.forEach(file=>{if(file.size>500000)throw Error('Compressed photo exceeds the 500 KB target. Please select the photo again.')});
+   const fileProgress=pendingFiles.map(file=>card._pendingUploadedPaths.has(file)?file.size:0);
+   let completedCount=fileProgress.filter((bytes,index)=>bytes>=pendingFiles[index].size).length;
+   let nextPhotoIndex=0,uploadError=null;
+   const updateBatchProgress=()=>{const transferred=fileProgress.reduce((sum,value)=>sum+value,0);const percent=totalBytes?Math.min(100,transferred/totalBytes*100):100;setOwnerPhotoUploadStatus(card,'Uploading up to 3 photos in parallel · '+completedCount+' of '+pendingFiles.length+' complete',percent)};
+   const uploadWorker=async()=>{
+    while(!uploadError){
+     const photoIndex=nextPhotoIndex++;if(photoIndex>=pendingFiles.length)return;
+     const file=pendingFiles[photoIndex];let path=card._pendingUploadedPaths.get(file);
+     if(path){uploaded[photoIndex]=path;continue}
      const random=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(36).slice(2));const ext=file.type==='image/jpeg'?'jpg':file.type==='image/png'?'png':'webp';path=ownerId+'/'+card.dataset.id+'/'+random+'.'+ext;
-     setOwnerPhotoUploadStatus(card,'Uploading photo '+(photoIndex+1)+' of '+pendingFiles.length+'…',totalBytes?completedBytes/totalBytes*100:0);
-     await uploadOwnerPhotoWithProgress(file,path,(loaded)=>{const percent=totalBytes?((completedBytes+loaded)/totalBytes)*100:100;setOwnerPhotoUploadStatus(card,'Uploading photo '+(photoIndex+1)+' of '+pendingFiles.length+'…',percent)});
-     card._pendingUploadedPaths.set(file,path);
+     try{
+      updateBatchProgress();
+      await uploadOwnerPhotoWithProgress(file,path,(loaded)=>{fileProgress[photoIndex]=Math.min(file.size,loaded);updateBatchProgress()});
+      card._pendingUploadedPaths.set(file,path);uploaded[photoIndex]=path;fileProgress[photoIndex]=file.size;completedCount++;updateBatchProgress();
+     }catch(error){uploadError=error;return}
     }
-    uploaded.push(path);completedBytes+=file.size;
-    setOwnerPhotoUploadStatus(card,'Uploaded photo '+(photoIndex+1)+' of '+pendingFiles.length,totalBytes?completedBytes/totalBytes*100:100);
-   }
+   };
+   if(pendingFiles.length){setOwnerPhotoUploadStatus(card,'Starting parallel upload · 0 of '+pendingFiles.length+' complete',0);await Promise.all(Array.from({length:Math.min(3,pendingFiles.length)},()=>uploadWorker()));}
+   if(uploadError)throw uploadError;
    const removed=(card._originalPhotoPaths||[]).filter(path=>!(card._photoPaths||[]).includes(path));const finalPaths=[...(card._photoPaths||[]),...uploaded];let cover=card._coverPhotoPath;if(!cover||!finalPaths.includes(cover))cover=finalPaths[0]||null;
    if(uploaded.length||removed.length||cover!==(card._coverPhotoPath||null)){if(uploaded.length)setOwnerPhotoUploadStatus(card,'Photos uploaded. Saving photo details…',100);const saved=await api('owner-property/'+encodeURIComponent(card.dataset.id),{method:'PATCH',body:JSON.stringify({photo_paths:finalPaths,cover_photo_path:cover})});if(removed.length){const deletion=await sb.storage.from('rj-owner-property-media').remove(removed);if(deletion.error)throw deletion.error}}
    card._photoPaths=finalPaths;card._originalPhotoPaths=finalPaths.slice();card._coverPhotoPath=cover;card._pendingPhotoFiles=[];card._pendingUploadedPaths=new Map();if(uploaded.length)setOwnerPhotoUploadStatus(card,'All photos uploaded and saved successfully.',100,'success');
