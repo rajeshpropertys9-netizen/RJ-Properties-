@@ -265,3 +265,17 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - This guard prevents publishing a deployment under the wrong owner/repository URL from being reported as successful. It cannot prevent someone from manually pasting a typo into an external WhatsApp message; always copy the canonical link.
 - Visual design, buyer fields, Supabase submission endpoint, existing CRM data and other project functionality remain unchanged by this deployment guard.
 - **Status:** repository workflow guard committed; production deployment and live URL verification are pending the resulting GitHub Actions run. Do not claim the permanent fix is production-verified until the workflow succeeds and the canonical Buyer Requirement Form URL opens without a 404.
+
+
+## 12. V8.9 buyer budget matching and owner inventory correction — 26 November 2026
+
+- Root cause confirmed in the live database for buyer Srinivas goud Etukala: the saved budget is `₹50 Lakhs – ₹1 Crore`, but the prior matching function intentionally included location/type matches at any asking price under **Best Location Match — review asking price**.
+- The previous matching function returned public properties priced at ₹2.40 Cr, ₹2.30 Cr, and ₹1.50 Cr for this buyer even though they were outside the budget. This behaviour has been removed for buyers with a supported budget range.
+- New matching rule: public inventory must be within the entered budget range or no more than ₹30 lakh above the upper limit, and must meet the preferred location filter when locations are supplied.
+- Owner-linked inventory remains visible in a separate owner-inventory group for advisor review even when it is outside budget or not yet published. An owner record that is outside budget is marked review-only and cannot be selected or shared through WhatsApp until reviewed. Unpublished private owner intake is displayed without owner contact details and cannot be shared until published.
+- Existing owner/property links, owner contact privacy, buyer records, WhatsApp share history, and resend safeguards are preserved.
+- Database migration applied: `tighten_budget_matching_and_surface_owner_inventory`.
+- Live RPC verification for Srinivas: ₹2.40 Cr, ₹2.30 Cr and ₹1.50 Cr public listings are no longer returned. The linked owner property “G+1” at ₹1.90 Cr is returned only in the separate review-only owner inventory group.
+- CRM UI update committed to group owner inventory separately, put it before other match groups, disable sharing for private/review-only records, and clarify the budget notice.
+- GitHub commit: `bdce3009989b754fd4d69ad1c282fd62545e8c52`.
+- **Deployment verification pending:** do not call the UI production-live until the current GitHub Pages workflow succeeds and the live CRM is checked on mobile.
