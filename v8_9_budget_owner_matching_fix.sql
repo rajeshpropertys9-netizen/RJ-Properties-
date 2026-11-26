@@ -82,12 +82,12 @@ categorized as (
   when within_budget then 'Within Budget'
   when slightly_above_budget then 'Up to ₹40L Above Budget'
   when is_owner_inventory then 'Owner Inventory — Review Location / Budget'
+  when has_supported_budget and not is_owner_inventory and not within_budget and not slightly_above_budget then 'Above Budget — Buyer Approval Required'
   when not has_supported_budget and location_match and type_match then 'Best Location Match — Budget Not Specified'
   else null end as match_category
  from candidates c
  where is_owner_inventory or (
   (preferred_locations is null or btrim(preferred_locations)='' or location_match)
-  and (not has_supported_budget or within_budget or slightly_above_budget)
  )
 )
 select p.property_id,p.title,p.property_type,p.location,p.bhk,p.price,
@@ -105,6 +105,7 @@ select p.property_id,p.title,p.property_type,p.location,p.bhk,p.price,
   case when p.location_match then 'Preferred location' when p.is_owner_inventory then 'Location needs review' end,
   case when p.within_budget then 'Within budget' when p.slightly_above_budget then 'Up to ₹40 lakh above budget'
        when p.match_category like 'Owner Inventory%' then 'Price / availability needs review'
+       when p.match_category='Above Budget — Buyer Approval Required' then 'Send only after buyer explicitly approves the higher price'
        when p.match_category='Best Location Match — Budget Not Specified' then 'Budget not specified' end,
   case when p.listing_status='owner_private' then 'Not published — private owner intake'
        when p.listing_status='review_only' then 'Do not share until budget reviewed' else 'Available' end
@@ -115,7 +116,8 @@ order by
       when p.match_category like 'Within Budget%' then 2
       when p.match_category like 'Owner Inventory — Up to%' then 3
       when p.match_category like 'Up to ₹40L Above Budget%' then 4
-      when p.match_category like 'Owner Inventory%' then 5 else 6 end,
+      when p.match_category like 'Owner Inventory%' then 5
+      when p.match_category='Above Budget — Buyer Approval Required' then 6 else 7 end,
  (case when p.type_match then 25 else 0 end)+(case when p.bhk_match then 25 else 0 end)+
  (case when p.location_match then 25 else 0 end)+(case when p.within_budget then 25 when p.slightly_above_budget then 15 else 0 end) desc,
  p.featured desc,p.updated_at desc
