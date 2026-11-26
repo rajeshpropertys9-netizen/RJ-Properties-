@@ -318,9 +318,9 @@ async function rjUniversalShareProperty(propertyId){
  if(recipientName===null)return;
  const phone=prompt('Recipient WhatsApp number (10-digit mobile or country code):','');
  if(phone===null)return;
- const digits=String(phone).replace(/\\D/g,'');
+ const digits=String(phone).replace(/\D/g,'');
  if(digits.length<10||digits.length>15){alert('Please enter a valid WhatsApp number with country code if required.');return}
- const message=['🏡 RJ PROPERTIES','Hi '+(recipientName.trim()||'there')+',','Sharing this property for your buyer network and marketing:','',rjPropertyMessage(p),'','For enquiries or site visits, please contact RJ Properties.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\\n');
+ const message=['🏡 RJ PROPERTIES','Hi '+(recipientName.trim()||'there')+',','Sharing this property for your buyer network and marketing:','',rjPropertyMessage(p),'','For enquiries or site visits, please contact RJ Properties.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\n');
  if(!confirm('Open WhatsApp with this property message for '+(recipientName.trim()||'the recipient')+'?'))return;
  window.location.assign(rjWhatsAppUrl(digits,message));
 }
