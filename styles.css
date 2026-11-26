@@ -659,3 +659,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  #properties.section{padding:18px 0}
  #properties .section-head h2{font-size:22px}
 }
+
+/* Show the official RJ Properties logo directly above the hero headline */
+.hero-brand{
+ display:block!important;
+ width:150px!important;
+ max-width:42vw!important;
+ margin:0 0 8px!important;
+ line-height:0!important;
+}
+.hero-brand img{
+ display:block!important;
+ width:100%!important;
+ max-width:100%!important;
+ height:76px!important;
+ max-height:76px!important;
+ object-fit:contain!important;
+ object-position:left center!important;
+ background:transparent!important;
+}
+@media(max-width:650px){
+ .hero-brand{width:126px!important;margin:0 0 7px!important}
+ .hero-brand img{height:64px!important;max-height:64px!important}
+}
