@@ -277,5 +277,6 @@ The GitHub Pages workflow was extended with deployment smoke tests for the publi
 - Database migration applied: `tighten_budget_matching_and_surface_owner_inventory`.
 - Live RPC verification for Srinivas: ₹2.40 Cr, ₹2.30 Cr and ₹1.50 Cr public listings are no longer returned. The linked owner property “G+1” at ₹1.90 Cr is returned only in the separate review-only owner inventory group.
 - CRM UI update committed to group owner inventory separately, put it before other match groups, disable sharing for private/review-only records, and clarify the budget notice.
-- GitHub commit: `bdce3009989b754fd4d69ad1c282fd62545e8c52`.
+- GitHub UI commit: `bdce3009989b754fd4d69ad1c282fd62545e8c52`; SQL source file commit: `ccaa448c972cecb1e8276919e5e76f25b55e7afd`.
+- QA record: `FINAL_QA_V8.9_BUDGET_OWNER_MATCHING.txt`.
 - **Deployment verification pending:** do not call the UI production-live until the current GitHub Pages workflow succeeds and the live CRM is checked on mobile.
