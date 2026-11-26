@@ -682,3 +682,9 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .hero-brand{width:126px!important;margin:0 0 7px!important}
  .hero-brand img{height:64px!important;max-height:64px!important}
 }
+
+/* Visually blend the white JPG canvas into the light hero so only the logo artwork stands out */
+.hero-brand img{
+ mix-blend-mode:multiply!important;
+ background:transparent!important;
+}
