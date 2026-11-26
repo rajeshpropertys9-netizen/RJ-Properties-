@@ -122,3 +122,8 @@ order by
 limit 50;
 $function$
 
+-- Keep this SECURITY DEFINER RPC private to the trusted Edge Function service role.
+REVOKE ALL ON FUNCTION public.match_buyer_properties(uuid) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.match_buyer_properties(uuid) FROM anon;
+REVOKE ALL ON FUNCTION public.match_buyer_properties(uuid) FROM authenticated;
+GRANT EXECUTE ON FUNCTION public.match_buyer_properties(uuid) TO service_role;
