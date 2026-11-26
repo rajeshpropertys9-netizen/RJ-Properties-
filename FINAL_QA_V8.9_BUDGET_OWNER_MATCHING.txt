@@ -1,0 +1,23 @@
+RJ PROPERTIES CRM V8.9 — BUDGET & OWNER INVENTORY QA
+Date: 26 November 2026 (IST)
+
+DATABASE
+- Supabase project: bgmlgmdhypmfabyluqvv (ACTIVE_HEALTHY).
+- Migration applied: tighten_budget_matching_and_surface_owner_inventory.
+- Budget parser verified against ₹50 Lakhs – ₹1 Crore: lower bound 0.50 Cr; upper bound 1.00 Cr.
+- Public inventory outside the budget and ₹30L tolerance is no longer returned as a buyer match.
+- For the affected buyer, public properties priced ₹2.40 Cr, ₹2.30 Cr and ₹1.50 Cr are excluded.
+- One linked owner-origin property is returned separately as review-only because its asking price is ₹1.90 Cr. It is not selectable for WhatsApp sharing until budget is reviewed.
+- Owner-private intake rows that are not linked to published/available public inventory are included as private owner inventory; no owner name/contact fields are returned by the matching RPC.
+- Existing buyer, owner, property and share-history records were not edited or deleted.
+
+CRM UI
+- Owner inventory group moved to the top of Match & Share.
+- Private or review-only owner records cannot be selected or shared.
+- Budget notice distinguishes public budget matches from owner inventory requiring advisor review.
+- Existing duplicate-share protections remain in place.
+- GitHub commits: admin UI + budget notice + owner review status = bdce3009989b754fd4d69ad1c282fd62545e8c52; project lock = a3a7fb2a1ede68bef10f8e4d2462c8f692f63fbb; migration SQL source = ccaa448c972cecb1e8276919e5e76f25b55e7afd.
+
+DEPLOYMENT
+- GitHub Actions deployment for commit ccaa448c972cecb1e8276919e5e76f25b55e7afd was pending/in progress at QA time.
+- Do not mark the CRM UI production-live until the workflow succeeds and the deployed mobile CRM is checked.
