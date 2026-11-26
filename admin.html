@@ -323,6 +323,8 @@ async function rjShareProperties(ids,forceResend=false){
  if(!wanted.length){alert('No selected properties are available to share.');return}
  let chosen=forceResend?wanted.filter(p=>rjShareHistory.some(h=>String(h.property_id)===String(p.property_id||p.id))):wanted.filter(p=>!rjShareHistory.some(h=>String(h.property_id)===String(p.property_id||p.id)));
  const skipped=wanted.length-chosen.length;
+ const aboveBudget=chosen.filter(p=>String(p.match_reason||'').startsWith('Above Budget — Buyer Approval Required'));
+ if(aboveBudget.length&&!confirm('These '+aboveBudget.length+' property/properties are above the buyer’s stated budget. Has the buyer explicitly said the budget can be increased and asked you to send higher-priced options? Only continue if the buyer has approved.'))return;
  if(skipped&&!forceResend&&chosen.length)alert(skipped+' already-shared property/properties were skipped. They remain blocked for this buyer.');
  if(!chosen.length&&!forceResend){alert('These properties were already shared with this buyer. Use Confirm Resend on the property card if you want to send again.');return}
  if(!chosen.length&&forceResend){alert('No previously shared selected property was found. Refresh Match & Share and try again.');return}
@@ -388,6 +390,7 @@ async function matchBuyer(id){
    {label:'Owner Inventory — review budget / availability',items:rjMatchedProperties.filter(p=>String(p.match_reason||'').startsWith('Owner Inventory'))},
    {label:'Within Budget',items:rjMatchedProperties.filter(p=>String(p.match_reason||'').startsWith('Within Budget'))},
    {label:'Up to ₹40L Above Budget',items:rjMatchedProperties.filter(p=>String(p.match_reason||'').startsWith('Up to ₹40L Above Budget'))},
+   {label:'Above Budget — send only after buyer approval',items:rjMatchedProperties.filter(p=>String(p.match_reason||'').startsWith('Above Budget — Buyer Approval Required'))},
    {label:'Best Location Match — budget not specified',items:rjMatchedProperties.filter(p=>String(p.match_reason||'').startsWith('Best Location Match'))}
  
   ].filter(g=>g.items.length).map(g=>'<section class="rj-match-group"><h4 class="rj-match-group-title">'+esc(g.label)+'</h4>'+g.items.map(renderRjMatchCard).join('')+'</section>').join('')+'</div></div>';
