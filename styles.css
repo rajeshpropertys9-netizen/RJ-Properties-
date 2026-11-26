@@ -557,3 +557,26 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:370px){
   .hero-brand img{width:230px;max-height:190px}
 }
+
+/* Full-width property gallery: use the image's natural aspect ratio, avoiding blank side gutters. */
+.property-photo-gallery{min-width:0;width:100%}
+.property-photo-main,.media-strip img{
+ display:block!important;
+ width:100%!important;
+ max-width:100%!important;
+ height:auto!important;
+ max-height:none!important;
+ object-fit:contain!important;
+ object-position:center;
+ background:#fff;
+ border:1px solid var(--line);
+ border-radius:12px;
+}
+.property-photo-main{margin:0 0 12px}
+.media-strip{display:flex;flex-direction:column;align-items:stretch;width:100%;gap:12px;margin-top:0;overflow:visible}
+.media-strip img{margin:0}
+@media(max-width:650px){
+ .property-photo-gallery{width:100%;max-width:100%;overflow:visible}
+ .property-photo-main,.media-strip img{border-radius:10px}
+ .media-strip{gap:10px}
+}
