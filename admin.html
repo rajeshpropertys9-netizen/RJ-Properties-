@@ -314,7 +314,7 @@ function rjBuildShareMessage(b,properties){const intro=['🏡 RJ PROPERTIES','Hi
 async function rjUniversalShareProperty(propertyId){
  const p=(adminPropertyRows||[]).find(x=>String(x.id)===String(propertyId));
  if(!p){alert('Property details are not available. Refresh the Properties tab and try again.');return}
- const message=['🏡 RJ PROPERTIES','Sharing this property for your buyer network and marketing:','',rjPropertyMessage(p),'','For enquiries or site visits, please contact RJ Properties.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\\n');
+ const message=['🏡 RJ PROPERTIES','Sharing this property for your buyer network and marketing:','',rjPropertyMessage(p),'','For enquiries or site visits, please contact RJ Properties.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\n');
  if(navigator.share){
   try{await navigator.share({title:'RJ Properties - Property Details',text:message});return}
   catch(error){if(error&&error.name==='AbortError')return;console.warn('Native share sheet unavailable:',error)}
