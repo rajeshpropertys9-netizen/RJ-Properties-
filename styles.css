@@ -580,3 +580,82 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .property-photo-main,.media-strip img{border-radius:10px}
  .media-strip{gap:10px}
 }
+
+/* RJ Properties homepage — compact premium layout aligned to the approved reference */
+.hero{min-height:350px}
+.hero-content{min-height:350px}
+.hero-brand{display:none!important}
+.hero-copy{width:53%;padding:28px 0}
+.hero-copy h1{font-size:clamp(42px,4.7vw,58px);line-height:.98;margin:0 0 12px}
+.hero-sub{font-size:17px;line-height:1.3;margin:0}
+.trust{margin:18px 0;max-width:560px}
+.trust div{min-width:0;flex:1;padding:0 8px}
+.trust strong{font-size:25px}
+.trust b{font-size:13px}
+.trust small{font-size:12px}
+.hero .actions{gap:12px;flex-wrap:wrap}
+.hero .actions .btn{padding:12px 18px;font-size:13px}
+.hero .wa-card{bottom:18px;padding:12px 18px}
+.locations{padding:8px 0 5px}
+.location-row{gap:8px}
+.location-row a{padding:9px 13px;font-size:12px}
+.location-row .west{margin-left:auto}
+.search-wrap{padding:3px 0 10px}
+.searchbar{padding:9px;gap:8px}
+.searchbar select,.searchbar input{padding:11px;font-size:13px}
+.search-btn{font-size:12px}
+.support{padding:0 0 8px}
+.support-box{padding:9px 14px}
+.support-head{gap:9px}
+.support-icon{font-size:28px}
+.steps{gap:5px;margin-top:5px}
+.steps span{font-size:11px;gap:5px}
+.steps span b{font-size:10px;line-height:1.15}
+#properties.section{padding:18px 0}
+#properties .section-head{margin-bottom:10px}
+#properties .section-head h2{font-size:24px;margin:0}
+@media(min-width:1051px){
+ .hero-media{background-position:center 48%}
+ .hero-fade{background:linear-gradient(90deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.92) 36%,rgba(255,255,255,.10) 62%,rgba(0,0,0,0) 100%)}
+ .location-row{flex-wrap:nowrap}
+ .location-row a{white-space:nowrap}
+}
+@media(max-width:1050px){
+ .hero{min-height:420px}
+ .hero-content{min-height:420px}
+ .hero-copy{width:60%}
+ .hero-copy h1{font-size:clamp(40px,6vw,52px)}
+ .location-row .west{margin-left:0}
+}
+@media(max-width:650px){
+ .hero{min-height:470px}
+ .hero-content{min-height:470px;align-items:flex-start}
+ .hero-copy{width:100%;padding:28px 0 86px}
+ .hero-copy h1{font-size:clamp(39px,10vw,47px);line-height:.98;margin-bottom:12px}
+ .hero-sub{font-size:15px;max-width:330px}
+ .hero-fade{background:linear-gradient(180deg,rgba(255,255,255,.97) 0%,rgba(255,255,255,.88) 48%,rgba(255,255,255,.24) 100%)}
+ .trust{margin:18px 0;max-width:100%}
+ .trust div{padding:0 4px;gap:4px}
+ .trust strong{font-size:23px}
+ .trust b{font-size:11px}
+ .trust small{font-size:10px}
+ .hero .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .hero .actions .btn{padding:12px 8px;font-size:11px;min-height:46px}
+ .hero .wa-card{right:10px;bottom:10px;max-width:175px;padding:9px 11px;gap:8px}
+ .hero .wa-card span{font-size:28px}
+ .hero .wa-card b{font-size:12px}
+ .hero .wa-card small{font-size:10px}
+ .locations{padding:9px 0 5px}
+ .location-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .location-row a{padding:9px 8px;font-size:11px;text-align:center}
+ .location-row .west{grid-column:1/-1;text-align:center}
+ .searchbar{grid-template-columns:1fr 1fr;padding:8px;gap:7px}
+ .searchbar select,.searchbar input{padding:11px 8px;font-size:12px;min-width:0}
+ .search-btn{grid-column:1/-1;min-height:42px}
+ .support-box{padding:10px}
+ .support-head small{font-size:11px}
+ .steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 7px}
+ .steps span,.steps span b{font-size:10px}
+ #properties.section{padding:18px 0}
+ #properties .section-head h2{font-size:22px}
+}
