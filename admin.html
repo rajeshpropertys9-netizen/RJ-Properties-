@@ -314,16 +314,15 @@ function rjBuildShareMessage(b,properties){const intro=['🏡 RJ PROPERTIES','Hi
 async function rjUniversalShareProperty(propertyId){
  const p=(adminPropertyRows||[]).find(x=>String(x.id)===String(propertyId));
  if(!p){alert('Property details are not available. Refresh the Properties tab and try again.');return}
- const recipientName=prompt('Recipient name (Owner / Builder / Consultant / Other contact):','');
- if(recipientName===null)return;
- const phone=prompt('Recipient WhatsApp number (10-digit mobile or country code):','');
- if(phone===null)return;
- const digits=String(phone).replace(/\D/g,'');
- if(digits.length<10||digits.length>15){alert('Please enter a valid WhatsApp number with country code if required.');return}
- const message=['🏡 RJ PROPERTIES','Hi '+(recipientName.trim()||'there')+',','Sharing this property for your buyer network and marketing:','',rjPropertyMessage(p),'','For enquiries or site visits, please contact RJ Properties.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\n');
- if(!confirm('Open WhatsApp with this property message for '+(recipientName.trim()||'the recipient')+'?'))return;
- window.location.assign(rjWhatsAppUrl(digits,message));
+ const message=['🏡 RJ PROPERTIES','Sharing this property for your buyer network and marketing:','',rjPropertyMessage(p),'','For enquiries or site visits, please contact RJ Properties.','RJ Properties | Personalised End-to-End Property Support','📞 8332847728'].join('\\n');
+ if(navigator.share){
+  try{await navigator.share({title:'RJ Properties - Property Details',text:message});return}
+  catch(error){if(error&&error.name==='AbortError')return;console.warn('Native share sheet unavailable:',error)}
+ }
+ try{await navigator.clipboard.writeText(message);alert('Property message copied. Open WhatsApp Business, choose the existing chat, and paste the message.')}
+ catch(error){window.prompt('Copy this property message and paste it into the WhatsApp Business chat:',message)}
 }
+
 async function rjShareSelected(){if(!rjCurrentBuyerId)return;const ids=Array.from(document.querySelectorAll('[data-share-select]:checked:not(:disabled)')).map(x=>x.value);if(!ids.length){alert('Select at least one property to share.');return}await rjShareProperties(ids,false)}
 async function rjShareOne(propertyId){await rjShareProperties([propertyId],false)}
 async function rjResendProperty(propertyId){const p=rjMatchedProperties.find(x=>String(x.property_id||x.id)===String(propertyId));if(!p)return;if(!confirm('This property was already shared with '+(rjCurrentBuyer?.name||'this buyer')+'. Do you want to resend it on WhatsApp?'))return;await rjShareProperties([propertyId],true)}
