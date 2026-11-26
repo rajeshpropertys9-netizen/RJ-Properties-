@@ -69,18 +69,18 @@ candidates as (
       when b.has_supported_budget and not b.has_range and b.budget_single is not null
       then p.price_cr<=b.budget_single else false end as within_budget,
  case when b.has_supported_budget and b.has_range and b.budget_max is not null
-      then p.price_cr>b.budget_max and p.price_cr<=b.budget_max+0.30
+      then p.price_cr>b.budget_max and p.price_cr<=b.budget_max+0.40
       when b.has_supported_budget and not b.has_range and b.budget_single is not null
-      then p.price_cr>b.budget_single and p.price_cr<=b.budget_single+0.30 else false end as slightly_above_budget,
+      then p.price_cr>b.budget_single and p.price_cr<=b.budget_single+0.40 else false end as slightly_above_budget,
  b.preferred_locations,b.has_supported_budget
  from inventory p cross join budget b
 ),
 categorized as (
  select c.*,case
   when is_owner_inventory and within_budget then 'Owner Inventory — Within Budget'
-  when is_owner_inventory and slightly_above_budget then 'Owner Inventory — Up to ₹30L Above Budget'
+  when is_owner_inventory and slightly_above_budget then 'Owner Inventory — Up to ₹40L Above Budget'
   when within_budget then 'Within Budget'
-  when slightly_above_budget then 'Up to ₹30L Above Budget'
+  when slightly_above_budget then 'Up to ₹40L Above Budget'
   when is_owner_inventory then 'Owner Inventory — Review Location / Budget'
   when not has_supported_budget and location_match and type_match then 'Best Location Match — Budget Not Specified'
   else null end as match_category
@@ -103,7 +103,7 @@ select p.property_id,p.title,p.property_type,p.location,p.bhk,p.price,
   case when p.type_match then 'Property type' end,
   case when p.bhk_match then 'BHK' when p.preferred_locations is not null then 'BHK needs review' end,
   case when p.location_match then 'Preferred location' when p.is_owner_inventory then 'Location needs review' end,
-  case when p.within_budget then 'Within budget' when p.slightly_above_budget then 'Up to ₹30 lakh above budget'
+  case when p.within_budget then 'Within budget' when p.slightly_above_budget then 'Up to ₹40 lakh above budget'
        when p.match_category like 'Owner Inventory%' then 'Price / availability needs review'
        when p.match_category='Best Location Match — Budget Not Specified' then 'Budget not specified' end,
   case when p.listing_status='owner_private' then 'Not published — private owner intake'
@@ -114,7 +114,7 @@ order by
  case when p.match_category like 'Owner Inventory — Within Budget%' then 1
       when p.match_category like 'Within Budget%' then 2
       when p.match_category like 'Owner Inventory — Up to%' then 3
-      when p.match_category like 'Up to ₹30L Above Budget%' then 4
+      when p.match_category like 'Up to ₹40L Above Budget%' then 4
       when p.match_category like 'Owner Inventory%' then 5 else 6 end,
  (case when p.type_match then 25 else 0 end)+(case when p.bhk_match then 25 else 0 end)+
  (case when p.location_match then 25 else 0 end)+(case when p.within_budget then 25 when p.slightly_above_budget then 15 else 0 end) desc,
