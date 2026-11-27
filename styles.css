@@ -790,3 +790,90 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .hero-brand{width:min(94vw,680px)!important;max-width:100%!important;margin:0 auto 14px 0!important;background:transparent!important}
 .hero-brand img{width:100%!important;height:auto!important;max-height:none!important;aspect-ratio:1.78/1!important;object-fit:contain!important;background:transparent!important;mix-blend-mode:normal!important}
 @media(max-width:650px){.hero-brand{width:94vw!important;max-width:680px!important;margin:0 auto 12px 0!important}.hero-brand img{height:auto!important;max-height:none!important}}
+
+
+/* FINAL REFERENCE MATCH — HEADER, HERO, TRUST ICONS AND CTAs */
+:root{--maroon:#8f0711;--gold:#bd861b}
+.header{height:auto;background:#fff;box-shadow:0 2px 12px rgba(30,15,10,.06)}
+.nav{height:84px;gap:18px}
+.brand img{width:164px;max-height:76px;object-fit:contain}
+.nav nav{display:none!important}
+.contact-mini{margin-left:auto}
+.contact-mini>span{display:none!important}
+.contact-mini .phone{display:inline-flex;align-items:center;gap:10px;background:#920a13;color:#fff;border-radius:40px;padding:14px 25px;font-size:18px;font-weight:800}
+.menu{display:block!important;color:#8f0711;font-size:32px;line-height:1;padding:8px 10px}
+.hero{position:relative;min-height:860px;background:#f6f3ef}
+.hero-media{background-position:center center;background-size:cover}
+.hero-fade{background:linear-gradient(180deg,rgba(255,255,255,.74) 0%,rgba(255,255,255,.64) 50%,rgba(255,255,255,.30) 100%)}
+.hero-content{min-height:860px;align-items:flex-start;justify-content:center}
+.hero-copy{width:100%;max-width:1160px;padding:12px 0 125px;text-align:center;margin:0 auto}
+.hero-brand{display:block!important;width:min(78vw,920px)!important;max-width:100%!important;margin:0 auto 12px!important;padding:0!important;line-height:0!important;background:transparent!important}
+.hero-brand img{display:block!important;width:100%!important;height:auto!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;object-position:center!important;background:transparent!important;mix-blend-mode:normal!important}
+.hero-copy h1{display:none!important}
+.hero-sub{font-size:clamp(20px,2.35vw,30px);line-height:1.25;margin:8px auto 20px;max-width:100%;font-weight:800;color:#171717}
+.trust{width:100%;max-width:1080px;margin:28px auto 32px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.trust div{min-width:0;flex:initial;padding:0 18px;gap:8px;border-right:1px solid rgba(80,60,40,.55)}
+.trust div:last-child{border:0}
+.trust .trust-icon{display:flex;align-items:center;justify-content:center;color:#bd861b;height:58px;font-size:0}
+.trust .trust-icon svg{width:54px;height:54px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.trust b{font-size:clamp(16px,1.7vw,22px);font-weight:900;color:#111}
+.trust small{font-size:clamp(14px,1.45vw,19px);line-height:1.25;color:#252525}
+.hero .actions{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:1080px;margin:28px auto 0}
+.hero .actions .btn{min-height:88px;padding:18px 20px;border-radius:28px;font-size:clamp(17px,2vw,25px);font-weight:900;line-height:1.15}
+.hero .actions .btn.primary{background:#970b14;border-color:#970b14;color:#fff}
+.hero .actions .btn.outline{background:rgba(255,255,255,.96);border:3px solid #c38b20;color:#b27a12}
+.calendar-icon{display:inline-flex;align-items:center;margin-right:8px}
+.calendar-icon svg{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hero .wa-card{right:4%;bottom:22px;padding:15px 24px;border-radius:25px;min-width:330px;gap:14px}
+.hero .wa-card .wa-icon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:#16a85a;color:#fff;font-size:31px;font-weight:700;line-height:1}
+.hero .wa-card b{font-size:19px}
+.hero .wa-card small{font-size:16px}
+@media(min-width:1051px){
+ .hero{min-height:860px}
+ .hero-content{min-height:860px}
+ .hero-copy{padding-top:14px}
+}
+@media(max-width:1050px){
+ .nav{height:74px}
+ .brand img{width:136px;max-height:66px}
+ .hero,.hero-content{min-height:720px}
+ .hero-brand{width:min(82vw,760px)!important}
+ .hero-copy{padding-top:12px}
+ .hero-sub{font-size:clamp(18px,2.8vw,24px)}
+ .hero .actions .btn{min-height:72px;font-size:clamp(15px,2.3vw,20px)}
+}
+@media(max-width:650px){
+ .nav{height:50px;gap:8px}
+ .brand img{width:62px;max-height:44px}
+ .contact-mini{margin-left:auto}
+ .contact-mini .phone{padding:8px 13px;font-size:14px;border-radius:28px;gap:6px}
+ .menu{font-size:25px;padding:5px 7px}
+ .hero{min-height:440px}
+ .hero-content{min-height:440px;align-items:flex-start}
+ .hero-copy{width:100%;padding:5px 0 90px}
+ .hero-brand{width:78vw!important;max-width:360px!important;margin:0 auto 7px!important}
+ .hero-brand img{width:100%!important;height:auto!important;max-height:none!important}
+ .hero-sub{font-size:clamp(15px,4vw,18px);line-height:1.25;margin:5px auto 12px;max-width:100%}
+ .trust{margin:14px auto 18px;grid-template-columns:repeat(3,minmax(0,1fr));max-width:100%}
+ .trust div{padding:0 5px;gap:4px}
+ .trust .trust-icon{height:29px}
+ .trust .trust-icon svg{width:29px;height:29px;stroke-width:2.6}
+ .trust b{font-size:clamp(11px,3.1vw,14px);line-height:1.1}
+ .trust small{font-size:clamp(9px,2.65vw,12px);line-height:1.2}
+ .hero .actions{grid-template-columns:1fr 1fr;gap:7px;margin-top:16px}
+ .hero .actions .btn{min-height:44px;padding:9px 5px;font-size:clamp(10px,3.1vw,13px);border-radius:16px;line-height:1.15}
+ .calendar-icon{margin-right:4px}
+ .calendar-icon svg{width:21px;height:21px}
+ .hero .wa-card{right:10px;bottom:8px;min-width:0;width:min(76%,285px);padding:8px 12px;border-radius:17px;gap:9px}
+ .hero .wa-card .wa-icon{width:34px;height:34px;font-size:21px}
+ .hero .wa-card b{font-size:13px}
+ .hero .wa-card small{font-size:11px}
+ .hero-fade{background:linear-gradient(180deg,rgba(255,255,255,.76) 0%,rgba(255,255,255,.68) 53%,rgba(255,255,255,.34) 100%)}
+}
+@media(max-width:370px){
+ .contact-mini .phone{font-size:12px;padding:8px 10px}
+ .brand img{width:56px}
+ .hero-brand{width:76vw!important}
+ .trust div{padding:0 3px}
+ .hero .actions .btn{font-size:10px}
+}
