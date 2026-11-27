@@ -785,3 +785,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  .hero .wa-card small{font-size:14px}
  .hero-fade{background:linear-gradient(180deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.72) 52%,rgba(255,255,255,.38) 100%)}
 }
+
+/* Final hero mark: use genuine alpha transparency from rj-logo-transparent.webp */
+.hero-brand{width:min(94vw,680px)!important;max-width:100%!important;margin:0 auto 14px 0!important;background:transparent!important}
+.hero-brand img{width:100%!important;height:auto!important;max-height:none!important;aspect-ratio:1.78/1!important;object-fit:contain!important;background:transparent!important;mix-blend-mode:normal!important}
+@media(max-width:650px){.hero-brand{width:94vw!important;max-width:680px!important;margin:0 auto 12px 0!important}.hero-brand img{height:auto!important;max-height:none!important}}
