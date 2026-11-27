@@ -688,3 +688,35 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
  mix-blend-mode:multiply!important;
  background:transparent!important;
 }
+
+/* Large RJ Properties hero mark — replace the separate oversized headline */
+.hero-brand{
+ display:block!important;
+ width:min(78vw,720px)!important;
+ max-width:100%!important;
+ margin:0 auto 18px 0!important;
+ padding:0!important;
+ line-height:0!important;
+ background:transparent!important;
+}
+.hero-brand img{
+ display:block!important;
+ width:100%!important;
+ max-width:100%!important;
+ height:auto!important;
+ max-height:none!important;
+ aspect-ratio: 1.78 / 1;
+ object-fit:contain!important;
+ object-position:left center!important;
+ background:transparent!important;
+ mix-blend-mode:multiply!important;
+ margin:0!important;
+ padding:0!important;
+}
+.hero-copy h1{display:none!important}
+@media(max-width:650px){
+ .hero-brand{width:94vw!important;max-width:640px!important;margin:0 auto 12px 0!important}
+ .hero-brand img{height:auto!important;max-height:none!important}
+ .hero-copy{padding-top:24px!important}
+ .hero-sub{font-size:15px!important;max-width:100%!important}
+}
